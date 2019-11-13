@@ -28,3 +28,10 @@ I hope it helps others to save time. To everybody who found something new or dis
   It turned out to be useful to automatically convert the linker file to a .sym file debuggers can utilize.
   Call it with `asm-sym-export.exe infile` to create a .sym file of the same name. Comments from the original .x file are ignored.
   Demangles any C++ symbols for readability and replaces spaces with underscores (no$gba refuses to load spaces).
++ **asm-sym-export.bat**: Batch file that automatically calls `asm-sym-export.exe` and renames the resulting .sym to SM64DS.sym. 
+  Adjust the output file name to match your game's file name, otherwise no$gba won't load it.
+  **Warning**: The previous .sym file will be deleted, so make sure you back it up in case you want to keey the previous .sym.
++ **src/**: Source folder. Contains all files to be compiled. Folder name must match with Makefile settings.
++ **unchecked/**: Unchecked proposals. 
+  Contains files with symbols/functions/documentation that is still in development, needs to be checked or corrected, or only vague definitons but was too interesting to discard it.
+  As soon as the proposal features full definitions, it will be merged with symbols.x or the corresponding .c/.cpp file.
