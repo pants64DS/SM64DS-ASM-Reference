@@ -17,4 +17,14 @@ I hope it helps others to save time. To everybody who found something new or dis
   ```
   In case a symbol is referenced from C++ code, it is mandatory to leave the name mangled, e.g.:
   ```C++
-  _ZN5ActorEv
+  _ZN5Class7ExampleEv = 0xdeadbeef; /* Class::Example() */
+  ```
+  Name mangling scheme follows the Itanium ABI, used by e.g. GCC but not MSVC.
+  All C symbols must be referenced with `extern "C"` when compiled with a C++ compiler.
+  This file does **NOT** contain constants. This is important since this may inflict linker errors. 
+  Additionally, debuggers which offer symbol name display (like no$gba) could treat constants as real symbols, creating confusion for the user.
+  As a rule of thumb, only addresses can be found here.
++ **asm-sym-export.exe**: Program that converts symbols.x to symbols.sym
+  It turned out to be useful to automatically convert the linker file to a .sym file debuggers can utilize.
+  Call it with `asm-sym-export.exe infile` to create a .sym file of the same name. Comments from the original .x file are ignored.
+  Demangles any C++ symbols for readability and replaces spaces with underscores (no$gba refuses to load spaces).
