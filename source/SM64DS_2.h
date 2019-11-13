@@ -9,6 +9,7 @@
 #include "Particle.h"
 #include "Sound.h"
 #include "Save.h"
+#include "Input.h"
 
 #define NOINLINE __attribute__((noinline))
 #define NAKED __attribute__((naked))
@@ -1184,6 +1185,8 @@ extern "C"
 	extern int EVENT_FIELD;
 	extern short NUM_COINS[2];
 	extern Player* PLAYER_ARR[4];
+	extern Input INPUT_ARR[4];
+	extern uint16_t HEALTH_ARR[4];
 	
 	extern Actor* SILVER_STARS[12];	
 	extern ActorDeathTable ACTOR_DEATH_TABLE_ARR[3]; //maximum three parts per level.
@@ -1211,6 +1214,14 @@ extern "C"
 	void UnloadSilverStarAndNumber();
 	void LoadSilverStarAndNumber();
 	void LinkSilverStarAndStarMarker(Actor* starMarker, Actor* silverStar);
+	
+	extern char* KuppaPointer;
+
+	void RunKuppaScript(char* address);
+	void EndKuppaScript();
+
+	extern uint8_t GAME_PAUSED;			// 0 = not paused, 1 = paused, 2 = unpausing
+
 }
 
 //Obj to Model Scale: Divide integer units by 8. (So 1.000 (Q20.12) becomes 1000 / 8 = 125.)
