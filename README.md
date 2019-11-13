@@ -6,7 +6,7 @@ This repo should serve as an continuously updated ASM symbol reference. It inclu
 
 This repository is public, therefore feel free to add your symbols and definitions you've found yourself! Just create a pull request and it gets added to the master branch. Even if you don't have full function description and just stumbled across something interesting during debugging, you can still add it to the `unchecked` folder. Any slightest hint on what a function does is welcomed so that others could check if something similar has been discovered in order to aid their development. If you have any questions, feel free to ask me here or via e-mail (overblade.git@gmail.com).
 
-**Remember: This repo contains only EU symbols. BUT if you found something interesting in other versions, you can still add it into `unchecked`.**
+**Remember: This repo contains only EU symbols. BUT if you found something interesting in other versions, you can still add it into `unchecked/non_eu.txt`.**
 
 ## Files and Folders
 + **source/**: Source folder. Contains all files to be compiled. Folder name must match with Makefile settings.
@@ -36,3 +36,4 @@ This repository is public, therefore feel free to add your symbols and definitio
   
 ## TODO
 + How to deal with overlays?
++ Mangling program would be **very** useful for new C++ bound symbols
