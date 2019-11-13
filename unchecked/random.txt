@@ -4,3 +4,20 @@ BGWritePalB(u32 src, u32 destOffset, u32 len) = 02056808	//BG Palette B write
 BGWritePalA(u32 src, u32 destOffset, u32 len) = 02056870	//BG Palette A write
 IsCapLost = 02013B18
 ModelBase() = 02017150	//Model has a base class? Sets up the vtable and the second, unknown value
+
+//Unknown struct still to be investigated (0x02092144)
+extern UnknownStruct UNKNOWN_ARR[4];
+struct UnknownStruct
+{
+    unsigned unk00;
+    unsigned unk04;
+    uint16_t unk08;
+    uint16_t buttonsHeld;
+    uint16_t cameraAngleY;
+    uint16_t unk0e;
+    unsigned unk10;
+    unsigned unk14;
+    unsigned unk18;
+    unsigned unk1c;
+    unsigned unk20;
+};
