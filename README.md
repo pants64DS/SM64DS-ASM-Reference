@@ -1,16 +1,25 @@
-# SM64DS-Symbols
-Public repository where discovered symbols from SM64DS (EU) including documentation can be found.
+# SM64DS-ASMReference
+Public repository of an ASM patching reference for SM64DS (EU)
 
 ## General
-This repo contains all symbols that have been discovered in the EU version of SM64DS. 
-Its purpose is to help other people to find the right functions without spending lots of time conducting their own research.
-For beginners it can be very frustrating finding information on the game's internals.
-Although there exists an incredibly useful ASM Patching Template with many general-purpose functions, there's a lack of documentation on how to properly use certain methods.
-I hope it helps others to save time. To everybody who found something new or discovered a mistake, feel free to propose your discovery so we can add it to the master branch.
+This repo should serve as an continuously updated ASM symbol reference. It includes most file from the original ASMPatchingTemplate v2 with new symbols and updates. In addition to that, it includes the program `asm-sym-export` that automatically creates a .sym file. This turned out to be very useful since you don't need to manually create the file just to match no$gba's requirements. 
 
-**Remember: This repo contains only EU symbols.**
+This repository is public, therefore feel free to add your symbols and definitions you've found yourself! Just create a pull request and it gets added to the master branch. Even if you don't have full function description and just stumbled across something interesting during debugging, you can still add it to the `unchecked` folder. Any slightest hint on what a function does is welcomed so that others could check if something similar has been discovered in order to aid their development. If you have any questions, feel free to ask me here or via e-mail (overblade.git@gmail.com).
 
-## Files
+**Remember: This repo contains only EU symbols. BUT if you found something interesting in other versions, you can still add it into `unchecked`.**
+
+## Files and Folders
++ **source/**: Source folder. Contains all files to be compiled. Folder name must match with Makefile settings.
++ **unchecked/**: Unchecked proposals. 
+  Contains files with symbols/functions/documentation that are still in development, need to be checked/corrected, or random stuff that was too interesting to discard.
+  As soon as the proposal features full definitions, it will be merged with symbols.x or the corresponding .c/.cpp file.
++ **asm-sym-export.exe**: Program that converts symbols.x to symbols.sym
+  Call it with `asm-sym-export.exe infile` to create a .sym file of the same name. Concerning the input file, everything after the semicolon is ignored during conversion. Please make sure to follow the standard .x file syntax as described above.
+  Demangles any C++ symbols for readability and replaces spaces with underscores (no$gba refuses to load spaces).
++ **asm-sym-export.bat**: Batch file that automatically calls `asm-sym-export.exe` and renames the resulting .sym to SM64DS.sym. 
+  Adjust the output file name to match your game's file name, otherwise no$gba won't load it.
+  **Warning**: The previous .sym file will be deleted, so make sure you back it up in case you want to keep the previous .sym.
++ **Makefile**: Self-explanatory. Used to build your patch.
 + **symbols.x**: Contains all necessary linker symbols for functions you use in C/C++/ASM code. It's important to outline the syntax of this file:
   ```C
   C_Function_Name = 0x0add1e55; /* Comments are like in standard C */
@@ -23,15 +32,7 @@ I hope it helps others to save time. To everybody who found something new or dis
   All C symbols must be referenced with `extern "C"` when compiled with a C++ compiler.
   This file does **NOT** contain constants. This is important since this may inflict linker errors. 
   Additionally, debuggers which offer symbol name display (like no$gba) could treat constants as real symbols, creating confusion for the user.
-  As a rule of thumb, only addresses can be found here.
-+ **asm-sym-export.exe**: Program that converts symbols.x to symbols.sym
-  It turned out to be useful to automatically convert the linker file to a .sym file debuggers can utilize.
-  Call it with `asm-sym-export.exe infile` to create a .sym file of the same name. Comments from the original .x file are ignored.
-  Demangles any C++ symbols for readability and replaces spaces with underscores (no$gba refuses to load spaces).
-+ **asm-sym-export.bat**: Batch file that automatically calls `asm-sym-export.exe` and renames the resulting .sym to SM64DS.sym. 
-  Adjust the output file name to match your game's file name, otherwise no$gba won't load it.
-  **Warning**: The previous .sym file will be deleted, so make sure you back it up in case you want to keey the previous .sym.
-+ **src/**: Source folder. Contains all files to be compiled. Folder name must match with Makefile settings.
-+ **unchecked/**: Unchecked proposals. 
-  Contains files with symbols/functions/documentation that is still in development, needs to be checked or corrected, or only vague definitons but was too interesting to discard it.
-  As soon as the proposal features full definitions, it will be merged with symbols.x or the corresponding .c/.cpp file.
+  As a rule of thumb, this file should only contain address locations.
+  
+## TODO
++ How to deal with overlays?
