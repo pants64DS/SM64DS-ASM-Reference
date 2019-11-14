@@ -4,9 +4,9 @@
 #include "SM64DS_Common.h"
 
 const int NUM_LEVELS = 52;
-const int NUM_MAIN_LEVELS = 0xF;
-const int NUM_SECRET_LEVELS = 0xF;
-const int NUM_MINIGAMES = 0x24;
+const int NUM_MAIN_LEVELS = 15;
+const int NUM_SECRET_LEVELS = 15;
+const int NUM_MINIGAMES = 36;
 
 
 struct SaveData {
@@ -150,7 +150,7 @@ struct SaveData {
 												D: Battle fort (0x02=SS)
 												E: Castle secrets (0x02=Red, 0x04=Toad[HMC], 0x08=Toad[2ndF], 0x10=Toad[3rdF], 0x20=White[2ndF], 0x40=White[CR]) */
 	uint8_t coinRecords[NUM_MAIN_LEVELS];		//Coin counts in each main level
-	uint8_t currentuint8_tacter;				/* (Mario=0, Luigi=1, Wario=2, Yoshi=3)	*/
+	uint8_t currentCharacter;				/* (Mario=0, Luigi=1, Wario=2, Yoshi=3)	*/
 	uint8_t unused_0x42[2];					//Always 0
 	uint32_t magic5000;						//5000 in ASCII
 	uint8_t minigamesUnlocked[4];			/*	Minigame bits: 0x1=Mario, 0x2=Luigi, 0x4=Wario, 0x8=Yoshi; minigame location: P=Page, R=Row, C=Column
@@ -179,6 +179,11 @@ struct SaveData {
 
 };
 
+
+/* 	All unused fields can be safely used for custom purposes. A full function trackdown where every write is noted would be too tedious; 
+	Rather, writes to SaveData have been trapped by triggering in-game events. Flags have been compared with real-world savefiles to ensure nothing is missing. 
+	However, this may not imply they are really unused. Some may store states that trigger minor game events (like the cap lost flags). 
+	In case you discovered such a state flag, please post it on the repo.	*/
 
 
 #endif // SM64DS_SAVE_INCLUDED
