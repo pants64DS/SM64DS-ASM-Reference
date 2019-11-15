@@ -259,10 +259,22 @@ struct TextureSequence : Animation
 	static char* LoadFile(SharedFilePtr& filePtr);
 };
 
-struct Model
+
+
+struct ModelBase 
 {
 	//vtable
-	unsigned unk04;
+	unsigned unk04;			//Pointer that is freed in all dtors
+
+	ModelBase();
+	virtual ~ModelBase();
+};
+
+
+
+
+struct Model : public ModelBase
+{
 	ModelComponents data;
 	Matrix4x3 mat4x3;
 	Matrix4x3* unkMatPtr;
@@ -286,7 +298,8 @@ struct ModelAnim : public Model
 	virtual ~ModelAnim();
 	virtual void UpdateVerts() override;
 	virtual void Virtual10(Matrix4x3& arg0) override;
-	virtual void Render(const Vector3* scale) override;
+	virtual void Render(const Vector3* scale) override;					//Calls UpdateVerts and then Model::Render
+	virtual void Virtual18(unsigned arg0, const Vector3* scale);		//Calls Virtual10 and then Model::Render
 	
 	void SetAnim(char* animFile, int flags, Fix12i speed, unsigned startFrame);
 };
@@ -314,7 +327,7 @@ struct ShadowVolume
 	ShadowVolume* next;
 	
 	ShadowVolume();
-	~ShadowVolume();
+	virtual ~ShadowVolume();
 	bool InitCylinder();
 	bool InitCuboid();
 };
