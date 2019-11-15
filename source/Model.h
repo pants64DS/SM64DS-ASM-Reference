@@ -173,9 +173,9 @@ struct Animation
 	Fix12i numFramesAndFlags;
 	Fix12i currFrame;
 	Fix12i speed;
-	//???
 	char* file;
 	
+	virtual ~Animation();
 	inline Fix12i GetNumFrames() {return Fix12i(numFramesAndFlags.val & 0x0fffffff, true);}
 	void Advance();
 	bool Finished();
@@ -232,7 +232,7 @@ struct ModelComponents
 struct MaterialChanger : Animation
 {
 	MaterialChanger();
-	~MaterialChanger();
+	virtual ~MaterialChanger();
     static void Prepare(char* modelFile, MaterialDef& matDef);
 	void SetFile(MaterialDef& matDef, int flags, Fix12i speed, unsigned startFrame);
 	void Update(ModelComponents& modelData);
@@ -242,7 +242,7 @@ struct MaterialChanger : Animation
 struct TextureTransformer : Animation
 {
 	TextureTransformer();
-	~TextureTransformer();
+	virtual ~TextureTransformer();
     static void Prepare(char* modelFile, TexSRTDef& texDef);
 	void SetFile(TexSRTDef& texDef, int flags, Fix12i speed, unsigned startFrame);
 	void Update(ModelComponents& modelData);
@@ -252,7 +252,7 @@ struct TextureTransformer : Animation
 struct TextureSequence : Animation
 {
 	TextureSequence();
-	~TextureSequence();
+	virtual ~TextureSequence();
     static void Prepare(char* modelFile, char* texSeqFile);
 	void SetFile(char* texSeqFile, int flags, Fix12i speed, unsigned startFrame);
 	void Update(ModelComponents& modelData);	
@@ -293,8 +293,7 @@ struct ModelAnim : public Model
 
 struct ModelAnim2 : public ModelAnim
 {
-	BoneAnimation otherAnim; //???
-	FrameCtrl frameCtrl; //???
+	Animation otherAnim;
 	
 	//the last two arguments can be nullptr; this just means they'll be obtained from the other ModelAnim2.
 	void CopyAnim(ModelAnim2& other, char* newAnimFile, char* newOtherAnimFile);
