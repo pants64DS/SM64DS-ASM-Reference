@@ -37,7 +37,7 @@ FIRST_ACTOR_LIST_NODE				                                              = 0x0209b
 
 _ZN5Sound7FileRef5PTR_0E														  = 0x0209b4a0;
 
-SAVE_DATA_0							                                              = 0x0209caa0;
+SAVE_DATA							                                              = 0x0209caa0;
                                                         
 MSG_LINE_HEIGHT																	  = 0x0209d6a8;
 CURR_MSG_ID							                                              = 0x0209d6d4;
@@ -243,23 +243,28 @@ _ZN12CylinderClsn5ClearEv 					                                      = 0x0201502
 _ZN15MaterialChanger7PrepareEPcR11MaterialDef 			                          = 0x0201577c;
 _ZN15MaterialChanger6UpdateER15ModelComponents			                          = 0x02015788;
 _ZN15MaterialChanger7SetFileER11MaterialDefi5Fix12IiEj	                          = 0x020157ac;
+_ZN15MaterialChangerD0Ev			                                              = 0x02015800;
 _ZN15MaterialChangerD1Ev			                                              = 0x0201582c;
 _ZN15MaterialChangerC1Ev 					                                      = 0x02015850;
 
 _ZN18TextureTransformer7PrepareEPcR9TexSRTDef									  = 0x0201587c;
 _ZN18TextureTransformer6UpdateER15ModelComponents			                      = 0x02015888;
 _ZN18TextureTransformer7SetFileER9TexSRTDefi5Fix12IiEj							  = 0x020158ac;
+_ZN18TextureTransformerD0Ev														  = 0x02015900;
 _ZN18TextureTransformerD1Ev														  = 0x0201592c;
 _ZN18TextureTransformerC1Ev														  = 0x02015950;
                                                         
 _ZN15TextureSequence7PrepareEPcS0_			                                      = 0x0201597c;
 _ZN15TextureSequence6UpdateER15ModelComponents						              = 0x02015988;
 _ZN15TextureSequence7SetFileEPci5Fix12IiEj							              = 0x020159ac;
+_ZN15TextureSequenceD0Ev			                                              = 0x02015A00;
 _ZN15TextureSequenceD1Ev			                                              = 0x02015a2c;
 _ZN15TextureSequenceC1Ev					                                      = 0x02015a50;
                                                         
 _ZN9Animation8FinishedEv														  = 0x02015bcc;
 _ZN9Animation7AdvanceEv 						                                  = 0x02015c3c;
+_ZN9AnimationD0Ev																  = 0x02015CC4;
+_ZN9AnimationD1Ev																  = 0x02015CE8;
                                                         
 _ZN12ShadowVolume12InitCylinderEv 			                              		  = 0x02015ebc;
 _ZN12ShadowVolume10InitCuboidEv 			                                  	  = 0x02015ed8;
@@ -584,4 +589,21 @@ DMASyncWordTransfer = 0x0205A160;
 DMASyncHalfTransfer = 0x0205A10C;
 DMASyncFillTransfer = 0x0205A1B4;
 
-RENDER_DMA_CHANNEL = 0x2099FD0;
+RENDER_DMA_CHANNEL = 0x02099FD0;
+
+VTable_TextureTransformer	= 0x0208E7C4;
+VTable_TextureSequence		= 0x0208E7D4;
+VTable_Animation			= 0x0208E7E4;
+VTable_MaterialChanger		= 0x0208E7F4;
+VTable_ModelBase			= 0x0208E87C;
+VTable_Model				= 0x0208E90C;
+VTable_ModelAnim			= 0x0208E980;
+VTable_BoneAnimation		= 0x0208E9A4;
+VTable_ModelAnim2			= 0x0208E9B4;
+
+_ZN9ModelBaseC1Ev 			= 0x02016d58;
+
+_ZN9ModelBaseD0Ev			= 0x020170E8;
+_ZN9ModelBaseD1Ev			= 0x02017120;
+_ZN10ModelAnim2D0Ev			= 0x02016320;
+_ZN10ModelAnim2D1Ev			= 0x02016364;
