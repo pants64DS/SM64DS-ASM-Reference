@@ -41,5 +41,11 @@ struct Input{
 
 };
 
+extern "C" {
+	extern Input::Buttons INPUT_PERSISTENT;
+	extern Input::Buttons INPUT_1_FRAME;
+}
+
+
 
 #endif // SM64DS_INPUT_INCLUDED
