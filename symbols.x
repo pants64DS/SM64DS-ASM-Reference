@@ -601,8 +601,7 @@ VTable_ModelAnim			= 0x0208E980;
 VTable_BoneAnimation		= 0x0208E9A4;
 VTable_ModelAnim2			= 0x0208E9B4;
 
-_ZN9ModelBaseC1Ev 			= 0x02016d58;
-
+_ZN9ModelBaseC1Ev 			= 0x02017150;
 _ZN9ModelBaseD0Ev			= 0x020170E8;
 _ZN9ModelBaseD1Ev			= 0x02017120;
 _ZN10ModelAnim2D0Ev			= 0x02016320;
