@@ -70,23 +70,7 @@ using Fix12s = Fix12<short>;
 constexpr Fix12i operator""_f (unsigned long long val) {return Fix12i(val, true);}
 constexpr Fix12s operator""_fs(unsigned long long val) {return Fix12s(val, true);}
 
-enum Input : uint16_t
-{
-	A = 1 << 0,
-	B = 1 << 1,
-	SELECT = 1 << 2,
-	START = 1 << 3,
-	RIGHT = 1 << 4,
-	LEFT = 1 << 5,
-	UP = 1 << 6,
-	DOWN = 1 << 7,
-	CAM_RIGHT = 1 << 8,
-	CAM_LEFT = 1 << 9,
-	R = 1 << 10,
-	Y = 1 << 11,
-	L = 1 << 14,
-	X = 1 << 15
-};
+
 struct Vector3;
 struct Vector3_16;
 struct Matrix4x3;
@@ -100,9 +84,6 @@ extern "C"
 	extern char DIGIT_ENC_ARR[10];
 	
 	extern int RNG_STATE; //x => x * 0x0019660d + 0x3c6ef35f
-	
-	extern Input INPUT_PERSISTENT;
-	extern Input INPUT_1_FRAME;
 	
 	extern Matrix4x3 MATRIX_SCRATCH_PAPER;
 	extern unsigned* HEAP_PTR;
