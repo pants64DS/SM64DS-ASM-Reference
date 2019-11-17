@@ -315,10 +315,8 @@ struct ModelAnim2 : public ModelAnim
 	virtual ~ModelAnim2();
 };
 
-struct ShadowVolume
+struct ShadowVolume : public ModelBase
 {
-	unsigned* vTable;
-	unsigned unk04;
 	ModelComponents* modelDataPtr;
 	Matrix4x3* matPtr;
 	Vector3 scale;
@@ -330,6 +328,8 @@ struct ShadowVolume
 	virtual ~ShadowVolume();
 	bool InitCylinder();
 	bool InitCuboid();
+
+	virtual bool Virtual08(unsigned arg0, unsigned arg1);
 };
 
 
