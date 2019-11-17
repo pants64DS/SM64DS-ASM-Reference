@@ -615,3 +615,5 @@ _ZN9ModelBaseD1Ev			= 0x02017120;
 _ZN9ModelBaseD2Ev			= 0x020170B8;
 _ZN10ModelAnim2D0Ev			= 0x02016320;
 _ZN10ModelAnim2D1Ev			= 0x02016364;
+
+_ZN12ShadowVolume9Virtual08Ejj		= 0x02015EF4;
