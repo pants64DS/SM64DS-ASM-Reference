@@ -70,6 +70,9 @@ struct ActorBase
 		SceneNode* prevSibling;
 		SceneNode* nextSibling;
 		ActorBase* actor;
+
+		void Reset();
+		void InitSceneNode(); //Calls Reset
 	};
 	
 	struct ProcessingListNode
@@ -118,7 +121,9 @@ struct ActorBase
 	uint16_t actorID;
 	uint8_t aliveState;
 	bool shouldBeKilled;
-	unsigned unk10;
+	uint16_t unk10;
+	uint8_t unk12;
+	uint8_t unk13;
 	SceneNode sceneNode;
 	ProcessingListNode behavNode;
 	ProcessingListNode renderNode;
@@ -185,12 +190,16 @@ struct Actor : public ActorBase
 	
 	Actor();
 	
+	virtual int  InitResources();
 	virtual bool BeforeInitResources() override;
 	virtual void AfterInitResources(unsigned vfSuccess) override;
+	virtual int  CleanupResources();
 	virtual bool BeforeCleanupResources() override;
 	virtual void AfterCleanupResources(unsigned vfSuccess) override;
+	virtual int  Behavior();
 	virtual bool BeforeBehavior() override;
 	virtual void AfterBehavior(unsigned vfSuccess) override;
+	virtual int  Render();
 	virtual bool BeforeRender() override;
 	virtual void AfterRender(unsigned vfSuccess) override;
 	virtual ~Actor();
@@ -1164,7 +1173,7 @@ extern "C"
 	
 	extern ArchiveInfo ARCHIVE_INFOS[13];
 	
-	extern int NEXT_UNIQUE_ID;
+	extern int NEXT_UNIQUE_ACTOR_ID;
 	
 	extern Matrix4x3 VIEW_MATRIX_ASR_3;
 	extern Matrix4x3 INV_VIEW_MATRIX_ASR_3;
@@ -1263,3 +1272,72 @@ void Sound_Play0(int soundID, Vector3* camSpacePos) NAKED; //0201264c, 4c260122
 void Sound_Play3(int soundID, Vector3* camSpacePos) NAKED; //02012664, 64260122
 void Sound_Play(int arg0, int soundID, Vector3* camSpacePos); //02012590, 90250122*/
 #endif // SM64DS_2_H_INCLUDED
+
+
+/*
+
+bool func_02043880(ActorBase* actor){
+
+	u8 shouldBeKilled = actor->shouldBeKilled;
+
+	if(!shouldBeKilled){
+
+		actor->shouldBeKilled = 0;
+		u8 aliveState = actor->aliveState;
+
+		if(aliveState){
+			func_0203B27C(FIRST_BEHAVIOUR_LIST_NODE, actor->behavNode);
+			func_0203B27C(FIRST_RENDER_LIST_NODE, actor->renderNode);
+		}else{
+			func_0203B27C(0x020A4B88, actor->behavNode);
+		}
+
+		func_0203B20C(0x020A4BA8, actor->behavNode);
+		actor->aliveState = 2;
+
+		if(!sceneNode->firstChild){
+			return 1;
+		}
+
+		do{
+			ActorBase::SceneNode* sn = sceneNode->firstChild;
+			sn->actor->Destroy();
+			sn = sn->nextSibling;
+		}while(sn);
+
+		return 1;
+
+	}else{
+
+		ActorBase* parent = actor->func_02043810(); //getParentActor()
+
+		if(parent){
+
+			u8 punk13 = parent->unk13;
+
+			if(punk13 & 1 || (!(punk13 & 1) && (punk13 & 2)){
+				
+				actor->unk13 |= 2;
+
+			}else{
+				//!(punk13 & 2)
+
+				if(actor->unk13 & 2){
+					actor->unk13 &= ~2;
+				}
+
+			}
+
+			//5C
+
+		}
+
+	}
+
+}
+
+
+
+
+
+*/
