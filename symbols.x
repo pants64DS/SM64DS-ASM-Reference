@@ -27,9 +27,7 @@ MSG_ID_CHAR_MAP																	  = 0x0208eeec;
 TALK_FONT_CHAR_WIDTHS															  = 0x0208f074;
                                                         
 ACTOR_BANK_SETTINGS					                                              = 0x020922a4;
-                                                        
-NEXT_UNIQUE_ID						                                              = 0x02099e70;
-                                                        
+                                                                                                                
 VIEW_MATRIX_ASR_3							                                      = 0x0209b3ec;
 INV_VIEW_MATRIX_ASR_3							                                  = 0x0209b41c;
 ROT_AT_SPAWN 						                                              = 0x0209b45c;
@@ -459,6 +457,7 @@ _ZN9ActorBase18AfterInitResourcesEj												  = 0x02043bf8;
 _ZN9ActorBase19BeforeInitResourcesEv											  = 0x02043c78;
 _ZN9ActorBase13InitResourcesEv													  = 0x02043c80;
 _ZN9ActorBaseD0Ev																  = 0x02043d78;
+_ZN9ActorBaseD1Ev																  = 0x02043D48;
 _ZN9ActorBaseD2Ev																  = 0x02043dbc;
                                                         
 _ZN15ModelComponents21UpdateVertsUsingBonesEv                                     = 0x0204504c;
@@ -598,22 +597,38 @@ DMASyncFillTransfer = 0x0205A1B4;
 
 RENDER_DMA_CHANNEL = 0x02099FD0;
 
-VTable_TextureTransformer	= 0x0208E7C4;
-VTable_TextureSequence		= 0x0208E7D4;
-VTable_Animation			= 0x0208E7E4;
-VTable_MaterialChanger		= 0x0208E7F4;
-VTable_ShadowVolume			= 0x0208E868;
-VTable_ModelBase			= 0x0208E87C;
-VTable_Model				= 0x0208E90C;
-VTable_ModelAnim			= 0x0208E980;
-VTable_BoneAnimation		= 0x0208E9A4;
-VTable_ModelAnim2			= 0x0208E9B4;
+VTable_TextureTransformer		= 0x0208E7C4;
+VTable_TextureSequence			= 0x0208E7D4;
+VTable_Animation				= 0x0208E7E4;
+VTable_MaterialChanger			= 0x0208E7F4;
+VTable_ShadowVolume				= 0x0208E868;
+VTable_ModelBase				= 0x0208E87C;
+VTable_Model					= 0x0208E90C;
+VTable_ModelAnim				= 0x0208E980;
+VTable_BoneAnimation			= 0x0208E9A4;
+VTable_ModelAnim2				= 0x0208E9B4;
 
-_ZN9ModelBaseC1Ev 			= 0x02017150;
-_ZN9ModelBaseD0Ev			= 0x020170E8;
-_ZN9ModelBaseD1Ev			= 0x02017120;
-_ZN9ModelBaseD2Ev			= 0x020170B8;
-_ZN10ModelAnim2D0Ev			= 0x02016320;
-_ZN10ModelAnim2D1Ev			= 0x02016364;
+_ZN9ModelBaseC1Ev 				= 0x02017150;
+_ZN9ModelBaseD0Ev				= 0x020170E8;
+_ZN9ModelBaseD1Ev				= 0x02017120;
+_ZN9ModelBaseD2Ev				= 0x020170B8;
+_ZN10ModelAnim2D0Ev				= 0x02016320;
+_ZN10ModelAnim2D1Ev				= 0x02016364;
 
-_ZN12ShadowVolume9Virtual08Ejj		= 0x02015EF4;
+_ZN12ShadowVolume9Virtual08Ejj	= 0x02015EF4;
+
+_ZN13BoneAnimationD0Ev			= 0x02017168;
+_ZN13BoneAnimationD1Ev			= 0x02017178;
+
+VTable_ActorBase				= 0x02099EDC;
+
+_ZN9ActorBaseC1Ev				= 0x02043DEC;
+_ZN9ActorBase9SceneNode13InitSceneNodeEv	= 0x0203B4C4;
+_ZN9ActorBase9SceneNode5ResetEv				= 0x0203B4AC;
+
+NEXT_UNIQUE_ACTOR_ID			= 0x02099E70;
+ACTOR_PARAM1					= 0x020A4B60;
+ACTOR_ACTOR_ID					= 0x020A4B54;
+ACTOR_UNKNOWN12_ID				= 0x020A4B48;
+ACTOR_UNKNOWN_TABLE_PTR			= 0x020A4BB8;
+
