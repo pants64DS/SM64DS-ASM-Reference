@@ -1299,8 +1299,9 @@ bool func_02043880(ActorBase* actor){
 			return 1;
 		}
 
+		ActorBase::SceneNode* sn = sceneNode->firstChild;
+
 		do{
-			ActorBase::SceneNode* sn = sceneNode->firstChild;
 			sn->actor->Destroy();
 			sn = sn->nextSibling;
 		}while(sn);
