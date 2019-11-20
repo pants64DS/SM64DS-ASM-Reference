@@ -121,7 +121,8 @@ struct ActorBase
 	uint16_t actorID;
 	uint8_t aliveState;
 	bool shouldBeKilled;
-	uint16_t unk10;
+	uint8_t unk10;
+	uint8_t unk11;
 	uint8_t unk12;
 	uint8_t unk13;
 	SceneNode sceneNode;
@@ -250,8 +251,8 @@ struct Actor : public ActorBase
 	Player* FarthestPlayer();
 	Fix12i DistToFPlayer();
 	
-	void DropShadowScaleXYZ(ShadowVolume& arg1, const Matrix4x3& arg2, Fix12i scaleX, Fix12i scaleY, Fix12i scaleZ, unsigned transparency);
-	void DropShadowRadHeight(ShadowVolume& arg1, const Matrix4x3& arg2, Fix12i radius, Fix12i depth, unsigned transparency); //last argument is on a scale of 1 to 16.
+	void DropShadowScaleXYZ(ShadowModel& arg1, const Matrix4x3& arg2, Fix12i scaleX, Fix12i scaleY, Fix12i scaleZ, unsigned transparency);
+	void DropShadowRadHeight(ShadowModel& arg1, const Matrix4x3& arg2, Fix12i radius, Fix12i depth, unsigned transparency); //last argument is on a scale of 1 to 16.
 	
 	void UpdatePos(CylinderClsn* clsn); //Applies motion direction, vertical acceleration, and terminal velocity.
 	void UpdatePosWithOnlySpeed(CylinderClsn* clsn);//IMPORTANT!: When spawning a Super Mushroom, make sure to already have the model loaded before the player goes super!
@@ -1316,10 +1317,8 @@ bool func_02043880(ActorBase* actor){
 
 			u8 punk13 = parent->unk13;
 
-			if(punk13 & 1 || (!(punk13 & 1) && (punk13 & 2)){
-				
+			if(punk13 & 1 || (!(punk13 & 1) && (punk13 & 2)){	
 				actor->unk13 |= 2;
-
 			}else{
 				//!(punk13 & 2)
 
@@ -1330,8 +1329,52 @@ bool func_02043880(ActorBase* actor){
 			}
 
 			//5C
+			if(punk13 & 4 || (!(punk13 & 4) && (punk13 & 8)){
+				actor->unk13 |= 8;
+			}else{
+				//!(punk13 & 8)
+
+				if(actor->unk13 & 8){
+					actor->unk13 &= ~8;
+				}
+
+			}
+		
+		}
+
+		u8 aliveState = actor->aliveState;
+
+		if(aliveState == 1){
+
+			if(actor->behavNode.priority != actor->behavNode.priorityCopy){
+				func_0203B27C(FIRST_BEHAVIOUR_LIST_NODE, actor->behavNode);
+				actor->behavNode.priority = actor->behavNode.priorityCopy;
+				func_0204405C(FIRST_BEHAVIOUR_LIST_NODE, actor->behavNode);
+			}
+
+			if(actor->renderNode.priority != actor->renderNode.priorityCopy){
+				func_0203B27C(FIRST_RENDER_LIST_NODE, actor->renderNode);
+				actor->renderNode.priority = actor->renderNode.priorityCopy;
+				func_0204405C(FIRST_RENDER_LIST_NODE, actor->renderNode);
+			}
+
+		}else if(aliveState == 2){
+			return 1;
+		}else{
+
+			if(actor->unk11){
+				actor->unk11 = 0;
+				func_0203B244(0x020A4B88, actor->behavNode);
+			}else if(actor->unk10){
+				actor->unk10 = 0;
+				func_0204405C(FIRST_BEHAVIOUR_LIST_NODE, actor->behavNode);
+				func_0204405C(FIRST_RENDER_LIST_NODE, actor->renderNode);
+				actor->aliveState = 1;
+			}
 
 		}
+
+		return 1;
 
 	}
 
