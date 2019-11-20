@@ -161,44 +161,39 @@ struct Bone
 	unsigned unk30;
 };
 
-struct Animation
+
+
+struct Animation	//internal: FrameCtrl
 {
+
+	static int FLAG_MASK = 0xC0000000;
+
     enum Flags : int
     {
         LOOP = 0x00000000,
         NO_LOOP = 0x40000000
     };
 	
-	unsigned* vTable; //take off once a virtual function is added
+	//vtable
 	Fix12i numFramesAndFlags;
 	Fix12i currFrame;
 	Fix12i speed;
-	char* file;
 	
 	virtual ~Animation();
-	inline Fix12i GetNumFrames() {return Fix12i(numFramesAndFlags.val & 0x0fffffff, true);}
 	void Advance();
 	bool Finished();
+
+	Flags GetFlags();
+	void SetFlags(Flags flags);
+	unsigned GetFrameCount();
+	void SetAnimation(int frames, Flags flags, Fix12i speed, short startFrame);
+	void Copy(const Animation& anim);
+	bool Func_02015A98(int arg0);							//Does something like simulating an advance? Like checking if the next frame expires the animation...
+
+	static char* LoadFile(SharedFilePtr& filePtr);
 };
 
-struct FrameCtrl //internal name; ???
-{
-    enum Flags : int
-    {
-        LOOP = 0x00000000,
-        NO_LOOP = 0x40000000
-    };
-	
-	unsigned* vTable;
-	Fix12i numFramesAndFlags;
-	Fix12i currFrame;
-	Fix12i speed;
-};
 
-struct BoneAnimation : Animation
-{
-    static char* LoadFile(SharedFilePtr& filePtr);
-};
 
 struct Material
 {
@@ -229,7 +224,7 @@ struct ModelComponents
 };
 
 //same structure as Animation
-struct MaterialChanger : Animation
+struct MaterialChanger : Animation		//internal: AnmMaterial
 {
 	MaterialChanger();
 	virtual ~MaterialChanger();
@@ -239,7 +234,7 @@ struct MaterialChanger : Animation
 };
 
 //same structure as Animation
-struct TextureTransformer : Animation
+struct TextureTransformer : Animation	//internal: AnmTexSRT
 {
 	TextureTransformer();
 	virtual ~TextureTransformer();
@@ -249,7 +244,7 @@ struct TextureTransformer : Animation
 };
 
 //same structure as Animation
-struct TextureSequence : Animation
+struct TextureSequence : Animation		//internal: AnmTexPat
 {
 	TextureSequence();
 	virtual ~TextureSequence();
@@ -261,7 +256,7 @@ struct TextureSequence : Animation
 
 
 
-struct ModelBase 
+struct ModelBase	//internal: Model
 {
 	//vtable
 	unsigned unk04;			//Pointer that is freed in all dtors
@@ -273,7 +268,7 @@ struct ModelBase
 
 
 
-struct Model : public ModelBase
+struct Model : public ModelBase		//internal: SimpleModel
 {
 	ModelComponents data;
 	Matrix4x3 mat4x3;
@@ -290,10 +285,12 @@ struct Model : public ModelBase
 	static char* LoadFile(SharedFilePtr& filePtr);
 };
 
-struct ModelAnim : public Model
+struct ModelAnim : public Model, Animation	//internal: ModelAnm
 {
-	BoneAnimation anim;
-	
+	//vtable
+	//Animation data
+	char* file;
+
 	ModelAnim();
 	virtual ~ModelAnim();
 	virtual void UpdateVerts() override;
@@ -304,8 +301,9 @@ struct ModelAnim : public Model
 	void SetAnim(char* animFile, int flags, Fix12i speed, unsigned startFrame);
 };
 
-struct ModelAnim2 : public ModelAnim
+struct ModelAnim2 : public ModelAnim	//internal: ModelAnm2
 {
+	unsigned unk64;
 	Animation otherAnim;
 	
 	//the last two arguments can be nullptr; this just means they'll be obtained from the other ModelAnim2.
@@ -315,17 +313,17 @@ struct ModelAnim2 : public ModelAnim
 	virtual ~ModelAnim2();
 };
 
-struct ShadowVolume : public ModelBase
+struct ShadowModel : public ModelBase	//internal: ShadowModel
 {
 	ModelComponents* modelDataPtr;
 	Matrix4x3* matPtr;
 	Vector3 scale;
 	unsigned unk1c;
-	ShadowVolume* prev;
-	ShadowVolume* next;
+	ShadowModel* prev;
+	ShadowModel* next;
 	
-	ShadowVolume();
-	virtual ~ShadowVolume();
+	ShadowModel();
+	virtual ~ShadowModel();
 	bool InitCylinder();
 	bool InitCuboid();
 
