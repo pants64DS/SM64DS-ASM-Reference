@@ -185,8 +185,8 @@ _ZN5Actor23HorzAngleToCPlayerOrAngEv											  = 0x0201097c;
 _ZN5Actor18HorzAngleToCPlayerEv													  = 0x020109b8;
 _ZN5Actor13DistToCPlayerEv 				                                          = 0x020109e4;
 _ZN5Actor13ClosestPlayerEv 				                                          = 0x02010ad8;
-_ZN5Actor18DropShadowScaleXYZER12ShadowVolumeRK9Matrix4x35Fix12IiES6_S6_j 		  = 0x02010b9c;
-_ZN5Actor19DropShadowRadHeightER12ShadowVolumeRK9Matrix4x35Fix12IiES6_j 		  = 0x02010be8;
+_ZN5Actor18DropShadowScaleXYZER11ShadowModelRK9Matrix4x35Fix12IiES6_S6_j 		  = 0x02010b9c;
+_ZN5Actor19DropShadowRadHeightER11ShadowModelRK9Matrix4x35Fix12IiES6_j 			  = 0x02010be8;
 _ZN5Actor9UpdatePosEP12CylinderClsn 					                          = 0x02010c30;
 _ZN5Actor22UpdatePosWithOnlySpeedEP12CylinderClsn		                          = 0x02010d40;
 _ZN5Actor5SpawnEjjRK7Vector3PK10Vector3_16ii		 							  = 0x02010e2c;
@@ -267,11 +267,11 @@ _ZN9AnimationD0Ev																  = 0x02015CC4;
 _ZN9AnimationD1Ev																  = 0x02015CE8;
 _ZN9AnimationD2Ev																  = 0x02015CB4;
                                                         
-_ZN12ShadowVolume12InitCylinderEv 			                              		  = 0x02015ebc;
-_ZN12ShadowVolume10InitCuboidEv 			                                  	  = 0x02015ed8;
-_ZN12ShadowVolumeD0Ev 				                                              = 0x02015F80;
-_ZN12ShadowVolumeD1Ev 				                                              = 0x02015ff8;
-_ZN12ShadowVolumeC1Ev 					                                          = 0x02016068;
+_ZN11ShadowModel12InitCylinderEv 			                              		  = 0x02015ebc;
+_ZN11ShadowModel10InitCuboidEv 			                                  		  = 0x02015ed8;
+_ZN11ShadowModelD0Ev 				                                              = 0x02015F80;
+_ZN11ShadowModelD1Ev 				                                              = 0x02015ff8;
+_ZN11ShadowModelC1Ev 					                                          = 0x02016068;
 
 _ZN10ModelAnim28CopyAnimERS_PcS1_												  = 0x02016254;
                                                         
@@ -295,7 +295,7 @@ _ZN5ModelD2Ev 						                                              = 0x02016CA8;
 _ZN5ModelC1Ev 					           		                                  = 0x02016d58;
 _ZN5Model7SetFileEPcii				                                              = 0x02016fd4;
 _ZN15TextureSequence8LoadFileER13SharedFilePtr                                    = 0x020178e4;
-_ZN13BoneAnimation8LoadFileER13SharedFilePtr 							          = 0x0201794c;
+_ZN9Animation8LoadFileER13SharedFilePtr 										  = 0x0201794c;
 _ZN13SharedFilePtr9ConstructEj													  = 0x0201799c;
 _ZN5Model8LoadFileER13SharedFilePtr 							                  = 0x02017a3c;
 _ZN18MovingMeshCollider8LoadFileER13SharedFilePtr 							      = 0x02017afc;
@@ -601,7 +601,7 @@ VTable_TextureTransformer		= 0x0208E7C4;
 VTable_TextureSequence			= 0x0208E7D4;
 VTable_Animation				= 0x0208E7E4;
 VTable_MaterialChanger			= 0x0208E7F4;
-VTable_ShadowVolume				= 0x0208E868;
+VTable_ShadowModel				= 0x0208E868;
 VTable_ModelBase				= 0x0208E87C;
 VTable_Model					= 0x0208E90C;
 VTable_ModelAnim				= 0x0208E980;
@@ -615,7 +615,7 @@ _ZN9ModelBaseD2Ev				= 0x020170B8;
 _ZN10ModelAnim2D0Ev				= 0x02016320;
 _ZN10ModelAnim2D1Ev				= 0x02016364;
 
-_ZN12ShadowVolume9Virtual08Ejj	= 0x02015EF4;
+_ZN11ShadowModel9Virtual08Ejj	= 0x02015EF4;
 
 _ZN13BoneAnimationD0Ev			= 0x02017168;
 _ZN13BoneAnimationD1Ev			= 0x02017178;
@@ -632,3 +632,9 @@ ACTOR_ACTOR_ID					= 0x020A4B54;
 ACTOR_UNKNOWN12_ID				= 0x020A4B48;
 ACTOR_UNKNOWN_TABLE_PTR			= 0x020A4BB8;
 
+_ZN9Animation8GetFlagsEv 		= 0x02015BEC;
+_ZN9Animation8SetFlagsEi 		= 0x02015BF8;
+_ZN9Animation13GetFrameCountEv 	= 0x02015C0C;
+_ZN9Animation12SetAnimationEii5Fix12IiEs 	= 0x02015C20;
+_ZN9Animation4CopyERK9Animation 	= 0x02015A7C;
+_ZN9Animation13Func_02015A98Ei 	= 0x02015A98;
