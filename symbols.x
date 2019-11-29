@@ -240,14 +240,14 @@ _ZN12CylinderClsn5ClearEv 					                                      = 0x0201502
                                                         
 _ZN15MaterialChanger7PrepareEPcR11MaterialDef 			                          = 0x0201577c;
 _ZN15MaterialChanger6UpdateER15ModelComponents			                          = 0x02015788;
-_ZN15MaterialChanger7SetFileER11MaterialDefi5Fix12IiEj	                          = 0x020157ac;
+_ZN15MaterialChanger11SetMaterialER11MaterialDefi5Fix12IiEj	                      = 0x020157ac;
 _ZN15MaterialChangerD0Ev			                                              = 0x02015800;
 _ZN15MaterialChangerD1Ev			                                              = 0x0201582c;
 _ZN15MaterialChangerC1Ev 					                                      = 0x02015850;
 
 _ZN18TextureTransformer7PrepareEPcR9TexSRTDef									  = 0x0201587c;
 _ZN18TextureTransformer6UpdateER15ModelComponents			                      = 0x02015888;
-_ZN18TextureTransformer7SetFileER9TexSRTDefi5Fix12IiEj							  = 0x020158ac;
+_ZN18TextureTransformer9SetTexSRTER9TexSRTDefi5Fix12IiEj						  = 0x020158ac;
 _ZN18TextureTransformerD0Ev														  = 0x02015900;
 _ZN18TextureTransformerD1Ev														  = 0x0201592c;
 _ZN18TextureTransformerC1Ev														  = 0x02015950;
@@ -273,7 +273,7 @@ _ZN11ShadowModelD0Ev 				                                              = 0x02015
 _ZN11ShadowModelD1Ev 				                                              = 0x02015ff8;
 _ZN11ShadowModelC1Ev 					                                          = 0x02016068;
 
-_ZN10ModelAnim28CopyAnimERS_PcS1_												  = 0x02016254;
+_ZN10ModelAnim24CopyERK10ModelAnim2Pcj											  = 0x02016254;
                                                         
 _ZN9ModelAnim7SetAnimEPci5Fix12IiEj 				                              = 0x02016748;
 _ZN9ModelAnim6RenderEPK7Vector3													  = 0x020167f8;								  
@@ -284,6 +284,7 @@ _ZN9ModelAnimD0Ev					                                              = 0x020168d8
 _ZN9ModelAnimD1Ev					                                              = 0x0201691c;
 _ZN9ModelAnimD2Ev					                                              = 0x0201689C;
 _ZN9ModelAnimC1Ev 				                                              	  = 0x02016958;
+_ZN9ModelAnimC2Ev 				                                              	  = 0x02016998;
                                                         
 _ZN5Model6RenderEPK7Vector3														  = 0x02016b78;
 _ZN5Model9Virtual10ER9Matrix4x3													  = 0x02016bb8;
@@ -293,6 +294,7 @@ _ZN5ModelD0Ev 						                                              = 0x02016ce0;
 _ZN5ModelD1Ev 						                                              = 0x02016d20;
 _ZN5ModelD2Ev 						                                              = 0x02016CA8;
 _ZN5ModelC1Ev 					           		                                  = 0x02016d58;
+_ZN5ModelC2Ev 					           		                                  = 0x02016DA8;
 _ZN5Model7SetFileEPcii				                                              = 0x02016fd4;
 _ZN15TextureSequence8LoadFileER13SharedFilePtr                                    = 0x020178e4;
 _ZN9Animation8LoadFileER13SharedFilePtr 										  = 0x0201794c;
@@ -605,8 +607,11 @@ VTable_ShadowModel				= 0x0208E868;
 VTable_ModelBase				= 0x0208E87C;
 VTable_Model					= 0x0208E90C;
 VTable_ModelAnim				= 0x0208E980;
-VTable_BoneAnimation			= 0x0208E9A4;
+/*VTable_BoneAnimation			= 0x0208E9A4;*/
 VTable_ModelAnim2				= 0x0208E9B4;
+VTable_CommonModel				= 0x0208E8A4;
+VTable_BlendModelAnim			= 0x0208E94C;
+VTable_Color					= 0x0208EB2C;
 
 _ZN9ModelBaseC1Ev 				= 0x02017150;
 _ZN9ModelBaseD0Ev				= 0x020170E8;
@@ -615,15 +620,14 @@ _ZN9ModelBaseD2Ev				= 0x020170B8;
 _ZN10ModelAnim2D0Ev				= 0x02016320;
 _ZN10ModelAnim2D1Ev				= 0x02016364;
 
-_ZN11ShadowModel9Virtual08Ejj	= 0x02015EF4;
-
-_ZN13BoneAnimationD0Ev			= 0x02017168;
-_ZN13BoneAnimationD1Ev			= 0x02017178;
+/*_ZN13BoneAnimationD0Ev			= 0x02017168;
+_ZN13BoneAnimationD1Ev			= 0x02017178;*/
 
 VTable_ActorBase				= 0x02099EDC;
+VTable_Player					= 0x0210A83C;
 
 _ZN9ActorBaseC1Ev				= 0x02043DEC;
-_ZN9ActorBase9SceneNode13InitSceneNodeEv	= 0x0203B4C4;
+_ZN9ActorBase9SceneNode14ResetSceneNodeEv	= 0x0203B4C4;
 _ZN9ActorBase9SceneNode5ResetEv				= 0x0203B4AC;
 
 NEXT_UNIQUE_ACTOR_ID			= 0x02099E70;
@@ -635,6 +639,38 @@ ACTOR_UNKNOWN_TABLE_PTR			= 0x020A4BB8;
 _ZN9Animation8GetFlagsEv 		= 0x02015BEC;
 _ZN9Animation8SetFlagsEi 		= 0x02015BF8;
 _ZN9Animation13GetFrameCountEv 	= 0x02015C0C;
-_ZN9Animation12SetAnimationEii5Fix12IiEs 	= 0x02015C20;
+_ZN9Animation12SetAnimationEUsi5Fix12IiEUs 	= 0x02015C20;
 _ZN9Animation4CopyERK9Animation 	= 0x02015A7C;
 _ZN9Animation13Func_02015A98Ei 	= 0x02015A98;
+
+_ZN11CommonModelC1Ev			= 0x02016204;
+_ZN11CommonModelD0Ev			= 0x020161B4;
+_ZN11CommonModelD1Ev			= 0x020161E0;
+_ZN11CommonModel9Virtual08Ejjj  = 0x02016144;
+_ZN11CommonModel13Func_02016104Ej = 0x02016104;
+_ZN11CommonModel13Func_020160ACEj = 0x020160AC;
+_ZN11CommonModel13Func_0201609CEj = 0x0201609C;
+
+_ZN11ShadowModel9Virtual08Ejj	  = 0x02015EF4;
+_ZN11ShadowModel13Func_02015D38Ev = 0x02015D38;
+_ZN11ShadowModel13Func_02015E14Ev = 0x02015E14;
+_ZN11ShadowModel9InitModelEP9Matrix4x35Fix12IiE5Fix12IiE5Fix12IiEUc = 0x02015E64;
+
+_ZN9ModelAnim4CopyERK9ModelAnimPc  = 0x02016714;
+
+_ZN10ModelAnim213Func_020162C4Eji5Fix12IiEUs	= 0x020162C4;
+_ZN10ModelAnim2C1Ev				= 0x020163A0;
+
+_ZN14BlendModelAnimD0Ev			= 0x02016644;
+_ZN14BlendModelAnimD1Ev			= 0x02016690;
+_ZN14BlendModelAnimC1Ev			= 0x020166D4;
+_ZN14BlendModelAnim9Virtual08Ejjj	= 0x02016604;
+_ZN14BlendModelAnim11UpdateVertsEv	= 0x02016578;
+_ZN14BlendModelAnim9Virtual10ER9Matrix4x3	= 0x02016518;
+_ZN14BlendModelAnim6RenderEPK7Vector3		= 0x020164E4;
+_ZN14BlendModelAnim9Virtual18EjPK7Vector3	= 0x020164B0;
+
+_ZN5ColorD0Ev					= 0x02017598;
+_ZN5ColorD1Ev					= 0x02017574;
+_ZN5ColorC1Ev					= 0x020175C4;
+
