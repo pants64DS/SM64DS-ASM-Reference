@@ -21,3 +21,110 @@ struct UnknownStruct
     unsigned unk1c;
     unsigned unk20;
 };
+
+
+
+
+//Unknown function from ActorBase
+bool Func_02043880(ActorBase* actor){
+
+	u8 shouldBeKilled = actor->shouldBeKilled;
+
+	if(!shouldBeKilled){
+
+		actor->shouldBeKilled = 0;
+		u8 aliveState = actor->aliveState;
+
+		if(aliveState){
+			Func_0203B27C(FIRST_BEHAVIOUR_LIST_NODE, actor->behavNode);
+			Func_0203B27C(FIRST_RENDER_LIST_NODE, actor->renderNode);
+		}else{
+			Func_0203B27C(0x020A4B88, actor->behavNode);
+		}
+
+		Func_0203B20C(0x020A4BA8, actor->behavNode);
+		actor->aliveState = 2;
+
+		if(!sceneNode->firstChild){
+			return 1;
+		}
+
+		ActorBase::SceneNode* sn = sceneNode->firstChild;
+
+		do{
+			sn->actor->Destroy();
+			sn = sn->nextSibling;
+		}while(sn);
+
+		return 1;
+
+	}else{
+
+		ActorBase* parent = actor->Func_02043810(); //getParentActor()
+
+		if(parent){
+
+			u8 punk13 = parent->unk13;
+
+			if(punk13 & 1 || (!(punk13 & 1) && (punk13 & 2)){	
+				actor->unk13 |= 2;
+			}else{
+				//!(punk13 & 2)
+
+				if(actor->unk13 & 2){
+					actor->unk13 &= ~2;
+				}
+
+			}
+
+			//5C
+			if(punk13 & 4 || (!(punk13 & 4) && (punk13 & 8)){
+				actor->unk13 |= 8;
+			}else{
+				//!(punk13 & 8)
+
+				if(actor->unk13 & 8){
+					actor->unk13 &= ~8;
+				}
+
+			}
+		
+		}
+
+		u8 aliveState = actor->aliveState;
+
+		if(aliveState == 1){
+
+			if(actor->behavNode.priority != actor->behavNode.priorityCopy){
+				Func_0203B27C(FIRST_BEHAVIOUR_LIST_NODE, actor->behavNode);
+				actor->behavNode.priority = actor->behavNode.priorityCopy;
+				Func_0204405C(FIRST_BEHAVIOUR_LIST_NODE, actor->behavNode);
+			}
+
+			if(actor->renderNode.priority != actor->renderNode.priorityCopy){
+				Func_0203B27C(FIRST_RENDER_LIST_NODE, actor->renderNode);
+				actor->renderNode.priority = actor->renderNode.priorityCopy;
+				Func_0204405C(FIRST_RENDER_LIST_NODE, actor->renderNode);
+			}
+
+		}else if(aliveState == 2){
+			return 1;
+		}else{
+
+			if(actor->unk11){
+				actor->unk11 = 0;
+				Func_0203B244(0x020A4B88, actor->behavNode);
+			}else if(actor->unk10){
+				actor->unk10 = 0;
+				Func_0204405C(FIRST_BEHAVIOUR_LIST_NODE, actor->behavNode);
+				Func_0204405C(FIRST_RENDER_LIST_NODE, actor->renderNode);
+				actor->aliveState = 1;
+			}
+
+		}
+
+		return 1;
+
+	}
+
+}
