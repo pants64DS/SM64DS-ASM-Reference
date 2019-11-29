@@ -3,11 +3,19 @@
 
 #include "SM64DS_Common.h"
 
+/*
+	It is guaranteed that all structs with a vtable have all virtual functions defined. 
+	To find the missing functions, start from the dtor and look for push instructions.
+	Static functions can be easily found by testing r0 for an object's instance. If it's not, you have a static function.
+	'done' denotes that all of the object's members have been found. However, they may not all have a trivial name.
+*/
+
+
 struct Model;
 struct ModelAnim;
 struct MaterialChanger;
 struct TextureSequence;
-struct ShadowVolume;
+struct ShadowModel;
 extern "C"
 {
 	//Remember to have these loaded before spawning an object with them
@@ -49,7 +57,7 @@ extern "C"
 	
 	MaterialChanger* MatChg_Construct(MaterialChanger* unk); //constructor
 	TextureSequence* TexSeq_Construct(TextureSequence* where);
-	ShadowVolume* Shadow_Construct(ShadowVolume* shadow); //constructor
+	ShadowModel* Shadow_Construct(ShadowModel* shadow); //constructor
 	ModelAnim* ModelAnim_Construct(ModelAnim* mdlAnim); //constructor
 	Model* Model_Construct(Model* where);
 }
@@ -163,7 +171,7 @@ struct Bone
 
 
 
-struct Animation	//internal: FrameCtrl
+struct Animation	//internal: FrameCtrl; done
 {
 
 	static int FLAG_MASK = 0xC0000000;
@@ -186,7 +194,7 @@ struct Animation	//internal: FrameCtrl
 	Flags GetFlags();
 	void SetFlags(Flags flags);
 	unsigned GetFrameCount();
-	void SetAnimation(int frames, Flags flags, Fix12i speed, short startFrame);
+	void SetAnimation(uint16_t frames, Flags flags, Fix12i speed, uint16_t startFrame);
 	void Copy(const Animation& anim);
 	bool Func_02015A98(int arg0);							//Does something like simulating an advance? Like checking if the next frame expires the animation...
 
@@ -223,40 +231,47 @@ struct ModelComponents
 	void UpdateVertsUsingBones();
 };
 
-//same structure as Animation
-struct MaterialChanger : Animation		//internal: AnmMaterial
+
+struct MaterialChanger : Animation		//internal: AnmMaterial; done
 {
+	MaterialDef* material;
+
 	MaterialChanger();
 	virtual ~MaterialChanger();
     static void Prepare(char* modelFile, MaterialDef& matDef);
-	void SetFile(MaterialDef& matDef, int flags, Fix12i speed, unsigned startFrame);
+	void SetMaterial(MaterialDef& matDef, Flags flags, Fix12i speed, unsigned startFrame);
 	void Update(ModelComponents& modelData);
 };
 
-//same structure as Animation
-struct TextureTransformer : Animation	//internal: AnmTexSRT
+
+struct TextureTransformer : Animation	//internal: AnmTexSRT; done
 {
+	TexSRTDef* texSRT;
+
 	TextureTransformer();
 	virtual ~TextureTransformer();
     static void Prepare(char* modelFile, TexSRTDef& texDef);
-	void SetFile(TexSRTDef& texDef, int flags, Fix12i speed, unsigned startFrame);
+	void SetTexSRT(TexSRTDef& texDef, Flags flags, Fix12i speed, unsigned startFrame);
 	void Update(ModelComponents& modelData);
 };
 
-//same structure as Animation
-struct TextureSequence : Animation		//internal: AnmTexPat
+
+struct TextureSequence : Animation		//internal: AnmTexPat; done
 {
+	char* texSequenceFile;
+
 	TextureSequence();
 	virtual ~TextureSequence();
     static void Prepare(char* modelFile, char* texSeqFile);
-	void SetFile(char* texSeqFile, int flags, Fix12i speed, unsigned startFrame);
+	void SetFile(char* texSeqFile, Flags flags, Fix12i speed, unsigned startFrame);
 	void Update(ModelComponents& modelData);	
+
 	static char* LoadFile(SharedFilePtr& filePtr);
 };
 
 
 
-struct ModelBase	//internal: Model
+struct ModelBase	//internal: Model; done
 {
 	//vtable
 	unsigned unk04;			//Pointer that is freed in all dtors
@@ -276,7 +291,7 @@ struct Model : public ModelBase		//internal: SimpleModel
 	
 	Model();
 	virtual ~Model();
-	virtual unsigned Virtual08(unsigned arg0, unsigned arg1, unsigned arg2);
+	virtual bool Virtual08(unsigned arg0, unsigned arg1, unsigned arg2);
 	virtual void UpdateVerts();
 	virtual void Virtual10(Matrix4x3& arg0);
 	virtual void Render(const Vector3* scale);
@@ -295,10 +310,12 @@ struct ModelAnim : public Model, Animation	//internal: ModelAnm
 	virtual ~ModelAnim();
 	virtual void UpdateVerts() override;
 	virtual void Virtual10(Matrix4x3& arg0) override;
-	virtual void Render(const Vector3* scale) override;					//Calls UpdateVerts and then Model::Render
-	virtual void Virtual18(unsigned arg0, const Vector3* scale);		//Calls Virtual10 and then Model::Render
+	virtual void Render(const Vector3* scale) override;							//Calls UpdateVerts and then Model::Render
+	virtual void Virtual18(unsigned arg0, const Vector3* scale) override;		//Calls Virtual10 and then Model::Render
 	
 	void SetAnim(char* animFile, int flags, Fix12i speed, unsigned startFrame);
+
+	void Copy(const ModelAnim& anim, char* newFile);					//if newFile != nullptr, it gets copied instead of anim->file
 };
 
 struct ModelAnim2 : public ModelAnim	//internal: ModelAnm2
@@ -306,14 +323,16 @@ struct ModelAnim2 : public ModelAnim	//internal: ModelAnm2
 	unsigned unk64;
 	Animation otherAnim;
 	
-	//the last two arguments can be nullptr; this just means they'll be obtained from the other ModelAnim2.
-	void CopyAnim(ModelAnim2& other, char* newAnimFile, char* newOtherAnimFile);
+	void Copy(const ModelAnim2& anim, char* newFile, unsigned newUnk64);	//copies anim to *this, otherAnim is set to anim's Animation base class
 
 	ModelAnim2();
 	virtual ~ModelAnim2();
+
+	//2 funcs missing before
+	void Func_020162C4(unsigned newUnk64, Flags animFlags, Fix12i speed, uint16_t startFrame);				//Always calls on otherAnim
 };
 
-struct ShadowModel : public ModelBase	//internal: ShadowModel
+struct ShadowModel : public ModelBase	//internal: ShadowModel; done
 {
 	ModelComponents* modelDataPtr;
 	Matrix4x3* matPtr;
@@ -327,8 +346,51 @@ struct ShadowModel : public ModelBase	//internal: ShadowModel
 	bool InitCylinder();
 	bool InitCuboid();
 
-	virtual bool Virtual08(unsigned arg0, unsigned arg1);
+	virtual bool Virtual08(unsigned arg0, unsigned arg1) override;
+
+	void InitModel(Matrix4x3* transform, Fix12i scaleX, Fix12i scaleY, Fix12i scaleZ, uint8_t arg4);
+
+	static void Func_02015D38();
+	static void Func_02015E14();
+
 };
+
+
+struct CommonModel : public ModelBase	//internal: CommonModel; done
+{
+	unsigned unkPtr;
+
+	CommonModel();
+	virtual ~CommonModel();
+	virtual bool Virtual08(unsigned arg0, unsigned arg1, unsigned arg2) override;
+
+	void Func_0201609C(unsigned arg0);
+	void Func_020160AC(unsigned arg0);
+	void Func_02016104(unsigned arg0);
+};
+
+
+
+struct BlendModelAnim : public ModelAnim	//internal: BlendAnmModel
+{
+	unsigned unk64;
+	unsigned unk68;
+	unsigned unk6C;
+
+	//0x0208E94C vtable, 0x020166D4 ctor
+	BlendModelAnim();
+	virtual ~BlendModelAnim();
+
+	virtual bool Virtual08(unsigned arg0, unsigned arg1, unsigned arg2) override;
+	virtual void UpdateVerts() override;
+	virtual void Virtual10(Matrix4x3& arg0) override;
+	virtual void Render(const Vector3* scale) override;
+	virtual void Virtual18(unsigned arg0, const Vector3* scale) override;		//Calls Virtual10 and then Model::Render
+
+	//2 funcs missing
+
+};
+
 
 
 
