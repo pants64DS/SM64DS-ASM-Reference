@@ -624,6 +624,8 @@ _ZN10ModelAnim2D1Ev				= 0x02016364;
 _ZN13BoneAnimationD1Ev			= 0x02017178;*/
 
 VTable_ActorBase				= 0x02099EDC;
+VTable_ActorDerived				= 0x0208E4B8;
+VTable_Actor					= 0x0208E3A4;
 VTable_Player					= 0x0210A83C;
 
 _ZN9ActorBaseC1Ev				= 0x02043DEC;
@@ -672,5 +674,36 @@ _ZN14BlendModelAnim9Virtual18EjPK7Vector3	= 0x020164B0;
 
 _ZN5ColorD0Ev					= 0x02017598;
 _ZN5ColorD1Ev					= 0x02017574;
-_ZN5ColorC1Ev					= 0x020175C4;
+_ZN5ColorD2Ev					= 0x020175C4;
 
+_ZN12ActorDerivedD0Ev			= 0x02013EA4;
+_ZN12ActorDerivedD1Ev			= 0x02013E80;
+
+VTable_HUD						= 0x0210C2C8;
+
+_ZN3HUD13InitResourcesEv		= 0x020FDA04;
+_ZN3HUD16CleanupResourcesEv		= 0x020FD5D4;
+_ZN3HUD8BehaviorEv				= 0x020FD7A4;
+_ZN3HUD6RenderEv				= 0x020FD5E0;
+_ZN3HUD9Virtual30Ev				= 0x020FD5DC;
+_ZN3HUDD0Ev						= 0x020FB928;
+_ZN3HUDD1Ev						= 0x020FB8F8;
+_ZN3HUDC1Ev						= 0x020FE154;
+
+VTable_View						= 0x02092720;
+
+_ZN4View6RenderEv				= 0x0202FD0C;
+_ZN4ViewD0Ev					= 0x0202FCC8;
+_ZN4ViewD1Ev					= 0x0202FC98;
+
+VTable_Camera					= 0x02086F84;
+
+_ZN6Camera13InitResourcesEv		= 0x0200E338;
+_ZN6Camera16CleanupResourcesEv	= 0x0200D9D0;
+_ZN6Camera8BehaviorEv			= 0x0200DEBC;
+_ZN6Camera6RenderEv				= 0x0200DA04;
+_ZN6Camera9Virtual30Ev			= 0x0200DA00;
+_ZN6CameraD0Ev					= 0x02007098;
+_ZN6CameraD1Ev					= 0x0200705C;
+_ZN6CameraC1Ev					= 0x0200E444;
+_ZN6Camera25SaveCameraStateBeforeTalkEv	= 0x0200CC5C;
