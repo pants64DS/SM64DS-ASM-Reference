@@ -2,6 +2,7 @@
 #define SM64DS_2_H_INCLUDED
 
 #include "SM64DS_Common.h"
+#include "Actor.h"
 #include "Model.h"
 #include "Collision.h"
 #include "Level.h"
@@ -55,217 +56,7 @@ unsigned vtable[] =
 	};
 */
 
-struct ActorBase
-{
-	enum AliveState
-    {
-        ALIVE = 1,
-		DEAD = 2
-    };
-	
-	struct SceneNode
-	{
-		SceneNode* parent;
-		SceneNode* firstChild;
-		SceneNode* prevSibling;
-		SceneNode* nextSibling;
-		ActorBase* actor;
 
-		void Reset();
-		void InitSceneNode(); //Calls Reset
-	};
-	
-	struct ProcessingListNode
-	{
-		ProcessingListNode* prev;
-		ProcessingListNode* next;
-		ActorBase* actor;
-		uint16_t priority;
-		uint16_t priorityCopy;
-	};
-	
-	enum VirtualFuncSuccess
-	{
-		VS_FAIL_BEFORE = 0,
-		VS_FAIL = 1,
-		VS_SUCCESS = 2,
-		VS_RETURN_MINUS_1 = 3
-	};
-	
-	void* operator new(size_t count); //actor bases have their own heap
-	inline void operator delete(void* ptr) {FreeHeapAllocation(ptr, *(unsigned**)0x020a0eac);}
-	
-	virtual int  InitResources();
-	virtual bool BeforeInitResources();
-	virtual void AfterInitResources(unsigned vfSuccess);
-	virtual int  CleanupResources();
-	virtual bool BeforeCleanupResources();
-	virtual void AfterCleanupResources(unsigned vfSuccess);
-	virtual int  Behavior();
-	virtual bool BeforeBehavior();
-	virtual void AfterBehavior(unsigned vfSuccess);
-	virtual int  Render();
-	virtual bool BeforeRender();
-	virtual void AfterRender(unsigned vfSuccess);
-	virtual void Virtual30();
-	virtual bool Virtual34(unsigned arg0, unsigned arg1);
-	virtual bool Virtual38(unsigned arg0, unsigned arg1);
-	virtual bool Virtual3c();
-	virtual ~ActorBase();
-	
-	void Destroy();
-	
-	//vTable;
-	unsigned uniqueID;
-	int      param1;
-	uint16_t actorID;
-	uint8_t aliveState;
-	bool shouldBeKilled;
-	uint8_t unk10;
-	uint8_t unk11;
-	uint8_t unk12;
-	uint8_t unk13;
-	SceneNode sceneNode;
-	ProcessingListNode behavNode;
-	ProcessingListNode renderNode;
-	unsigned unk48;
-	unsigned unk4c;
-};
-
-struct Actor : public ActorBase
-{
-	
-	enum Flags : int
-	{
-		NO_BEHAVIOR_IF_OFF_SCREEN = 1 << 0,
-		NO_RENDER_IF_OFF_SCREEN = 1 << 1, //offscreen can mean too far away.
-		OFF_SCREEN = 1 << 3,
-		OFF_SHADOW_RANGE = 1 << 4,
-		WRONG_AREA = 1 << 5,
-		GOING_TO_YOSHI_MOUTH = 1 << 17,
-		IN_YOSHI_MOUTH = 1 << 18,
-		CAN_SQUISH = 1 << 25,
-		AIMABLE_BY_EGG = 1 << 28
-	};
-	
-	struct ListNode
-	{
-		ListNode* prev;
-		ListNode* next;
-		Actor* actor;
-	};
-	
-	enum OnYoshiEatReturnVal : int
-	{
-		YE_DONT_EAT = 0,
-		YE_KEEP_IN_MOUTH = 1,
-		YE_SPIT_AND_GET_HURT = 2,
-		YE_SPIT = 3,
-		YE_SWALLOW = 4,
-		YE_GAIN_FIRE_BREATH = 5,
-		YE_KEEP_AND_CAN_MAKE_EGG = 6,
-	};
-	
-	ListNode listNode;
-	Vector3 pos;
-	Vector3 prevPos;
-	Vector3 camSpacePos;
-	Vector3 scale;
-	Vector3_16 ang;
-	Vector3_16 motionAng;
-	Fix12i horzSpeed;
-	Fix12i vertAccel;
-	Fix12i termVel;
-	Vector3 speed;
-	unsigned flags;
-	Fix12i rangeOffsetY;
-	Fix12i rangeAsr3;
-	Fix12i drawDistAsr3;
-	Fix12i unkc0Asr3;
-	unsigned unkc4;
-	unsigned unkc8;
-	char areaID; //it is signed
-	uint8_t unkcd;
-	short deathTableID;
-	Player* eater;
-	
-	Actor();
-	
-	virtual int  InitResources();
-	virtual bool BeforeInitResources() override;
-	virtual void AfterInitResources(unsigned vfSuccess) override;
-	virtual int  CleanupResources();
-	virtual bool BeforeCleanupResources() override;
-	virtual void AfterCleanupResources(unsigned vfSuccess) override;
-	virtual int  Behavior();
-	virtual bool BeforeBehavior() override;
-	virtual void AfterBehavior(unsigned vfSuccess) override;
-	virtual int  Render();
-	virtual bool BeforeRender() override;
-	virtual void AfterRender(unsigned vfSuccess) override;
-	virtual ~Actor();
-	virtual unsigned OnYoshiTryEat();
-	virtual void OnTurnIntoEgg(Player& player);
-	virtual bool Virtual50();
-	virtual void OnGroundPounded(Actor& groundPounder);
-	virtual void OnAttacked1(Actor& attacker);
-	virtual void OnAttacked2(Actor& attacker);
-	virtual void OnKicked(Actor& kicker);
-	virtual void OnPushed(Actor& pusher);
-	virtual void OnHitByCannonBlastedChar(Actor& blaster);
-	virtual void OnHitByMegaChar(Player& megaChar);
-	virtual void Virtual70(Actor& attacker);
-	virtual Fix12i OnAimedAtWithEgg();
-	virtual Vector3 OnAimedAtWithEggReturnVec();
-	
-	bool IsTooFarAwayFromPlayer(Fix12i tooFar);
-	void MakeVanishLuigiWork(CylinderClsn& cylClsn);
-	void SpawnSoundObj(unsigned soundObjParam);
-	
-	void KillAndTrackInDeathTable();
-	void UntrackInDeathTable();
-	bool GetBitInDeathTable();
-	
-	void BigLandingDust(bool doRaycast);
-	void LandingDust(bool doRaycast);
-	void DisappearPoofDustAt(const Vector3& vec);
-	void SmallPoofDust();
-	void PoofDustAt(const Vector3& vec);
-	void PoofDust(); //calls the two above function
-	
-	void UntrackStar();
-	Actor* UntrackAndSpawnStar(unsigned trackStarID, unsigned starID, const Vector3& spawnPos, unsigned howToSpawnStar);
-	unsigned TrackStar(unsigned starID, unsigned starType); //starType=1: silver star, 2: star //returns star ID or 0xff if starID != STAR_ID
-	
-	void Earthquake(const Vector3& source, Fix12i magnitude);
-	short ReflectAngle(Fix12i normalX, Fix12i normalZ, short angToReflect);
-	
-	bool BumpedUnderneathByPlayer(Player& player); //assumes there is a collision in the first place
-	bool JumpedOnByPlayer(CylinderClsn& cylClsn, Player& player);
-	void Unk_0201061c(Player& player, unsigned numCoins, unsigned coinType);
-	
-	Fix12i DistToCPlayer();
-	Player* ClosestPlayer();
-	short HorzAngleToCPlayer();
-	short HorzAngleToCPlayerOrAng(short ang);
-	Player* FarthestPlayer();
-	Fix12i DistToFPlayer();
-	
-	void DropShadowScaleXYZ(ShadowModel& arg1, const Matrix4x3& arg2, Fix12i scaleX, Fix12i scaleY, Fix12i scaleZ, unsigned transparency);
-	void DropShadowRadHeight(ShadowModel& arg1, const Matrix4x3& arg2, Fix12i radius, Fix12i depth, unsigned transparency); //last argument is on a scale of 1 to 16.
-	
-	void UpdatePos(CylinderClsn* clsn); //Applies motion direction, vertical acceleration, and terminal velocity.
-	void UpdatePosWithOnlySpeed(CylinderClsn* clsn);//IMPORTANT!: When spawning a Super Mushroom, make sure to already have the model loaded before the player goes super!
-	//You cannot afford to spawn a Super Mushroom if there are 0 uses of the model's SharedFilePtr and the player already went super.
-	//If you do, particle color glitches will happen!
-	
-	Actor* SpawnNumber(const Vector3& pos, unsigned number, bool isRed, unsigned arg3, unsigned arg4);
-	static Actor* Spawn(unsigned actorID, unsigned param1, const Vector3& pos, const Vector3_16* rot, int areaID, int deathTableID);
-	Actor* Next(); //next in the linked list. Returns the 1st object if given a nullptr. Returns a nullptr if given the last actor
-	static Actor* FindWithID(unsigned id);
-	static Actor* FindWithActorID(unsigned actorID, Actor* searchStart); //searchStart is not included.
-	
-};
 
 struct CapIcon
 {
@@ -442,10 +233,20 @@ struct CameraDef
 	uint16_t unk26;
 };
 
-class Camera : public ActorBase //ActorID = 0x14c
+
+//vtable at 0x02092720
+struct View : public ActorDerived		//internal name: dView; done
 {
-public:
-	static const unsigned SIZE = 0x1a8;
+	Matrix4x3 camMat;					//View Matrix to use when rendering
+
+	virtual int Render() override;		//Sets the global view matrix to camMat and calculates the global inverse view matrix
+	virtual ~View();
+};
+
+
+//vtable at 0x02086F84, ctor at 0x0200E444
+struct Camera : public View				//internal name: dCamera
+{
 	
 	enum Flags
 	{
@@ -459,31 +260,16 @@ public:
 		ZOOMED_IN = 1 << 19
 	};
 	
-	Matrix4x3 camMat;
 	Vector3 lookAt;
 	Vector3 pos;
 	Vector3 ownerPos;
-	unsigned unk0a4;
-	unsigned unk0a8;
-	unsigned unk0ac;
-	unsigned unk0b0;
-	unsigned unk0b4;
-	unsigned unk0b8;
-	unsigned unk0bc;
-	unsigned unk0c0;
-	unsigned unk0c4;
-	unsigned unk0c8;
-	unsigned unk0cc;
-	unsigned unk0d0;
-	unsigned unk0d4;
-	unsigned unk0d8;
-	unsigned unk0dc;
-	unsigned unk0e0;
-	unsigned unk0e4;
-	unsigned unk0e8;
-	unsigned unk0ec;
-	unsigned unk0f0;
-	unsigned unk0f4;
+	Vector3 unk0a4;
+	Vector3 savedLookAt;
+	Vector3 savedPos;
+	Vector3 unk0c8;			//Player's front lookAt?
+	Vector3 unk0d4;			//Player's front pos?
+	Vector3 unk0e0;			//Raycast result save (when the player becomes invisible to the camera)
+	Vector3 unk0ec;			//Raycast result save (when the player becomes invisible to the camera)
 	unsigned unk0f8;
 	unsigned unk0fc;
 	unsigned unk100;
@@ -528,6 +314,21 @@ public:
 	unsigned unk19c;
 	unsigned unk1a0;
 	unsigned unk1a4;
+
+	Camera();
+	virtual ~Camera();
+
+	virtual int  InitResources() override;
+	virtual int  CleanupResources() override;
+	virtual int  Behavior() override;
+	virtual int  Render() override;
+	virtual void Virtual30() override;
+
+	void SaveCameraStateBeforeTalk();				//Saves the current camera state
+
+	//Func_0200D954
+	//Func_0200D8C8
+	//All funcs between Camera() and ~Camera() should belong to this object, but I couldn't prove it since they're never really called.
 };
 
 struct Area
@@ -539,7 +340,9 @@ struct Area
 	unsigned unk8;
 };
 
-struct HUD : public ActorBase //ActorID = 0x14e
+
+//vtable at 0x0210C2C8, ctor at 0x020FE154
+struct HUD : public ActorDerived		//internal name: dMeter, ActorID = 0x14e
 {
 	unsigned unk50;
 	unsigned unk54;
@@ -547,16 +350,53 @@ struct HUD : public ActorBase //ActorID = 0x14e
 	unsigned unk5c;
 	unsigned unk60;
 	unsigned unk64;
-	unsigned unk68;
-	unsigned unk6c;
-	unsigned unk70;
+	short meterYOffset;			//y-offset, counts downwards to 0x19, if 0x19 > yOffset or yOffset > 0x7FFF, then it is immediately set to 0x19
+	uint16_t unk6a;				//unknown counter
+	uint16_t unk6c;				//unknown counter
+	uint16_t lifeXOffset;		//life counter xPos (default: 0x10)
+	uint16_t starXOffset;		//star counter xPos (default: 0xF0)
+	uint8_t unk72;				//unknown
+	uint8_t meterState;			//health meter state (0-6: 0=stopAnim, 1=update, 2=locked?, 4=disappear), read and updated at 0x020FD218 before the branch table
 	char currNumInDecimal[3];
 	uint8_t unk77;
 	unsigned unk78;
+
+	virtual int	InitResources() override;
+	virtual int CleanupResources() override;
+	virtual int Behavior() override;
+	virtual int Render() override;
+	virtual void Virtual30() override;
+
+	HUD();
+	virtual ~HUD();
+
 };
 
+
+
+//vtable at 0x2092680
+struct Scene : public ActorDerived		//internal name: dScene
+{
+
+};
+
+//vtable at 0x02091528
+struct SceneBoot : public Scene			//internal name: dScBoot
+{
+	unsigned unk50;
+	unsigned unk54;
+};
+
+//vtable at 0x020943C4, ctor at 0x020352B4
+struct SceneMB : public Scene			//internal name: dScMB
+{
+	//size 0x68
+	//ColorFader?
+};
+
+
 //vtable at 020921c0, constructor at 0202e088
-struct Stage : public ActorBase //ActorID = 0x003
+struct Stage : public Scene				//internal name: dScStage, ActorID = 0x003
 {
 	
 	Particle::SysTracker particleSysTracker;
@@ -577,7 +417,7 @@ struct Stage : public ActorBase //ActorID = 0x003
 	unsigned unk9c4;
 };
 
-//vtable at 0210c1c0, constructor at 020fb8bc
+//vtable at 0210c1c0, constructor at 020fb8bc, dtor at 0x020F975C
 //Code address to init 256x256 map: 020fb568
 //Code address to init 128x128 map: 020fb694
 /*
@@ -587,7 +427,7 @@ In Big Boo's Haunt OR
 In Big Boo Battle (the map, not the fight) OR
 In a test stage
 */
-struct Minimap : public ActorBase //ActorID = 0x14f
+struct Minimap : public ActorDerived //ActorID = 0x14f
 {
 	enum ArrowType
 	{
@@ -729,7 +569,7 @@ struct Minimap : public ActorBase //ActorID = 0x14f
 
 struct LaunchStar;
 
-//constructor: 020e6c0c, vtable: 0210a83c
+//allocating constructor: 020e6c0c, vtable: 0210a83c
 struct Player : public Actor
 {
 	enum Characters
@@ -1273,115 +1113,3 @@ void Sound_Play0(int soundID, Vector3* camSpacePos) NAKED; //0201264c, 4c260122
 void Sound_Play3(int soundID, Vector3* camSpacePos) NAKED; //02012664, 64260122
 void Sound_Play(int arg0, int soundID, Vector3* camSpacePos); //02012590, 90250122*/
 #endif // SM64DS_2_H_INCLUDED
-
-
-/*
-
-bool func_02043880(ActorBase* actor){
-
-	u8 shouldBeKilled = actor->shouldBeKilled;
-
-	if(!shouldBeKilled){
-
-		actor->shouldBeKilled = 0;
-		u8 aliveState = actor->aliveState;
-
-		if(aliveState){
-			func_0203B27C(FIRST_BEHAVIOUR_LIST_NODE, actor->behavNode);
-			func_0203B27C(FIRST_RENDER_LIST_NODE, actor->renderNode);
-		}else{
-			func_0203B27C(0x020A4B88, actor->behavNode);
-		}
-
-		func_0203B20C(0x020A4BA8, actor->behavNode);
-		actor->aliveState = 2;
-
-		if(!sceneNode->firstChild){
-			return 1;
-		}
-
-		ActorBase::SceneNode* sn = sceneNode->firstChild;
-
-		do{
-			sn->actor->Destroy();
-			sn = sn->nextSibling;
-		}while(sn);
-
-		return 1;
-
-	}else{
-
-		ActorBase* parent = actor->func_02043810(); //getParentActor()
-
-		if(parent){
-
-			u8 punk13 = parent->unk13;
-
-			if(punk13 & 1 || (!(punk13 & 1) && (punk13 & 2)){	
-				actor->unk13 |= 2;
-			}else{
-				//!(punk13 & 2)
-
-				if(actor->unk13 & 2){
-					actor->unk13 &= ~2;
-				}
-
-			}
-
-			//5C
-			if(punk13 & 4 || (!(punk13 & 4) && (punk13 & 8)){
-				actor->unk13 |= 8;
-			}else{
-				//!(punk13 & 8)
-
-				if(actor->unk13 & 8){
-					actor->unk13 &= ~8;
-				}
-
-			}
-		
-		}
-
-		u8 aliveState = actor->aliveState;
-
-		if(aliveState == 1){
-
-			if(actor->behavNode.priority != actor->behavNode.priorityCopy){
-				func_0203B27C(FIRST_BEHAVIOUR_LIST_NODE, actor->behavNode);
-				actor->behavNode.priority = actor->behavNode.priorityCopy;
-				func_0204405C(FIRST_BEHAVIOUR_LIST_NODE, actor->behavNode);
-			}
-
-			if(actor->renderNode.priority != actor->renderNode.priorityCopy){
-				func_0203B27C(FIRST_RENDER_LIST_NODE, actor->renderNode);
-				actor->renderNode.priority = actor->renderNode.priorityCopy;
-				func_0204405C(FIRST_RENDER_LIST_NODE, actor->renderNode);
-			}
-
-		}else if(aliveState == 2){
-			return 1;
-		}else{
-
-			if(actor->unk11){
-				actor->unk11 = 0;
-				func_0203B244(0x020A4B88, actor->behavNode);
-			}else if(actor->unk10){
-				actor->unk10 = 0;
-				func_0204405C(FIRST_BEHAVIOUR_LIST_NODE, actor->behavNode);
-				func_0204405C(FIRST_RENDER_LIST_NODE, actor->renderNode);
-				actor->aliveState = 1;
-			}
-
-		}
-
-		return 1;
-
-	}
-
-}
-
-
-
-
-
-*/
