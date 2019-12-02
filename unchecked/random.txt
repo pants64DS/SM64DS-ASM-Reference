@@ -128,3 +128,87 @@ bool Func_02043880(ActorBase* actor){
 	}
 
 }
+
+
+//Equivalent ghidra output
+
+void FUN_02043880(int param_1)
+
+{
+  undefined4 uVar1;
+  undefined4 uVar2;
+  int iVar3;
+  
+  if (*(char *)(param_1 + 0xf) == '\0') {
+    iVar3 = func_0x02043810();
+    if (iVar3 != 0) {
+      if (((*(byte *)(iVar3 + 0x13) & 1) == 0) && ((*(byte *)(iVar3 + 0x13) & 2) == 0)) {
+        if ((*(byte *)(param_1 + 0x13) & 2) != 0) {
+          *(byte *)(param_1 + 0x13) = *(byte *)(param_1 + 0x13) & 0xfd;
+        }
+      }
+      else {
+        *(byte *)(param_1 + 0x13) = *(byte *)(param_1 + 0x13) | 2;
+      }
+      if (((*(byte *)(iVar3 + 0x13) & 4) == 0) && ((*(byte *)(iVar3 + 0x13) & 8) == 0)) {
+        if ((*(byte *)(param_1 + 0x13) & 8) != 0) {
+          *(byte *)(param_1 + 0x13) = *(byte *)(param_1 + 0x13) & 0xf7;
+        }
+      }
+      else {
+        *(byte *)(param_1 + 0x13) = *(byte *)(param_1 + 0x13) | 8;
+      }
+    }
+    uVar2 = _DAT_02043ab8;
+    uVar1 = _DAT_02043ab0;
+    if (*(char *)(param_1 + 0xe) == '\x01') {
+      if (*(short *)(param_1 + 0x36) != *(short *)(param_1 + 0x34)) {
+        func_0x0203b27c(_DAT_02043ab0,param_1 + 0x28);
+        uVar1 = _DAT_02043ab0;
+        *(undefined2 *)(param_1 + 0x34) = *(undefined2 *)(param_1 + 0x36);
+        func_0x0204405c(uVar1);
+      }
+      if (*(short *)(param_1 + 0x46) != *(short *)(param_1 + 0x44)) {
+        func_0x0203b27c(_DAT_02043ab4,param_1 + 0x38);
+        uVar1 = _DAT_02043ab4;
+        *(undefined2 *)(param_1 + 0x44) = *(undefined2 *)(param_1 + 0x46);
+        func_0x0204405c(uVar1);
+      }
+    }
+    else {
+      if (*(char *)(param_1 + 0xe) != '\x02') {
+        if (*(char *)(param_1 + 0x11) == '\0') {
+          if (*(char *)(param_1 + 0x10) != '\0') {
+            *(undefined *)(param_1 + 0x10) = 0;
+            func_0x0204405c(uVar1,param_1 + 0x28);
+            func_0x0204405c(_DAT_02043ab4,param_1 + 0x38);
+            *(undefined *)(param_1 + 0xe) = 1;
+          }
+        }
+        else {
+          *(undefined *)(param_1 + 0x11) = 0;
+          func_0x0203b244(uVar2,param_1 + 0x28);
+        }
+      }
+    }
+  }
+  else {
+    *(undefined *)(param_1 + 0xf) = 0;
+    if (*(char *)(param_1 + 0xe) == '\x01') {
+      func_0x0203b27c(_DAT_02043ab0,param_1 + 0x28);
+      func_0x0203b27c(_DAT_02043ab4,param_1 + 0x38);
+    }
+    else {
+      func_0x0203b27c(_DAT_02043ab8,param_1 + 0x28);
+    }
+    func_0x0203b20c(_DAT_02043abc,param_1 + 0x28);
+    *(undefined *)(param_1 + 0xe) = 2;
+    iVar3 = *(int *)(param_1 + 0x18);
+    while (iVar3 != 0) {
+      func_0x02043824(*(undefined4 *)(iVar3 + 0x10));
+      iVar3 = *(int *)(iVar3 + 0xc);
+    }
+  }
+                    /* WARNING: Bad instruction - Truncating control flow here */
+  halt_baddata();
+}
