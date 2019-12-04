@@ -244,6 +244,36 @@ struct View : public ActorDerived		//internal name: dView; done
 };
 
 
+//vtable at 0x0208E730
+struct Clipper
+{
+	Vector3 unk04;
+	Vector3 unk10;
+	Vector3 unk1c;
+	Vector3 unk28;
+	unsigned unk34;
+	unsigned unk38;
+	unsigned unk3c;
+	unsigned unk40;
+	unsigned unk44;
+	unsigned unk48;
+	Fix12i aspectRatio;					//Aspect ratio
+	unsigned unk50;
+	unsigned unk54;
+	uint16_t unk58;
+
+	void Func_020150E8();
+	void Func_02015560();
+	void Func_0201559C();	//noargs
+	void Func_020156DC();
+
+	Clipper();
+	virtual ~Clipper();
+
+};
+
+
+
 //vtable at 0x02086F84, ctor at 0x0200E444
 struct Camera : public View				//internal name: dCamera
 {
@@ -264,26 +294,29 @@ struct Camera : public View				//internal name: dCamera
 	Vector3 pos;
 	Vector3 ownerPos;
 	Vector3 unk0a4;
-	Vector3 savedLookAt;
-	Vector3 savedPos;
+	Vector3 savedLookAt;	//Saved to at talk
+	Vector3 savedPos;		//Saved to at talk
 	Vector3 unk0c8;			//Player's front lookAt?
 	Vector3 unk0d4;			//Player's front pos?
 	Vector3 unk0e0;			//Raycast result save (when the player becomes invisible to the camera)
 	Vector3 unk0ec;			//Raycast result save (when the player becomes invisible to the camera)
-	unsigned unk0f8;
-	unsigned unk0fc;
-	unsigned unk100;
-	unsigned unk104;
-	unsigned unk108;
-	unsigned unk10c;
-	Actor* owner;
-	Actor* owner2;
-	Actor* unk118;
-	unsigned unk11c;
-	Vector3 otherPos;
-	Fix12i ownerDist;
-	unsigned unk130;
-	unsigned unk134;
+	Fix12i aspectRatio;		//Aspect ratio, default = 1.33 (4:3)
+	unsigned unk0fc;		//Clipper related (near+far)
+	unsigned unk100;		//Clipper related
+	unsigned unk104;		//Clipper related
+	unsigned unk108;		//Clipper related
+	uint8_t viewportLeft;	//Viewport x for left border
+	uint8_t viewportBottom;	//Viewport y for bottom border
+	uint8_t viewportRight;	//Viewport x for right border
+	uint8_t viewportTop;	//Viewport y for top border
+	Actor* owner;			//The player stalked by the camera
+	Actor* unk114;			//Set at special camera scene? Set to King Bomb-Omb for example
+	Actor* unk118;			//Another unknown actor
+	unsigned unk11c;		//Related to unk118, set to 0xDFE60 at 0x02009F3C
+	Vector3 unk120;			//unk118's or (if unk118 == 0) unk114's position vector
+	Fix12i unk12c;			//Distance to unk114?
+	Fix12i unk130;			//Linear camera interpolator (only for unk114?) that (when entering a different camera view like at the top of BoB) interpolates from 0x0 to 0x100 and backwards when leaving. As a result, it also indicates whether the owner is in a special camera scene. unk114 is linked later during interpolation.
+	Fix12i unk134;			//Ground pound camera jitter offset. Starts at 0xC000 and vibrates back and forth with alternating signs until it reaches 0.
 	unsigned unk138;
 	CameraDef* defaultCamDef;
 	CameraDef* currCamDef;
@@ -313,7 +346,8 @@ struct Camera : public View				//internal name: dCamera
 	unsigned unk198;
 	unsigned unk19c;
 	unsigned unk1a0;
-	unsigned unk1a4;
+	uint16_t unk1a4;
+	uint16_t unk1a6;
 
 	Camera();
 	virtual ~Camera();
