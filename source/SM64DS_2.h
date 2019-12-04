@@ -274,10 +274,13 @@ struct Clipper
 
 
 
+
 //vtable at 0x02086F84, ctor at 0x0200E444
 struct Camera : public View				//internal name: dCamera
 {
 	
+	static constexpr unsigned* cameraDefTable = 0x02086FCC;
+
 	enum Flags
 	{
 		ZOOMED_OUT = 1 << 2,
@@ -288,6 +291,14 @@ struct Camera : public View				//internal name: dCamera
 		TALK = 1 << 14,
 		ZOOM_OUT_FROM_TALK = 1 << 15,
 		ZOOMED_IN = 1 << 19
+	};
+
+	struct SettingBehaviour							//Executes view specific camera behaviour
+	{
+		bool (Camera::* OnUpdate)();				//Nested call by Camera::Behaviour()
+		unsigned unk04;								//Offset for 0x8? Most of the time 0, but code reveals this might not always be the case
+		bool (Camera::* OnPlayerChangeState)();		//Nested call by Player::ChangeState()
+		unsigned unk0c;
 	};
 	
 	Vector3 lookAt;
@@ -315,9 +326,9 @@ struct Camera : public View				//internal name: dCamera
 	unsigned unk11c;		//Related to unk118, set to 0xDFE60 at 0x02009F3C
 	Vector3 unk120;			//unk118's or (if unk118 == 0) unk114's position vector
 	Fix12i unk12c;			//Distance to unk114?
-	Fix12i unk130;			//Linear camera interpolator (only for unk114?) that (when entering a different camera view like at the top of BoB) interpolates from 0x0 to 0x100 and backwards when leaving. As a result, it also indicates whether the owner is in a special camera scene. unk114 is linked later during interpolation.
+	Fix12i unk130;			//Linear camera movement interpolator (only for unk114?) that (when entering a different camera view like at the top of BoB) interpolates from 0x0 to 0x100 and backwards when leaving. As a result, it also indicates whether the owner is in a special camera scene. unk114 is linked later during interpolation.
 	Fix12i unk134;			//Ground pound camera jitter offset. Starts at 0xC000 and vibrates back and forth with alternating signs until it reaches 0.
-	unsigned unk138;
+	SettingBehaviour* currentSettingBehaviour;	//Pointer to the current setting behaviour, which in turn sets the CameraDef's
 	CameraDef* defaultCamDef;
 	CameraDef* currCamDef;
 	LevelFile::View* currView;
@@ -342,7 +353,8 @@ struct Camera : public View				//internal name: dCamera
 	unsigned unk188;
 	unsigned unk18c;
 	unsigned unk190;
-	unsigned unk194;
+	uint16_t unk194;
+	uint16_t unk196;
 	unsigned unk198;
 	unsigned unk19c;
 	unsigned unk1a0;
