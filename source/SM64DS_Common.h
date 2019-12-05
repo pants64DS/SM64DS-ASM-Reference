@@ -26,48 +26,55 @@ extern "C"
 	bool Lerp(int& counterPtr, int dest, int step);
 }
 
-template<typename T>
-struct Fix12
+template<typename T, unsigned Q>
+struct Fix
 {
 	T val;
-	inline Fix12() {}
-	inline constexpr explicit Fix12(int value, bool raw = false) : val(raw ? value : value << 12) {}
-	template<typename U> inline constexpr Fix12(Fix12<U> fix) : val(fix.val) {}
-	
-	inline constexpr Fix12<T> operator-  ()             const {return Fix12<T>(-val, true);}
-	inline void               operator+= (Fix12<T> fix)       {val += fix.val;}
-	inline constexpr Fix12<T> operator+  (Fix12<T> fix) const {return Fix12<T>(val + fix.val, true);}
-	inline void               operator-= (Fix12<T> fix)       {val -= fix.val;}
-	inline constexpr Fix12<T> operator-  (Fix12<T> fix) const {return Fix12<T>(val - fix.val, true);}
-	inline void               operator*= (Fix12<T> fix)       {val = ((bigger_t<T>)val * fix.val + 0x800) >> 12;}
-	inline void               operator*= (int integer )       {val *= integer;}
-	inline constexpr Fix12<T> operator*  (Fix12<T> fix) const {return Fix12<T>(((bigger_t<T>)val * fix.val + 0x800) >> 12, true);}
-	inline constexpr Fix12<T> operator*  (int integer ) const {return Fix12<T>(val * integer, true);}
-	inline void               operator/= (Fix12<T> fix)       {val = Fix12<T>(fdiv(val, fix.val), true);}
-	inline void               operator/= (int integer )       {val /= integer;}
-	inline Fix12<T>           operator/  (Fix12<T> fix) const {return Fix12<T>(fdiv(val, fix.val), true);}
-	inline constexpr Fix12<T> operator/  (int integer ) const {return Fix12<T>(val / integer, true);}
-	inline void               operator<<=(int amount  )       {val <<= amount;}
-	inline constexpr Fix12<T> operator<< (int amount  ) const {return Fix12<T>(val << amount, true);}
-	inline void               operator>>=(int amount  )       {val >>= amount;}
-	inline constexpr Fix12<T> operator>> (int amount  ) const {return Fix12<T>(val >> amount, true);}
-	inline constexpr bool     operator== (Fix12<T> fix) const {return val == fix.val;}
-	inline constexpr bool	  operator!= (Fix12<T> fix) const {return val != fix.val;}
-	inline constexpr bool	  operator<  (Fix12<T> fix) const {return val <  fix.val;}
-	inline constexpr bool	  operator<= (Fix12<T> fix) const {return val <= fix.val;}
-	inline constexpr bool	  operator>  (Fix12<T> fix) const {return val >  fix.val;}
-	inline constexpr bool	  operator>= (Fix12<T> fix) const {return val >= fix.val;}
-	
-	inline constexpr Fix12<T> Abs() const {return this->val >= 0 ? *this : -*this;}
-	inline constexpr explicit operator int() const {return val >> 12;} //warning! Floors!
-	inline bool Lerp(Fix12<T> dest, Fix12<T> step) {return Lerp32(val, dest.val, step.val);}
+	inline Fix() {}
+	inline constexpr explicit Fix(int value, bool raw = false) : val(raw ? value : value << Q) {}
+	template<typename U, unsigned R> inline constexpr explicit Fix(Fix<U, R> fix) : val(fix.val)
+	{
+		val = R > Q ? (val + (1 << (Q - 1))) >> (R - Q) : val << (Q - R);
+	}
+
+	inline constexpr Fix<T, Q> operator-  ()              const { return  Fix<T, Q>(-val, true); }
+	inline void                operator+= (Fix<T, Q> fix) { val += fix.val; }
+	inline constexpr Fix<T, Q> operator+  (Fix<T, Q> fix) const { return  Fix<T, Q>(val + fix.val, true); }
+	inline void                operator-= (Fix<T, Q> fix) { val -= fix.val; }
+	inline constexpr Fix<T, Q> operator-  (Fix<T, Q> fix) const { return  Fix<T, Q>(val - fix.val, true); }
+	inline void                operator*= (Fix<T, Q> fix) { val = ((bigger_t<T>)val * fix.val + (1 << (Q - 1))) >> Q; }
+	inline void                operator*= (int integer) { val *= integer; }
+	inline constexpr Fix<T, Q> operator*  (Fix<T, Q> fix) const { return  Fix<T, Q>(((bigger_t<T>)val * fix.val + (1 << (Q - 1))) >> Q, true); }
+	inline constexpr Fix<T, Q> operator*  (int integer) const { return  Fix<T, Q>(val * integer, true); }
+	inline void                operator/= (Fix<T, Q> fix) { val = Fix<T, Q>(fdiv(val, fix.val), true); } // TODO, does only work for Q12
+	inline void                operator/= (int integer) { val /= integer; }
+	inline Fix<T, Q>           operator/  (Fix<T, Q> fix) const { return  Fix<T, Q>(fdiv(val, fix.val), true); } // TODO, does only work for Q12
+	inline constexpr Fix<T, Q> operator/  (int integer) const { return  Fix<T, Q>(val / integer, true); }
+	inline void                operator<<=(int amount) { val <<= amount; }
+	inline constexpr Fix<T, Q> operator<< (int amount) const { return  Fix<T, Q>(val << amount, true); }
+	inline void                operator>>=(int amount) { val >>= amount; }
+	inline constexpr Fix<T, Q> operator>> (int amount) const { return  Fix<T, Q>(val >> amount, true); }
+	inline constexpr bool      operator== (Fix<T, Q> fix) const { return  val == fix.val; }
+	inline constexpr bool      operator!= (Fix<T, Q> fix) const { return  val != fix.val; }
+	inline constexpr bool      operator<  (Fix<T, Q> fix) const { return  val < fix.val; }
+	inline constexpr bool      operator<= (Fix<T, Q> fix) const { return  val <= fix.val; }
+	inline constexpr bool      operator>  (Fix<T, Q> fix) const { return  val > fix.val; }
+	inline constexpr bool      operator>= (Fix<T, Q> fix) const { return  val >= fix.val; }
+
+	inline constexpr Fix<T, Q> Abs() const { return this->val >= 0 ? *this : -*this; }
+	inline constexpr explicit operator int() const { return val >> Q; } //warning! Floors!
+	inline bool lerp(Fix<T, Q> dest, Fix<T, Q> step) { return lerp(val, dest.val, step.val); }
 };
-template<typename T> inline constexpr Fix12<T> operator* (int integer, Fix12<T> fix) {return Fix12<T>(integer * fix.val, true);}
-template<typename T> inline constexpr Fix12<T> operator/ (int integer, Fix12<T> fix) {return Fix12<T>(fdiv(integer << 12, fix.val), true);}
-using Fix12i = Fix12<int>;
-using Fix12s = Fix12<short>;
-constexpr Fix12i operator""_f (unsigned long long val) {return Fix12i(val, true);}
-constexpr Fix12s operator""_fs(unsigned long long val) {return Fix12s(val, true);}
+template<typename T, unsigned Q> inline constexpr Fix<T, Q> operator* (int integer, Fix<T, Q> fix) { return Fix<T, Q>(integer * fix.val, true); }
+template<typename T, unsigned Q> inline constexpr Fix<T, Q> operator/ (int integer, Fix<T, Q> fix) { return Fix<T, Q>(fdiv(integer << Q, fix.val), true); }
+using Fix12i = Fix<int, 12>;
+using Fix12s = Fix<short, 12>;
+using Fix24i = Fix<int, 24>;
+
+constexpr Fix12i operator""_f(unsigned long long val) { return Fix12i(val, true); }
+constexpr Fix12s operator""_fs(unsigned long long val) { return Fix12s(val, true); }
+constexpr Fix24i operator""_f24(unsigned long long val) { return Fix24i(val, true); }
+
 
 
 struct Vector3;
