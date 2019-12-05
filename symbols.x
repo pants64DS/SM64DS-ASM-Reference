@@ -400,8 +400,8 @@ _ZN7PathPtrC1Ev					                                                  = 0x0203ad
                                                         
 DecIfAbove0_Short 					                                              = 0x0203adbc;
 DecIfAbove0_Byte 					                                              = 0x0203add4;
-AdvanceToDest_Short 				                                              = 0x0203adec;
-AdvanceToDest_Int 					                                              = 0x0203ae58;
+Lerp16 																			  = 0x0203adec;
+Lerp 																			  = 0x0203ae58;
                                                         
 AngleDiff							                                              = 0x0203b0e8;
 Atan2 								                                              = 0x0203b4dc;
@@ -438,7 +438,6 @@ Vec3_MulScalarInPlace															  = 0x0203d224;
 Vec3_MulScalar																	  = 0x0203d290;
 Vec3_Sub 							                                              = 0x0203d2fc;
 Vec3_Add 							                                              = 0x0203d340;
-SqrtQ24 							                                              = 0x0203d744;
                                                         
 _ZN9ActorBasenwEj		 						                                  = 0x02043444;
 _ZN9ActorBase9Virtual3cEv														  = 0x02043494;
@@ -485,7 +484,6 @@ Matrix4x3_FromScale					                                              = 0x020527
 Math_MulVec3Mat4x3 					                                              = 0x02052858;
 Math_MulMat4x3Mat4x3				                                              = 0x02052914;
 Math_InvMat4x3																	  = 0x02052b34;
-Math_DivQ12 						                                              = 0x02053258;
 Math_NormalizeVec3																  = 0x020534ec;
 Math_LenVec3						                                              = 0x020536e4;
 Math_CrossVec3 						                                              = 0x02053770;
@@ -504,9 +502,7 @@ InvalidateInstructionCache														  = 0x02058c68;
                                                         
 MultiStore_Int						                                              = 0x0205a47c;
 MultiCopy_Int																	  = 0x0205a490;
-                                                        
-String_Compare 						                                              = 0x02070508;
-                                                        
+                                                                                                                
 Vec3_InterpCubic					                                              = 0x0208f670;
 _ZN14BezierPathIter7AdvanceEv					                                  = 0x0208f840;
 _ZN8Particle7Manager7LoadTexEjj                                                   = 0x0208f9d0;
@@ -707,3 +703,26 @@ _ZN6CameraD0Ev					= 0x02007098;
 _ZN6CameraD1Ev					= 0x0200705C;
 _ZN6CameraC1Ev					= 0x0200E444;
 _ZN6Camera25SaveCameraStateBeforeTalkEv	= 0x0200CC5C;
+
+VTable_Clipper					= 0x0208E730;
+
+_ZN7ClipperD0Ev					= 0x020156FC;
+_ZN7ClipperD1Ev					= 0x02015720;
+_ZN7ClipperC1Ev					= 0x02015730;
+
+_ZN7Clipper13Func_020150E8Ev	= 0x020150E8;
+_ZN7Clipper13Func_02015560Ev	= 0x02015560;
+_ZN7Clipper13Func_0201559CEv	= 0x0201559C;
+_ZN7Clipper13Func_020156DCEv	= 0x020156DC;
+
+GLOBAL_CLIPPER					= 0x0209F43C;
+
+div								= 0x02052F4C;
+mod								= 0x02052EF4;
+fdiv							= 0x02053258;
+sqrtQ24 						= 0x0203D744;
+fdiv_execute					= 0x02052FA4;
+fdiv_query						= 0x020530CC;
+strcmp 							= 0x02070508;
+strncpy							= 0x0207063C;
+strchr							= 0x020704CC;
