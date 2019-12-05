@@ -19,12 +19,11 @@ using bigger_t = decltype(bigger_internal<T>::val);
 
 extern "C"
 {
-	int Math_DivQ12(int numerator, int denominator);
 	
 	uint16_t DecIfAbove0_Short(uint16_t& counter); //returns the counter's new value
 	uint8_t DecIfAbove0_Byte(uint8_t& counter); //returns the counter's new value
-	bool AdvanceToDest_Short(short& counterPtr, short dest, short step); //returns whether the counter reached its destination
-	bool AdvanceToDest_Int(int& counterPtr, int dest, int step);
+	bool Lerp16(short& counterPtr, short dest, short step); //linear interpolation
+	bool Lerp(int& counterPtr, int dest, int step);
 }
 
 template<typename T>
@@ -44,9 +43,9 @@ struct Fix12
 	inline void               operator*= (int integer )       {val *= integer;}
 	inline constexpr Fix12<T> operator*  (Fix12<T> fix) const {return Fix12<T>(((bigger_t<T>)val * fix.val + 0x800) >> 12, true);}
 	inline constexpr Fix12<T> operator*  (int integer ) const {return Fix12<T>(val * integer, true);}
-	inline void               operator/= (Fix12<T> fix)       {val = Fix12<T>(Math_DivQ12(val, fix.val), true);}
+	inline void               operator/= (Fix12<T> fix)       {val = Fix12<T>(fdiv(val, fix.val), true);}
 	inline void               operator/= (int integer )       {val /= integer;}
-	inline Fix12<T>           operator/  (Fix12<T> fix) const {return Fix12<T>(Math_DivQ12(val, fix.val), true);}
+	inline Fix12<T>           operator/  (Fix12<T> fix) const {return Fix12<T>(fdiv(val, fix.val), true);}
 	inline constexpr Fix12<T> operator/  (int integer ) const {return Fix12<T>(val / integer, true);}
 	inline void               operator<<=(int amount  )       {val <<= amount;}
 	inline constexpr Fix12<T> operator<< (int amount  ) const {return Fix12<T>(val << amount, true);}
@@ -61,10 +60,10 @@ struct Fix12
 	
 	inline constexpr Fix12<T> Abs() const {return this->val >= 0 ? *this : -*this;}
 	inline constexpr explicit operator int() const {return val >> 12;} //warning! Floors!
-	inline bool AdvanceToDest(Fix12<T> dest, Fix12<T> step) {return AdvanceToDest_Int(val, dest.val, step.val);}
+	inline bool Lerp(Fix12<T> dest, Fix12<T> step) {return Lerp32(val, dest.val, step.val);}
 };
 template<typename T> inline constexpr Fix12<T> operator* (int integer, Fix12<T> fix) {return Fix12<T>(integer * fix.val, true);}
-template<typename T> inline constexpr Fix12<T> operator/ (int integer, Fix12<T> fix) {return Fix12<T>(Math_DivQ12(integer << 12, fix.val), true);}
+template<typename T> inline constexpr Fix12<T> operator/ (int integer, Fix12<T> fix) {return Fix12<T>(fdiv(integer << 12, fix.val), true);}
 using Fix12i = Fix12<int>;
 using Fix12s = Fix12<short>;
 constexpr Fix12i operator""_f (unsigned long long val) {return Fix12i(val, true);}
@@ -138,10 +137,10 @@ extern "C"
 	void Matrix4x3_FromScale(Matrix4x3* mF, Fix12i x, Fix12i y, Fix12i z) __attribute__((long_call, target("thumb")));
 	void Math_MulVec3Mat4x3(const Vector3* v, const Matrix4x3* m, Vector3* vF);
 	void Math_MulMat4x3Mat4x3(const Matrix4x3* m1, const Matrix4x3* m0, Matrix4x3* mF); //m0 is applied to m1, so it's m0*m1=mF
-	void Math_InvMat4x3(const Matrix4x3* m0, Matrix4x3* mF);
+	void Math_InvMat4x3(const Matrix4x3* m0, Matrix4x3* mF);		//Loads inverse of m0 into mF
 	void Math_NormalizeVec3(const Vector3* v, Vector3* vF);
 	Fix12i Math_LenVec3(const Vector3* v);
-	void Math_CrossVec3(const Vector3* v0, const Vector3* v1, Vector3* vF);
+	void Math_CrossVec3(const Vector3* v0, const Vector3* v1, Vector3* vF);		//the cross product between v0 and v1 is placed into vF
 	Fix12i Math_DotVec3(const Vector3* v0, const Vector3* v1) __attribute__((pure));
 	void Math_AddVec3(const Vector3* v0, const Vector3* v1, Vector3* vF);
 	
