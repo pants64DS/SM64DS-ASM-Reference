@@ -174,7 +174,7 @@ struct Bone
 struct Animation	//internal: FrameCtrl; done
 {
 
-	static int FLAG_MASK = 0xC0000000;
+	static constexpr int FLAG_MASK = 0xC0000000;
 
     enum Flags : int
     {
@@ -311,7 +311,7 @@ struct ModelAnim : public Model, Animation	//internal: ModelAnm
 	virtual void UpdateVerts() override;
 	virtual void Virtual10(Matrix4x3& arg0) override;
 	virtual void Render(const Vector3* scale) override;							//Calls UpdateVerts and then Model::Render
-	virtual void Virtual18(unsigned arg0, const Vector3* scale) override;		//Calls Virtual10 and then Model::Render
+	virtual void Virtual18(unsigned arg0, const Vector3* scale);				//Calls Virtual10 and then Model::Render
 	
 	void SetAnim(char* animFile, int flags, Fix12i speed, unsigned startFrame);
 
@@ -346,7 +346,7 @@ struct ShadowModel : public ModelBase	//internal: ShadowModel; done
 	bool InitCylinder();
 	bool InitCuboid();
 
-	virtual bool Virtual08(unsigned arg0, unsigned arg1) override;
+	virtual bool Virtual08(unsigned arg0, unsigned arg1);
 
 	void InitModel(Matrix4x3* transform, Fix12i scaleX, Fix12i scaleY, Fix12i scaleZ, uint8_t arg4);
 
@@ -362,7 +362,7 @@ struct CommonModel : public ModelBase	//internal: CommonModel; done
 
 	CommonModel();
 	virtual ~CommonModel();
-	virtual bool Virtual08(unsigned arg0, unsigned arg1, unsigned arg2) override;
+	virtual bool Virtual08(unsigned arg0, unsigned arg1, unsigned arg2);
 
 	void Func_0201609C(unsigned arg0);
 	void Func_020160AC(unsigned arg0);
@@ -392,6 +392,31 @@ struct BlendModelAnim : public ModelAnim	//internal: BlendAnmModel
 };
 
 
+//vtable at 0x0208EAFC
+struct Fader		//internal name: dFader
+{
 
+};
+
+
+//vtable at 0x0208EACC
+struct FaderBrightness : public Fader		//internal name: dFdBrightness
+{
+
+};
+
+
+//vtable at 0x0208EA40
+struct FaderColor : public FaderBrightness	//internal name: dFdColor
+{
+
+};
+
+
+//vtable at 0x0208EA9C
+struct FaderWipe : public FaderColor		//internal name: dFdWipe
+{
+
+};
 
 #endif

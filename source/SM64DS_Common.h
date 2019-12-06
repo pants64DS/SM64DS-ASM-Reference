@@ -106,7 +106,6 @@ extern "C"
 	void* AllocateFileSpace(unsigned amount);
 	
 	short AngleDiff(short ang0, short ang1) __attribute__((const));
-	short Atan2(Fix12i y, Fix12i x) __attribute__((const));
 	void Vec3_RotateYAndTranslate(Vector3* vF, const Vector3* translation, short angY, const Vector3* v0); //vF and v0 cannot alias.
 	short Vec3_VertAngle(const Vector3* v1, const Vector3* v0) __attribute__((pure));
 	short Vec3_HorzAngle(const Vector3* v0, const Vector3* v1) __attribute__((pure));
@@ -134,7 +133,6 @@ extern "C"
 	void Vec3_MulScalar(Vector3* vF, const Vector3* v, Fix12i scalar);
 	void Vec3_Sub(Vector3* vF, const Vector3* v0, const Vector3* v1);
 	void Vec3_Add(Vector3* vF, const Vector3* v0, const Vector3* v1);
-	Fix12i SqrtQ24(unsigned low, unsigned high) __attribute__((const));
 	
 	void Matrix3x3_LoadIdentity(Matrix3x3* mF);
 	void Math_MulVec3Mat3x3(const Vector3* v, const Matrix3x3* m, Vector3* vF);
