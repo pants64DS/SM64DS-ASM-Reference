@@ -308,7 +308,9 @@ struct RaycastLine : public BgCh
 	~RaycastLine();
 	void SetObjAndLine(const Vector3& pos0, const Vector3& pos1, Actor* obj);
 	bool DetectClsn();
+	/* WARNING: This function definition is wrong, it seems to be static, void and takes two args
 	Vector3 GetClsnPos();
+	*/
 };
 
 struct SphereClsn : public BgCh

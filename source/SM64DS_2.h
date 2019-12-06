@@ -279,7 +279,26 @@ struct Clipper
 struct Camera : public View				//internal name: dCamera
 {
 	
-	static constexpr unsigned* cameraDefTable = 0x02086FCC;
+	static constexpr unsigned cameraDefTable = 0x02086FCC;
+	static constexpr unsigned settingBehaviourTableBase = 0x0209B008;
+	/*
+	0: Default
+	1: Bottom camera, close (swimming on surface)
+	2: Bottom camera, far (diving)
+	3: Fly (feather, cannon shoot)
+	4: Top view (owl)
+	6: Air-driven (wind, Balloon Mario)
+	7: Climbing
+	8: Fixed back sliding
+	9: First person
+	B: Enter cannon
+	C: Cannon view
+	D: Talking
+	E: Door enter
+	F: Painting zoom
+	11: Front zoom (character introduction)
+	*/
+
 
 	enum Flags
 	{
@@ -300,6 +319,7 @@ struct Camera : public View				//internal name: dCamera
 		bool (Camera::* OnPlayerChangeState)();		//Nested call by Player::ChangeState()
 		unsigned unk0c;
 	};
+
 	
 	Vector3 lookAt;
 	Vector3 pos;
@@ -763,7 +783,7 @@ struct Player : public Actor
 	char* unk27c[4];
 	char* unk28c[4];
 	char* unk29c[4];
-	ShadowVolume shadow;
+	ShadowModel shadow;
 	CylinderClsnWithPos cylClsn;
 	CylinderClsnWithPos cylClsn2;
 	Actor* shellPtr;
