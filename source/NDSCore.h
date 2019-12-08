@@ -36,7 +36,9 @@ extern "C" {
 	unsigned cosine_table;								//sine_table + 2
 	unsigned atan_table;								//u16 per value, 1024 values
 
-	short atan2(Fix12i y, Fix12i x);					//atan2 function
+	int atan2(Fix12i y, Fix12i x);						//atan2 function
+
+	int abs(int x);										//Returns the absolute value of x
 
 
 }
