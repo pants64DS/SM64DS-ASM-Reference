@@ -75,7 +75,6 @@ ROOT_ACTOR_BASE						                                              = 0x0209f5c0;
                                                         
 ACTIVE_MESH_CLSNS					                                              = 0x020a0c80;
 MATRIX_SCRATCH_PAPER				                                              = 0x020a0e68;
-HEAP_PTR							                                              = 0x020a0eac;
 FRAME_COUNTER						                                              = 0x020a1040;
                                                         
 FIRST_BEHAVIOR_LIST_NODE														  = 0x020a4b78;
@@ -202,6 +201,7 @@ _ZN5Actor22BeforeCleanupResourcesEv												  = 0x02011220;
 _ZN5Actor18AfterInitResourcesEj													  = 0x02011244;
 _ZN5Actor19BeforeInitResourcesEv												  = 0x02011268;
 _ZN5ActorD0Ev																	  = 0x02011314;
+_ZN5ActorD1Ev																	  = 0x020112C8;
 _ZN5ActorD2Ev 						                                              = 0x02011374;
 _ZN5ActorC2Ev						                                              = 0x0201150c;
                                                         
@@ -602,11 +602,20 @@ VTable_ShadowModel				= 0x0208E868;
 VTable_ModelBase				= 0x0208E87C;
 VTable_Model					= 0x0208E90C;
 VTable_ModelAnim				= 0x0208E980;
-/*VTable_BoneAnimation			= 0x0208E9A4;*/
+VTable_Animation_ModelAnimThunk	= 0x0208E9A4;
+VTable_Animation_BlendModelAnimThunk	= 0x0208E970;
+VTable_Animation_ModelAnim2Thunk	= 0x0208E9D8;
 VTable_ModelAnim2				= 0x0208E9B4;
 VTable_CommonModel				= 0x0208E8A4;
 VTable_BlendModelAnim			= 0x0208E94C;
 VTable_Color					= 0x0208EB2C;
+
+_ZThn80_N9AnimationD0Ev			= 0x02017168;
+_ZThn80_N9AnimationD1Ev			= 0x02017178;
+_ZThn80_N9AnimationD0Ev			= 0x02017188;
+_ZThn80_N9AnimationD1Ev			= 0x02017198;
+_ZThn80_N9AnimationD0Ev			= 0x020171A8;
+_ZThn80_N9AnimationD1Ev			= 0x020171B8;
 
 _ZN9ModelBaseC1Ev 				= 0x02017150;
 _ZN9ModelBaseD0Ev				= 0x020170E8;
@@ -614,9 +623,6 @@ _ZN9ModelBaseD1Ev				= 0x02017120;
 _ZN9ModelBaseD2Ev				= 0x020170B8;
 _ZN10ModelAnim2D0Ev				= 0x02016320;
 _ZN10ModelAnim2D1Ev				= 0x02016364;
-
-/*_ZN13BoneAnimationD0Ev			= 0x02017168;
-_ZN13BoneAnimationD1Ev			= 0x02017178;*/
 
 VTable_ActorBase				= 0x02099EDC;
 VTable_ActorDerived				= 0x0208E4B8;
@@ -732,3 +738,23 @@ sine_table						= 0x02082214;
 cosine_table					= 0x02082216;
 atan_table						= 0x020994E0;
 atan2 							= 0x0203B4DC;
+abs								= 0x0206DF84;
+
+VTable_Heap						= 0x02099D90;
+VTable_ExpandingHeap			= 0x02099DD8;
+VTable_SolidHeap				= 0x02099D48;
+
+_ZN4HeapD0Ev					= 0x0203CA20;
+_ZN4HeapD1Ev					= 0x0203CA44;
+_ZN4HeapD2Ev					= 0x0203CA10;
+_ZN4HeapC1Ejjjj					= 0x0203CAAC;
+
+_ZN13ExpandingHeapD0Ev			= 0x0203C9C0;
+_ZN13ExpandingHeapD1Ev			= 0x0203C9EC;
+_ZN13ExpandingHeapC1Ev			= 0x0203CA80;
+
+_ZN9SolidHeapD0Ev				= 0x0203C970;
+_ZN9SolidHeapD1Ev				= 0x0203C99C;
+_ZN9SolidHeapC1Ev				= 0x0203CA54;
+
+ACTOR_HEAP_PTR					= 0x020A0EAC;
