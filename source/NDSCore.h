@@ -15,6 +15,12 @@ extern "C" {
 	void DMASyncHalfTransfer(char channel, unsigned src, unsigned dest, unsigned len);	//Synchronous 16-bit DMA transfer (waits until completion)
 	void DMASyncFillTransfer(char channel, unsigned dest, unsigned fill, unsigned len);	//Synchronous DMA fill transfer (fills dest with fill len bytes)
 
+	void CP15EnableDTCM();								//Enables the DTCM
+	unsigned CP15GetDTCMBaseAddress();					//Returns the DTCM base address
+	void CP15EnableMPU();								//Enables the MPU
+	void CP15DisableMPU();								//Disables the MPU
+	void CP15MPUDataRegion1(unsigned settings);			//Sets data/unified region 1 MPU settings
+
 	int div(int numerator, int denominator);			//32 bit signed division = 0x02052f4c
 	int mod(int numerator, int denominator);			//32 bit signed mod = 0x02052ef4
 	Fix12i fdiv(Fix12i numerator, Fix12i denominator);	//Fix12i division with increased precision
