@@ -17,30 +17,30 @@ struct HPXE
 	unsigned unk20;					//Align?
 	MemoryNode* firstFreeBlock;
 	MemoryNode* lastFreeBlock;
-	AllocationNode* firstAllocatedBlock;
-	AllocationNode* lastAllocatedBlock;
+	MemoryNode* firstAllocatedBlock;
+	MemoryNode* lastAllocatedBlock;
 	uint16_t unk34;
 	uint16_t unk36;
 };
 
 
 
-struct AllocationNode
-{
-	unsigned unk00;
-	unsigned size;
-	AllocationNode* previous;
-	AllocationNode* next;
-};
-
-
 struct MemoryNode
 {
-	unsigned unk00;
+	struct TargetInfo				//Allocated on stack
+	{
+		unsigned start;
+		unsigned end;
+	};
+
+	char magic[2];					//RF
+	uint16_t unk02;
 	unsigned size;
 	MemoryNode* previous;
 	MemoryNode* next;
 };
+
+
 
 
 
@@ -67,10 +67,21 @@ struct ExpandingHeap : public Heap		//internal name: mHeap::ExpHeap_t
 	ExpandingHeap();
 	virtual ~ExpandingHeap();
 
-	virtual void* Allocate(unsigned size, unsigned addressMask);	//Allocates size bytes with an alignment of addressMask
-	virtual bool Deallocate(void* ptr);								//Deallocates ptr from heap (0x10)
+	virtual void* Allocate(unsigned size, unsigned addressMask);												//Allocates size bytes with an alignment of addressMask
+	virtual bool Deallocate(void* ptr);																			//Deallocates ptr from heap (0x10)
+	virtual unsigned GetSize(void* ptr);																		//Returns the size of an allocated block
+
+	static MemoryNode* linkNode(MemoryNode* hpxeFLNodePair, MemoryNode* newNode, MemoryNode* prevNode);			//Link node on heap (corrects previous and next) and return a pointer to the new node
+	static MemoryNode* unlinkNode(MemoryNode* hpxeFLNodePair, MemoryNode* target);								//Unlink node from heap (corrects previous and next) and return a pointer to the node before the unlinked one
+	static MemoryNode* createNode(MemoryNode::TargetInfo* targetInfo, char* nodeType);							//Sets up a new node at targetInfo.start, zeroes it and stores the block size in it. Returns a pointer to the newly created node.
+	static unsigned AllocatedSize(void* ptr);																	//Returns the allocated size of a generic pointer to an allocated memory block
 
 };
+
+//0x0204E8E0 linkNode
+//0x0204E910 unlinkNode
+//0x0204E8B0 createNode
+//0x0204E084 AllocatedSize
 
 //0x020A0EA0 active heap ptr?
 //special struct at +0x18
