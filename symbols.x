@@ -758,3 +758,13 @@ _ZN9SolidHeapD1Ev				= 0x0203C99C;
 _ZN9SolidHeapC1Ev				= 0x0203CA54;
 
 ACTOR_HEAP_PTR					= 0x020A0EAC;
+
+_ZN13ExpandingHeap8AllocateEjj	= 0x0203C6BC;
+_ZN13ExpandingHeap10DeallocateEPv	= 0x0203C50C;
+_ZN13ExpandingHeap7GetSizeEPv	= 0x0203C444;
+
+CP15EnableDTCM					= 0x020593A8;
+CP15GetDTCMBaseAddress			= 0x020593B8;
+CP15EnableMPU					= 0x020593CC;
+CP15DisableMPU					= 0x020593DC;
+CP15MPUDataRegion1				= 0x020593EC;
