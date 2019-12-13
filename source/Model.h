@@ -278,6 +278,9 @@ struct ModelBase	//internal: Model; done
 
 	ModelBase();
 	virtual ~ModelBase();
+
+	virtual bool Virtual08(unsigned arg0, unsigned arg1, unsigned arg2) = 0;
+
 };
 
 
@@ -291,7 +294,7 @@ struct Model : public ModelBase		//internal: SimpleModel
 	
 	Model();
 	virtual ~Model();
-	virtual bool Virtual08(unsigned arg0, unsigned arg1, unsigned arg2);
+	virtual bool Virtual08(unsigned arg0, unsigned arg1, unsigned arg2) override;
 	virtual void UpdateVerts();
 	virtual void Virtual10(Matrix4x3& arg0);
 	virtual void Render(const Vector3* scale);
@@ -346,7 +349,7 @@ struct ShadowModel : public ModelBase	//internal: ShadowModel; done
 	bool InitCylinder();
 	bool InitCuboid();
 
-	virtual bool Virtual08(unsigned arg0, unsigned arg1);
+	virtual bool Virtual08(unsigned arg0, unsigned arg1, unsigned arg2) override;							//May only have 2 params, but then it wouldn't match ModelBase's declaration
 
 	void InitModel(Matrix4x3* transform, Fix12i scaleX, Fix12i scaleY, Fix12i scaleZ, uint8_t arg4);
 
@@ -362,7 +365,7 @@ struct CommonModel : public ModelBase	//internal: CommonModel; done
 
 	CommonModel();
 	virtual ~CommonModel();
-	virtual bool Virtual08(unsigned arg0, unsigned arg1, unsigned arg2);
+	virtual bool Virtual08(unsigned arg0, unsigned arg1, unsigned arg2) override;
 
 	void Func_0201609C(unsigned arg0);
 	void Func_020160AC(unsigned arg0);

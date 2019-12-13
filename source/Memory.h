@@ -33,7 +33,7 @@ struct MemoryNode
 		unsigned end;
 	};
 
-	char magic[2];					//RF
+	char magic[2];					//DU or RF
 	uint16_t unk02;
 	unsigned size;
 	MemoryNode* previous;
