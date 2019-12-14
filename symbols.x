@@ -417,6 +417,10 @@ Matrix4x3_FromTranslation 		                                            	  = 0x0
 Matrix4x3_ApplyInPlaceToRotationZ												  = 0x0203bf90;
 Matrix4x3_ApplyInPlaceToRotationY												  = 0x0203bfc0;
 Matrix4x3_ApplyInPlaceToRotationX												  = 0x0203bff0;
+
+Matrix3x3_SetRotationX                                                            = 0x02052551;
+Matrix3x3_SetRotationY                                                            = 0x0205256D;
+Matrix3x3_SetRotationZ                                                            = 0x02052588;
                                                         
 _ZdlPv			 					                                              = 0x0203c1b4;                                                        
 _ZdaPv			 					                                              = 0x0203c1b4;
@@ -496,9 +500,7 @@ _ZN4Vram11EndTexWriteEv                                                         
 _ZN4Vram7LoadTexEPhjj                                                             = 0x02056a50;
 _ZN4Vram13StartTexWriteEv                                                         = 0x02056b9c;
 
-InvalidateDataCache														  		  = 0x02058c40;
-InvalidateInstructionCache														  = 0x02058c68;
-                                                        
+
 MultiStore_Int						                                              = 0x0205a47c;
 MultiCopy_Int																	  = 0x0205a490;
                                                                                                                 
@@ -583,9 +585,6 @@ Copy48BytesFixed = 0x02056C1C;
 Geometry_WriteFogTable = 0x0202B6F0;
 Geometry_MatrixMultiply3x3 = 0x0205536C;
 Vram::Map = 0x02054C80;
-IRQDisable = 0x02059D1C;
-IRQEnable = 0x02059D08;
-IRQRestore = 0x02059D30;
 DMAStartTransferFB = 0x01FFDE00;
 DMAStartTransfer = 0x01FFDE50;
 DMASyncWordTransfer = 0x0205A160;
@@ -725,9 +724,12 @@ GLOBAL_CLIPPER					= 0x0209F43C;
 div								= 0x02052F4C;
 mod								= 0x02052EF4;
 fdiv							= 0x02053258;
+ldiv                            = 0x0205321C;
 sqrt	 						= 0x0203D744;
-fdiv_execute					= 0x02052FA4;
-fdiv_query						= 0x020530CC;
+fdiv_async  					= 0x02052FA4;
+fdiv_result						= 0x020530CC;
+ldiv_result                     = 0x02053108;
+reciprocal_async                = 0x02053090;
 strcmp 							= 0x02070508;
 strncpy							= 0x0207063C;
 strchr							= 0x020704CC;
@@ -763,8 +765,32 @@ _ZN13ExpandingHeap8AllocateEjj	= 0x0203C6BC;
 _ZN13ExpandingHeap10DeallocateEPv	= 0x0203C50C;
 _ZN13ExpandingHeap7GetSizeEPv	= 0x0203C444;
 
-CP15EnableDTCM					= 0x020593A8;
-CP15GetDTCMBaseAddress			= 0x020593B8;
-CP15EnableMPU					= 0x020593CC;
-CP15DisableMPU					= 0x020593DC;
-CP15MPUDataRegion1				= 0x020593EC;
+_ZN4CP1510EnableDTCMEv          = 0x020593A8;
+_ZN4CP1518GetDTCMBaseAddressEv	= 0x020593B8;
+_ZN4CP159EnableMPUEv			= 0x020593CC;
+_ZN4CP1510DisableMPUEv			= 0x020593DC;
+_ZN4CP1514MPUDataRegion1Ej		= 0x020593EC;
+_ZN4CP1514MPUDataRegion7Ej      = 0x0206DAAC;
+_ZN4CP1514CleanDataCacheEv      = 0x02058BB0;
+_ZN4CP1527CleanAndInvalidateDataCacheEv = 0x02058BDC;
+_ZN4CP1519InvalidateDataCacheEjj    = 0x02058C08;
+_ZN4CP1514CleanDataCacheEjj     = 0x02058C24;
+_ZN4CP1527CleanAndInvalidateDataCacheEjj    = 0x02058C40;
+_ZN4CP1516DrainWriteBufferEv    = 0x02058C5C;
+_ZN4CP1526InvalidateInstructionCacheEjj = 0x02058C68;
+_ZN4CP1516WaitForInterruptEv    = 0x02059D80;
+_ZN4CP1517MPUGetDataRegion7Ev   = 0x0206DAA4;
+_ZN4CP1511SystemSetupEv         = 0x020049F0;
+
+_ZN3IRQ7DisableEv               = 0x02059D1C;
+_ZN3IRQ6EnableEv                = 0x02059D08;
+_ZN3IRQ7RestoreEj               = 0x02059D30;
+_ZN3IRQ10DisableAllEv           = 0x02059D48;
+_ZN3IRQ10RestoreAllEj           = 0x02059D5C;
+_ZN3IRQ11SetIRQStateEb          = 0x0206DA28;
+_ZN3IRQ11SetFIQStateEb          = 0x0206D9DC;
+_ZN3IRQ15ClearInterruptsEj      = 0x02056D64;
+_ZN3IRQ11DisableIRQsEj          = 0x02056D98;
+_ZN3IRQ10EnableIRQsEj           = 0x02056DE0;
+
+ARMOperatingMode                = 0x02059D74;
