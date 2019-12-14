@@ -149,8 +149,9 @@ extern "C"
 	Fix12i Math_DotVec3(const Vector3* v0, const Vector3* v1) __attribute__((pure));
 	void Math_AddVec3(const Vector3* v0, const Vector3* v1, Vector3* vF);
 	
-	void InvalidateDataCache(void* where, unsigned length);
-	void InvalidateInstructionCache(void* where, unsigned length);
+	__attribute__((long_call, target("thumb")) void Matrix3x3_SetRotationX(Matrix3x3* m, Fix12i sinTheta, Fix12i cosTheta);	//Resets m to an X rotation matrix
+	__attribute__((long_call, target("thumb")) void Matrix3x3_SetRotationY(Matrix3x3* m, Fix12i sinTheta, Fix12i cosTheta);	//Resets m to a Y rotation matrix
+	__attribute__((long_call, target("thumb")) void Matrix3x3_SetRotationZ(Matrix3x3* m, Fix12i sinTheta, Fix12i cosTheta);	//Resets m to a Z rotation matrix
 	
 	void MultiStore_Int(int val, void* dest, int byteSize);
 	void MultiCopy_Int(void* source, void* dest, int byteSize);
