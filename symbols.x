@@ -763,7 +763,10 @@ ACTOR_HEAP_PTR					= 0x020A0EAC;
 
 _ZN13ExpandingHeap8AllocateEjj	= 0x0203C6BC;
 _ZN13ExpandingHeap10DeallocateEPv	= 0x0203C50C;
-_ZN13ExpandingHeap7GetSizeEPv	= 0x0203C444;
+_ZN13ExpandingHeap10ReallocateEPvj  = 0x0203C568;
+_ZN13ExpandingHeap6SizeofEPv	= 0x0203C444;
+_ZN13ExpandingHeap10MemoryLeftEv    = 0x0203C5AC;
+_ZN13ExpandingHeap18MaxAllocatableSizeEv    = 0x0203C5D0;
 
 _ZN4CP1510EnableDTCMEv          = 0x020593A8;
 _ZN4CP1518GetDTCMBaseAddressEv	= 0x020593B8;
@@ -822,3 +825,18 @@ _start                          = 0x02004800;
 IPCSend                         = 0x0205B988;
 ARMMathSaveState                = 0x0205E988;
 ARMMathLoadState                = 0x0205E91C;
+
+_ZN4Heap8LinkNodeEP10MemoryNodeP10MemoryNodeP10MemoryNode   = 0x0204E8E0;
+_ZN4Heap10UnlinkNodeEP10MemoryNodeP10MemoryNode = 0x0204E910;
+_ZN4Heap10CreateNodeEPN10MemoryNode10TargetInfoEPc  = 0x0204E8B0;
+_ZN4Heap14SizeofInternalEPv  = 0x0204E084;
+
+_ZN10MemoryNode10TargetInfoC1ERK10MemoryNode    = 0x0204E938;
+_ZN4Heap12AllocateNodeEP10MemoryNodeP10MemoryNodejjj    = 0x0204E690;
+_ZN4HPXE14AllocateMemoryEjj     = 0x0204E504;
+_ZN4HPXE8AllocateEjj            = 0x0204E370;
+_ZN4HPXE10DeallocateEPv         = 0x0204E1A8;
+_ZN4Heap8FreeNodeEP10MemoryNodePN10MemoryNode10TargetInfoE  = 0x0204E40C;
+_ZN4HPXE10ReallocateEPvj        = 0x0204E1E8;
+_ZN4HPXE10MemoryLeftEv          = 0x0204E180;
+_ZN4HPXE18MaxAllocatableSizeEj  = 0x0204E0F8;
