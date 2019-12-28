@@ -3,7 +3,10 @@
 
 #include <cstdint>
 #include <algorithm>
+#include <type_traits>
 #include <nds.h>
+
+
 
 class Actor;
 class Player;
@@ -19,11 +22,15 @@ using bigger_t = decltype(bigger_internal<T>::val);
 
 extern "C"
 {
-	
+	int DivQ24(int n, int d);						//Divisiono function for Q24
 	uint16_t DecIfAbove0_Short(uint16_t& counter); //returns the counter's new value
 	uint8_t DecIfAbove0_Byte(uint8_t& counter); //returns the counter's new value
 	bool Lerp16(short& counterPtr, short dest, short step); //linear interpolation
 	bool Lerp(int& counterPtr, int dest, int step);
+}
+
+namespace cstd {
+	int fdiv(int n, int d);			//Same fdiv, just with int to avoid problems when calling it from Fix<T, Q>
 }
 
 template<typename T, unsigned Q>
@@ -32,9 +39,9 @@ struct Fix
 	T val;
 	inline Fix() {}
 	inline constexpr explicit Fix(int value, bool raw = false) : val(raw ? value : value << Q) {}
-	template<typename U, unsigned R> inline constexpr explicit Fix(Fix<U, R> fix) : val(fix.val)
+	template<typename U, unsigned R> inline constexpr explicit Fix(Fix<U, R> fix)
 	{
-		val = R > Q ? (val + (1 << (Q - 1))) >> (R - Q) : val << (Q - R);
+		val = Q > R ? (fix.val) << (Q - R) : (fix.val + (1 << (R - Q - 1))) >> (R - Q);
 	}
 
 	inline constexpr Fix<T, Q> operator-  ()              const { return  Fix<T, Q>(-val, true); }
@@ -45,15 +52,25 @@ struct Fix
 	inline void                operator*= (Fix<T, Q> fix) { val = ((bigger_t<T>)val * fix.val + (1 << (Q - 1))) >> Q; }
 	inline void                operator*= (int integer) { val *= integer; }
 	inline constexpr Fix<T, Q> operator*  (Fix<T, Q> fix) const { return  Fix<T, Q>(((bigger_t<T>)val * fix.val + (1 << (Q - 1))) >> Q, true); }
-	inline constexpr Fix<T, Q> operator*  (int integer) const { return  Fix<T, Q>(val * integer, true); }
-	inline void                operator/= (Fix<T, Q> fix) { val = Fix<T, Q>(fdiv(val, fix.val), true); } // TODO, does only work for Q12
+	inline constexpr Fix<T, Q> operator*  (int integer)   const { return  Fix<T, Q>(val * integer, true); }
+
+	inline void                operator/= (Fix<T, Q> fix)
+	{
+		static_assert(Q == 12 || Q == 24, "Division function missing");
+		val = (Q == 12 ? cstd::fdiv(val, fix.val) : DivQ24(val, fix.val));
+	}
+	inline Fix<T, Q>           operator/  (Fix<T, Q> fix) const
+	{
+		static_assert(Q == 12 || Q == 24, "Division function missing");
+		return Q == 12 ? Fix<T, Q>(cstd::fdiv(val, fix.val), true) : Fix<T, Q>(DivQ24(val, fix.val), true);
+	}
+
 	inline void                operator/= (int integer) { val /= integer; }
-	inline Fix<T, Q>           operator/  (Fix<T, Q> fix) const { return  Fix<T, Q>(fdiv(val, fix.val), true); } // TODO, does only work for Q12
-	inline constexpr Fix<T, Q> operator/  (int integer) const { return  Fix<T, Q>(val / integer, true); }
+	inline constexpr Fix<T, Q> operator/  (int integer)   const { return  Fix<T, Q>(val / integer, true); }
 	inline void                operator<<=(int amount) { val <<= amount; }
-	inline constexpr Fix<T, Q> operator<< (int amount) const { return  Fix<T, Q>(val << amount, true); }
+	inline constexpr Fix<T, Q> operator<< (int amount)    const { return  Fix<T, Q>(val << amount, true); }
 	inline void                operator>>=(int amount) { val >>= amount; }
-	inline constexpr Fix<T, Q> operator>> (int amount) const { return  Fix<T, Q>(val >> amount, true); }
+	inline constexpr Fix<T, Q> operator>> (int amount)    const { return  Fix<T, Q>(val >> amount, true); }
 	inline constexpr bool      operator== (Fix<T, Q> fix) const { return  val == fix.val; }
 	inline constexpr bool      operator!= (Fix<T, Q> fix) const { return  val != fix.val; }
 	inline constexpr bool      operator<  (Fix<T, Q> fix) const { return  val < fix.val; }
@@ -63,10 +80,11 @@ struct Fix
 
 	inline constexpr Fix<T, Q> Abs() const { return this->val >= 0 ? *this : -*this; }
 	inline constexpr explicit operator int() const { return val >> Q; } //warning! Floors!
-	inline bool lerp(Fix<T, Q> dest, Fix<T, Q> step) { return lerp(val, dest.val, step.val); }
+	inline bool lerp(Fix<T, Q> dest, Fix<T, Q> step) { return Lerp(val, dest.val, step.val); }
 };
+
 template<typename T, unsigned Q> inline constexpr Fix<T, Q> operator* (int integer, Fix<T, Q> fix) { return Fix<T, Q>(integer * fix.val, true); }
-template<typename T, unsigned Q> inline constexpr Fix<T, Q> operator/ (int integer, Fix<T, Q> fix) { return Fix<T, Q>(fdiv(integer << Q, fix.val), true); }
+template<typename T, unsigned Q> inline constexpr Fix<T, Q> operator/ (int integer, Fix<T, Q> fix) { return Fix<T, Q>(cstd::fdiv(integer << Q, fix.val), true); }
 using Fix12i = Fix<int, 12>;
 using Fix12s = Fix<short, 12>;
 using Fix24i = Fix<int, 24>;
@@ -75,6 +93,38 @@ constexpr Fix12i operator""_f(unsigned long long val) { return Fix12i(val, true)
 constexpr Fix12s operator""_fs(unsigned long long val) { return Fix12s(val, true); }
 constexpr Fix24i operator""_f24(unsigned long long val) { return Fix24i(val, true); }
 
+
+namespace cstd {
+
+	int div(int numerator, int denominator);			//32 bit signed division = 0x02052f4c
+	int mod(int numerator, int denominator);			//32 bit signed mod = 0x02052ef4
+	Fix12i fdiv(Fix12i numerator, Fix12i denominator);	//Fix12i division (32 bit)
+	int64_t ldiv(Fix12i numerator, Fix12i denominator); //Fix12i division (64 bit)
+	unsigned sqrt(uint64_t x);							//64 bit unsigned sqrt
+	inline Fix12i sqrtQ24(Fix12i lower, Fix12i upper) { return Fix12i(sqrt((static_cast<uint64_t>(upper.val) << 32) | lower.val), true); }
+
+	int strcmp(const char* str1, const char* str2);		//Compares two strings and returns the difference (0 when equal)
+	char* strncpy(char* dest, const char* src, unsigned count);	//Copies n bytes from src to dest and returns a pointer to dest
+	char* strchr(const char* str, char c);				//Searches for c in str and returns a pointer to the first occurence, or 0 if c could not be found
+	unsigned strlen(const char* str);					//Returns the length of the string or -1 if no null-terminator has been found
+
+	void fdiv_async(Fix12i numerator, Fix12i denominator);
+	Fix12i fdiv_result();								//Returns the division result
+	int64_t ldiv_result();								//Returns the 64 bit division result (which type?)
+	void reciprocal_async(Fix12i x);					//Computes 1/x
+
+	[[noreturn]] void _start();							//ROM entry point, resets the NDS on return = 0x02004800
+	void __builtin_trap();								//Abort functionality. Triggers an undefined instruction (UDF)
+	void __assert(const char* file, const char* line, const char* exp, int eval);	//Assertion that causes hangup if eval != 0
+
+	unsigned sine_table;								//u16 per value, 4096 values, 2 bytes stride
+	unsigned cosine_table;								//sine_table + 2
+	unsigned atan_table;								//u16 per value, 1024 values
+
+	int atan2(Fix12i y, Fix12i x);						//atan2 function, what about 0x020538b8?
+	int abs(int x);										//Returns the absolute value of x
+
+}
 
 
 struct Vector3;
@@ -148,10 +198,10 @@ extern "C"
 	void Math_CrossVec3(const Vector3* v0, const Vector3* v1, Vector3* vF);		//the cross product between v0 and v1 is placed into vF
 	Fix12i Math_DotVec3(const Vector3* v0, const Vector3* v1) __attribute__((pure));
 	void Math_AddVec3(const Vector3* v0, const Vector3* v1, Vector3* vF);
-	
-	__attribute__((long_call, target("thumb")) void Matrix3x3_SetRotationX(Matrix3x3* m, Fix12i sinTheta, Fix12i cosTheta);	//Resets m to an X rotation matrix
-	__attribute__((long_call, target("thumb")) void Matrix3x3_SetRotationY(Matrix3x3* m, Fix12i sinTheta, Fix12i cosTheta);	//Resets m to a Y rotation matrix
-	__attribute__((long_call, target("thumb")) void Matrix3x3_SetRotationZ(Matrix3x3* m, Fix12i sinTheta, Fix12i cosTheta);	//Resets m to a Z rotation matrix
+
+	void Matrix3x3_SetRotationX(Matrix3x3* m, Fix12i sinTheta, Fix12i cosTheta) __attribute__((long_call, target("thumb")));	//Resets m to an X rotation matrix
+	void Matrix3x3_SetRotationY(Matrix3x3* m, Fix12i sinTheta, Fix12i cosTheta) __attribute__((long_call, target("thumb")));	//Resets m to a Y rotation matrix
+	void Matrix3x3_SetRotationZ(Matrix3x3* m, Fix12i sinTheta, Fix12i cosTheta) __attribute__((long_call, target("thumb")));	//Resets m to a Z rotation matrix
 	
 	void MultiStore_Int(int val, void* dest, int byteSize);
 	void MultiCopy_Int(void* source, void* dest, int byteSize);
