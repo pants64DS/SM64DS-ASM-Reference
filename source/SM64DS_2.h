@@ -1,16 +1,20 @@
 #ifndef SM64DS_2_H_INCLUDED
 #define SM64DS_2_H_INCLUDED
 
-#include "SM64DS_Common.h"
 #include "Actor.h"
-#include "Model.h"
 #include "Collision.h"
-#include "Level.h"
-#include "Message.h"
-#include "Particle.h"
-#include "Sound.h"
-#include "Save.h"
 #include "Input.h"
+#include "Level.h"
+#include "Memory.h"
+#include "Message.h"
+#include "Model.h"
+#include "NDSCore.h"
+#include "Particle.h"
+#include "Precision.h"
+#include "Save.h"
+#include "SM64DS_Common.h"
+#include "Sound.h"
+
 
 #define NOINLINE __attribute__((noinline))
 #define NAKED __attribute__((naked))

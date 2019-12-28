@@ -1,6 +1,7 @@
 #ifndef SM64DS_NDSCORE_INCLUDED
 #define SM64DS_NDSCORE_INCLUDED
 
+#include "SM64DS_Common.h"
 
 
 namespace CP15 {
@@ -35,11 +36,11 @@ namespace IRQ {
 		unsigned unk08;
 	};
 
-	static IRQHandler IRQFunctions[22];			//Contains all IRQ handlers and are indexed by IRQ number
-	static uint16_t DmaTimIndices[8];			//Contains the corresponding IRQ bit shift values of DMA and TIM peripherals
-	static DmaTimData DmaTimFunctions[8];		//Contains special DMA/TIM IRQ handlers (4 each) which are preferred over the corresponding irqFunction
-	static unsigned IRQCheckBits;				//Contains the check bits used by BIOS, set by user handler to mark one IRQ as finished
-	static IRQHandler UserIRQAddress;			//Function pointer to UserInterruptHandler, set by _start 
+	extern IRQHandler IRQFunctions[22];			//Contains all IRQ handlers and are indexed by IRQ number
+	extern uint16_t DmaTimIndices[8];			//Contains the corresponding IRQ bit shift values of DMA and TIM peripherals
+	extern DmaTimData DmaTimFunctions[8];		//Contains special DMA/TIM IRQ handlers (4 each) which are preferred over the corresponding irqFunction
+	extern unsigned IRQCheckBits;				//Contains the check bits used by BIOS, set by user handler to mark one IRQ as finished
+	extern IRQHandler UserIRQAddress;			//Function pointer to UserInterruptHandler, set by _start 
 
 	unsigned Disable();							//Disables interrupts and returns the previous state
 	unsigned Enable();							//Enables interrupts and returns the previous state
