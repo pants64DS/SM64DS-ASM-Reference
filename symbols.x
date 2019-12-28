@@ -422,11 +422,6 @@ Matrix3x3_SetRotationX                                                          
 Matrix3x3_SetRotationY                                                            = 0x0205256D;
 Matrix3x3_SetRotationZ                                                            = 0x02052588;
                                                         
-_ZdlPv			 					                                              = 0x0203c1b4;                                                        
-_ZdaPv			 					                                              = 0x0203c1b4;
-FreeHeapAllocation 					                                              = 0x0203c1e8;
-_Znwj					                                              			  = 0x0203cbe4;
-_Znaj					                                              			  = 0x0203cbe4;
                                                         
 Vec3_HorzDist						                                              = 0x0203cf40;
 Vec3_HorzLen 						                                              = 0x0203cf78;
@@ -499,7 +494,6 @@ _ZN4Vram13StartPalWriteEv                                                       
 _ZN4Vram11EndTexWriteEv                                                           = 0x020569e0;
 _ZN4Vram7LoadTexEPhjj                                                             = 0x02056a50;
 _ZN4Vram13StartTexWriteEv                                                         = 0x02056b9c;
-
 
 MultiStore_Int						                                              = 0x0205a47c;
 MultiCopy_Int																	  = 0x0205a490;
@@ -641,8 +635,8 @@ ACTOR_UNKNOWN_TABLE_PTR			= 0x020A4BB8;
 _ZN9Animation8GetFlagsEv 		= 0x02015BEC;
 _ZN9Animation8SetFlagsEi 		= 0x02015BF8;
 _ZN9Animation13GetFrameCountEv 	= 0x02015C0C;
-_ZN9Animation12SetAnimationEUsi3FixIiLj12EEUs 	= 0x02015C20;
-_ZN9Animation4CopyERK9Animation 	= 0x02015A7C;
+_ZN9Animation12SetAnimationEti3FixIiLj12EEt = 0x02015C20;
+_ZN9Animation4CopyERK9Animation = 0x02015A7C;
 _ZN9Animation13Func_02015A98Ei 	= 0x02015A98;
 
 _ZN11CommonModelC1Ev			= 0x02016204;
@@ -656,11 +650,11 @@ _ZN11CommonModel13Func_0201609CEj = 0x0201609C;
 _ZN11ShadowModel9Virtual08Ejjj	  = 0x02015EF4;
 _ZN11ShadowModel13Func_02015D38Ev = 0x02015D38;
 _ZN11ShadowModel13Func_02015E14Ev = 0x02015E14;
-_ZN11ShadowModel9InitModelEP9Matrix4x33FixIiLj12EE3FixIiLj12EE3FixIiLj12EEUc = 0x02015E64;
+_ZN11ShadowModel9InitModelEP9Matrix4x33FixIiLj12EE3FixIiLj12EE3FixIiLj12EEh = 0x02015E64;
 
 _ZN9ModelAnim4CopyERK9ModelAnimPc  = 0x02016714;
 
-_ZN10ModelAnim213Func_020162C4Eji3FixIiLj12EEUs	= 0x020162C4;
+_ZN10ModelAnim213Func_020162C4Eji3FixIiLj12EEt	= 0x020162C4;
 _ZN10ModelAnim2C1Ev				= 0x020163A0;
 
 _ZN14BlendModelAnimD0Ev			= 0x02016644;
@@ -742,10 +736,6 @@ _ZN4cstd10atan_tableE			= 0x020994E0;
 _ZN4cstd5atan2E3FixIiLj12EE3FixIiLj12EE = 0x0203B4DC;
 _ZN4cstd3absEi					= 0x0206DF84;
 
-
-ACTOR_HEAP_PTR					= 0x020A0EAC;
-
-
 _ZN4CP1510EnableDTCMEv          = 0x020593A8;
 _ZN4CP1518GetDTCMBaseAddressEv	= 0x020593B8;
 _ZN4CP159EnableMPUEv			= 0x020593CC;
@@ -808,77 +798,144 @@ VTable_Heap						= 0x02099D90;
 VTable_ExpandingHeap			= 0x02099DD8;
 VTable_SolidHeap				= 0x02099D48;
 
-_ZN4HeapD0Ev					= 0x0203CA20;
-_ZN4HeapD1Ev					= 0x0203CA44;
-_ZN4HeapD2Ev					= 0x0203CA10;
-_ZN4HeapC1EPvjP4Heap			= 0x0203CAAC;
-
-_ZN13ExpandingHeapD0Ev			= 0x0203C9C0;
-_ZN13ExpandingHeapD1Ev			= 0x0203C9EC;
-_ZN13ExpandingHeapC1EPvjP4HeapP22ExpandingHeapAllocator    = 0x0203CA80;
-
-_ZN9SolidHeapD0Ev				= 0x0203C970;
-_ZN9SolidHeapD1Ev				= 0x0203C99C;
-_ZN9SolidHeapC1EPvjP4HeapP18SolidHeapAllocator	= 0x0203CA54;
-
-_ZN10MemoryNode10TargetInfoC1ERK10MemoryNode    = 0x0204E938;
-
-_ZN18NestedHeapIteratorC1Ej     = 0x0204DF20;
-_ZN18NestedHeapIterator8NextHeapEP13HeapAllocator   = 0x0204DD10;
-_ZN18NestedHeapIterator14FindNestedHeapEPv  = 0x0204DFE8;
-_ZN18NestedHeapIterator23RecursiveFindNestedHeapEPv = 0x0204E014;
-_ZN18NestedHeapIterator7AddHeapEP13HeapAllocator    = 0x0204DE74;
-_ZN18NestedHeapIterator12AddFirstHeapEP13HeapAllocator  = 0x0204DEE0;
+_ZN18NestedHeapIteratorC1Ej                                     = 0x0204DF20;
+_ZN18NestedHeapIterator8PreviousEP13HeapAllocator               = 0x0204DCFC;
+_ZN18NestedHeapIterator4NextEP13HeapAllocator                   = 0x0204DD10;
+_ZN18NestedHeapIterator10FindNestedEPv                          = 0x0204DFE8;
+_ZN18NestedHeapIterator19RecursiveFindNestedEPv                 = 0x0204E014;
+_ZN18NestedHeapIterator8AddFirstEP13HeapAllocator               = 0x0204DE0C;
+_ZN18NestedHeapIterator7AddLastEP13HeapAllocator                = 0x0204DE74;
+_ZN18NestedHeapIterator4InitEP13HeapAllocator                   = 0x0204DEE0;
+_ZN18NestedHeapIterator6RemoveEP13HeapAllocator                 = 0x0204DD28;
+_ZN18NestedHeapIterator5AddAtEP13HeapAllocatorP13HeapAllocator  = 0x0204DD98;
 
 _ZN13HeapAllocatorC1EjPvPvj     = 0x0204DF54;
-_ZN13HeapAllocator25isRootHeapIterInitializedE  = 0x020A4D34;
-_ZN13HeapAllocator16rootHeapIteratorE   = 0x020A4D38;
+_ZN13HeapAllocator6RemoveEv     = 0x0204DF38;
+_ZN13HeapAllocator7DestroyEv    = 0x0204E3B4;
+
+_ZN10MemoryNode6TargetC1EP10MemoryNode    = 0x0204E938;
 
 _ZN22ExpandingHeapAllocatorC1EPvj   = 0x0204E828;
 _ZN22ExpandingHeapAllocator12AllocateNodeEP10MemoryNodeP10MemoryNodePvjj    = 0x0204E690;
-_ZN22ExpandingHeapAllocator8FreeNodeEP10MemoryNodePN10MemoryNode10TargetInfoE  = 0x0204E40C;
+_ZN22ExpandingHeapAllocator8FreeNodeEP10MemoryNodePN10MemoryNode6TargetE  = 0x0204E40C;
 _ZN22ExpandingHeapAllocator8LinkNodeEP10MemoryNodeP10MemoryNodeP10MemoryNode   = 0x0204E8E0;
 _ZN22ExpandingHeapAllocator10UnlinkNodeEP10MemoryNodeP10MemoryNode = 0x0204E910;
-_ZN22ExpandingHeapAllocator10CreateNodeEPN10MemoryNode10TargetInfoEt  = 0x0204E8B0;
-_ZN22ExpandingHeapAllocator14SizeofInternalEPv     = 0x0204E084;
-_ZN22ExpandingHeapAllocator16AllocateForwardsEjj   = 0x0204E5C8;
-_ZN22ExpandingHeapAllocator17AllocateBackwardsEjj  = 0x0204E504;
-_ZN22ExpandingHeapAllocator8AllocateEji            = 0x0204E370;
-_ZN22ExpandingHeapAllocator10DeallocateEPv         = 0x0204E1A8;
-_ZN22ExpandingHeapAllocator10ReallocateEPvj        = 0x0204E1E8;
-_ZN22ExpandingHeapAllocator10MemoryLeftEv          = 0x0204E180;
-_ZN22ExpandingHeapAllocator18MaxAllocatableSizeEi  = 0x0204E0F8;
+_ZN22ExpandingHeapAllocator10CreateNodeEPN10MemoryNode6TargetEt  = 0x0204E8B0;
+_ZN22ExpandingHeapAllocator14SizeofInternalEPv      = 0x0204E084;
+_ZN22ExpandingHeapAllocator16AllocateForwardsEjj    = 0x0204E5C8;
+_ZN22ExpandingHeapAllocator17AllocateBackwardsEjj   = 0x0204E504;
+_ZN22ExpandingHeapAllocator8AllocateEji             = 0x0204E370;
+_ZN22ExpandingHeapAllocator10DeallocateEPv          = 0x0204E1A8;
+_ZN22ExpandingHeapAllocator10ReallocateEPvj         = 0x0204E1E8;
+_ZN22ExpandingHeapAllocator10MemoryLeftEv           = 0x0204E180;
+_ZN22ExpandingHeapAllocator18MaxAllocatableSizeEi   = 0x0204E0F8;
+_ZN22ExpandingHeapAllocator9SetNodeIDEj             = 0x0204E0E8;
+_ZN22ExpandingHeapAllocator9GetNodeIDEv             = 0x0204E0E0;
+_ZN22ExpandingHeapAllocator13DeallocateAllEP20DeallocationFunctionj = 0x0204E08C;
+_ZN22ExpandingHeapAllocator16InvokeDeallocateEPvP22ExpandingHeapAllocatorj  = 0x0203C4CC;
 
-_ZN13ExpandingHeap8AllocateEjj	= 0x0203C6BC;
-_ZN13ExpandingHeap10DeallocateEPv	= 0x0203C50C;
-_ZN13ExpandingHeap10ReallocateEPvj  = 0x0203C568;
-_ZN13ExpandingHeap6SizeofEPv	= 0x0203C444;
-_ZN13ExpandingHeap10MemoryLeftEv    = 0x0203C5AC;
-_ZN13ExpandingHeap18MaxAllocatableSizeEv    = 0x0203C5D0;
-_ZN13ExpandingHeap21MaxAllocationUnitSizeEv = 0x0203C5F8;
-_ZN13ExpandingHeap6IntactEv     = 0x0203C65C;
+_ZN18SolidHeapAllocatorC1EPvj                   = 0x0204ED54;
+_ZN18SolidHeapAllocator8AllocateEji             = 0x0204EB70;
+_ZN18SolidHeapAllocator16AllocateForwardsEPvjj  = 0x0204ECD4;
+_ZN18SolidHeapAllocator17AllocateBackwardsEPvjj = 0x0204EC58;
+_ZN18SolidHeapAllocator10ReallocateEjj          = 0x0204E964;
+_ZN18SolidHeapAllocator10MemoryLeftEi           = 0x0204EAF0;
+_ZN18SolidHeapAllocator14TryResizeToFitEv       = 0x0204EA08;
+_ZN18SolidHeapAllocator9SaveStateEj             = 0x0204EA98;
+_ZN18SolidHeapAllocator9LoadStateEj             = 0x0204EA3C;
+_ZN18SolidHeapAllocator5ResetEj                 = 0x0204EB30;
+_ZN18SolidHeapAllocator10ResetStartEv           = 0x0204EC40;
+_ZN18SolidHeapAllocator8ResetEndEv              = 0x0204EC10;
 
-_ZN9SolidHeap8AllocateEjj       = 0x0203C6AC;
-_ZN9SolidHeap10DeallocateEPv	= 0x0203C4E4;
-_ZN9SolidHeap6SizeofEPv	        = 0x0203C428;
-_ZN9SolidHeap10ReallocateEPvj   = 0x0203C558;
-_ZN9SolidHeap10MemoryLeftEv     = 0x0203C598;
-_ZN9SolidHeap18MaxAllocatableSizeEv = 0x0203C5BC;
-_ZN9SolidHeap21MaxAllocationUnitSizeEv  = 0x0203C5E4;
-_ZN9SolidHeap6IntactEv          = 0x0203C654;
+_ZN4Heap15CreateSolidHeapEjP4Heapi              = 0x0203C7A0;
+_ZN4Heap19CreateExpandingHeapEjP4Heapi          = 0x0203C844;
+_ZN4Heap24CreateSolidHeapAllocatorEPvjj         = 0x0204EBC4;
+_ZN4Heap28CreateExpandingHeapAllocatorEPvjj     = 0x0204E3C0;
+_ZN4Heap14CreateRootHeapEPvj                    = 0x0203C8E8;
+_ZN4Heap13SetupRootHeapEv                       = 0x0203CB04;
+_ZN4Heap18InitializeRootHeapEv                  = 0x0203CAE8;
+_ZN4Heap18InitializeGameHeapEjP4Heap            = 0x0203C24C;
+_ZN4Heap23SetupSolidHeapAsDefaultEjP4Heapi      = 0x0203C2E4;
+_ZN4Heap28InitializeSolidHeapAsDefaultEjP4Heapi = 0x0203C2D8;
+_ZN4Heap20RestoreFromTemporaryEv                = 0x0203C2A8;
+_ZN4HeapC1EPvjP4Heap	    		= 0x0203CAAC;
+_ZN4HeapD0Ev				    	= 0x0203CA20;
+_ZN4HeapD1Ev					    = 0x0203CA44;
+_ZN4HeapD2Ev					    = 0x0203CA10;
+_ZN4Heap8AllocateEji                = 0x0203C6CC;
+_ZN4Heap9_AllocateEji               = 0x0203C29C;
+_ZN4Heap8AllocateEj                 = 0x0203C28C;
+_ZN4Heap10DeallocateEPv             = 0x0203C538;
+_ZN4Heap11_DeallocateEPv            = 0x0203C280;
+_ZN4Heap7DestroyEv                  = 0x0203C758;
+_ZN4Heap8_DestroyEv                 = 0x0203C74c;
+_ZN4Heap6SizeofEPv                  = 0x0203C454;
+_ZN4Heap7_SizeofEPv                 = 0x0203C274;
+_ZN4Heap11ResizeToFitEv             = 0x0203C390;
+_ZN4Heap10ReallocateEPvj            = 0x0203C578;
+_ZN4Heap21MaxAllocationUnitSizeEv   = 0x0203C60C;
+_ZN4Heap6IntactEv                   = 0x0203C664;
+_ZN4Heap9SetNodeIDEv                = 0x0203C408;
+_ZN4Heap6RescueEv                   = 0x0203C634;
+_ZN4Heap10SetDefaultEv              = 0x0203C324;
 
-_ZN18SolidHeapAllocatorC1EPvj   = 0x0204ED54;
-_ZN18SolidHeapAllocator8AllocateEji            = 0x0204EB70;
-_ZN18SolidHeapAllocator16AllocateForwardsEPvjj = 0x0204ECD4;
-_ZN18SolidHeapAllocator17AllocateBackwardsEPvjj    = 0x0204EC58;
-_ZN18SolidHeapAllocator10ReallocateEjj         = 0x0204E964;
-_ZN18SolidHeapAllocator10MemoryLeftEi          = 0x0204EAF0;
+_ZN13ExpandingHeapC1EPvjP4HeapP22ExpandingHeapAllocator    = 0x0203CA80;
+_ZN13ExpandingHeapD0Ev			                = 0x0203C9C0;
+_ZN13ExpandingHeapD1Ev			                = 0x0203C9EC;
+_ZN13ExpandingHeap8VDestroyEv                   = 0x0203C72C;
+_ZN13ExpandingHeap9VAllocateEjj	                = 0x0203C6BC;
+_ZN13ExpandingHeap11VDeallocateEPv	            = 0x0203C50C;
+_ZN13ExpandingHeap14VDeallocateAllEv            = 0x0203C4B0;
+_ZN13ExpandingHeap7VIntactEv                    = 0x0203C65C;
+_ZN13ExpandingHeap7VRescueEv                    = 0x0203C630;
+_ZN13ExpandingHeap11VReallocateEPvj             = 0x0203C568;
+_ZN13ExpandingHeap7VSizeofEPv	                = 0x0203C444;
+_ZN13ExpandingHeap22VMaxAllocationUnitSizeEv    = 0x0203C5F8;
+_ZN13ExpandingHeap19VMaxAllocatableSizeEv       = 0x0203C5D0;
+_ZN13ExpandingHeap11VMemoryLeftEv               = 0x0203C5AC;
+_ZN13ExpandingHeap10VSetNodeIDEj                = 0x0203C3F8;
+_ZN13ExpandingHeap10VGetNodeIDEv                = 0x0203C3E0;
+_ZN13ExpandingHeap12VResizeToFitEv              = 0x0203C388;
 
-_ZN4Heap11rootHeapPtrE          = 0x020A0E9C;
-_ZN4Heap11gameHeapPtrE          = 0x020A0EAC;
+_ZN9SolidHeapC1EPvjP4HeapP18SolidHeapAllocator	= 0x0203CA54;
+_ZN9SolidHeapD0Ev				                = 0x0203C970;
+_ZN9SolidHeapD1Ev				                = 0x0203C99C;
+_ZN9SolidHeap8VDestroyEv                        = 0x0203C70C;
+_ZN9SolidHeap9VAllocateEjj                      = 0x0203C6AC;
+_ZN9SolidHeap11VDeallocateEPv	                = 0x0203C4E4;
+_ZN9SolidHeap14VDeallocateAllEv                 = 0x0203C49C;
+_ZN9SolidHeap7VIntactEv                         = 0x0203C654;
+_ZN9SolidHeap7VRescueEv                         = 0x0203C62C;
+_ZN9SolidHeap11VReallocateEPvj                  = 0x0203C558;
+_ZN9SolidHeap7VSizeofEPv	                    = 0x0203C428;
+_ZN9SolidHeap22VMaxAllocationUnitSizeEv         = 0x0203C5E4;
+_ZN9SolidHeap19VMaxAllocatableSizeEv            = 0x0203C5BC;
+_ZN9SolidHeap11VMemoryLeftEv                    = 0x0203C598;
+_ZN9SolidHeap10VSetNodeIDEj                     = 0x0203C3F0;
+_ZN9SolidHeap10VGetNodeIDEv                     = 0x0203C3D8;
+_ZN9SolidHeap12VResizeToFitEv                   = 0x0203C33C;
 
-_ZN4Heap15CreateSolidHeapEjP4Heapi  = 0x0203C7A0;
-_ZN4Heap19CreateExpandingHeapEjP4Heapi  = 0x0203C844;
-_ZN4Heap24CreateSolidHeapAllocatorEPvjj = 0x0204EBC4;
-_ZN4Heap28CreateExpandingHeapAllocatorEPvjj = 0x0204E3C0;
-_ZN4Heap14CreateRootHeapEPvj    = 0x0203C8E8;
+_ZN6Memory11heapDamagedE        = 0x020A0E98;
+_ZN6Memory11rootHeapPtrE        = 0x020A0E9C;
+_ZN6Memory14defaultHeapPtrE     = 0x020A0EA0;
+_ZN6Memory15rootParamOffsetE    = 0x020A0EA4;
+_ZN6Memory10tmpHeapPtrE         = 0x020A0EA8;
+_ZN6Memory11gameHeapPtrE        = 0x020A0EAC;
+_ZN6Memory25isRootHeapIterInitializedE  = 0x020A4D34;
+_ZN6Memory16rootHeapIteratorE   = 0x020A4D38;
+_ZN6Memory17nextRootHeapStartE  = 0x023FFDA0;
+_ZN6Memory11rootHeapEndE        = 0x023FFDC4;
+_ZN6Memory8AllocateEjiP4Heap    = 0x0203C210;
+_ZN6Memory8AllocateEji          = 0x0203C1D8;
+_ZN6Memory8AllocateEj           = 0x0203C1C4;
+_ZN6Memory13operator_new2Ej     = 0x0203CBD8;
+_ZN6Memory10DeallocateEPvP4Heap = 0x0203C1E8;
+_ZN6Memory10DeallocateEPv       = 0x0203C1B4;
+_ZN6Memory16operator_delete2EPv = 0x0203CBCC;
+_ZN6Memory6mallocEj             = 0x0203CC0C;
+_ZN6Memory4freeEPv              = 0x0203CBF0;
+
+_Znwj                           = 0x0203CBE4;
+_Znaj                           = 0x0203CBE4;
+_ZdlPv                          = 0x0203CBC0;
+_ZdaPv                          = 0x0203CBC0;
