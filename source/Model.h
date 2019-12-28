@@ -390,8 +390,6 @@ struct BlendModelAnim : public ModelAnim	//internal: BlendAnmModel
 	virtual void Render(const Vector3* scale) override;
 	virtual void Virtual18(unsigned arg0, const Vector3* scale) override;		//Calls Virtual10 and then Model::Render
 
-	//2 funcs missing
-
 };
 
 
