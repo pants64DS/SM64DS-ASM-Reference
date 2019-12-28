@@ -2,6 +2,7 @@
 #define SM64DS_ACTOR_INCLUDED
 
 #include "SM64DS_Common.h"
+#include "Memory.h"
 
 
 struct Player;
@@ -25,8 +26,8 @@ struct ActorBase		//internal name: fBase
 		SceneNode* nextSibling;
 		ActorBase* actor;
 
+		SceneNode();					//Calls Reset
 		void Reset();
-		SceneNode* ResetSceneNode(); //Calls Reset
 	};
 
 	struct ProcessingListNode
@@ -49,7 +50,7 @@ struct ActorBase		//internal name: fBase
 	};
 
 	void* operator new(size_t count); //actor bases have their own heap
-	inline void operator delete(void* ptr) { FreeHeapAllocation(ptr, *(unsigned**)0x020a0eac); }
+	inline void operator delete(void* ptr) { Memory::Deallocate(ptr, Memory::gameHeapPtr); }
 
 	virtual int  InitResources();
 	virtual bool BeforeInitResources();
