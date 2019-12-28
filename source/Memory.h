@@ -46,7 +46,7 @@
 	How to resize the heaps:
 	1) Root heap:
 	The root heap's parameters are governed by hardcoded parameters and predefined globals:
-	a) Loading address: Located at 0x02058DE0 (indirect loading parameter for a fucntion). It is NOT the direct loading address. Instead, it allocates some information at this address.
+	a) Loading address: Located at 0x02058DE0 (indirect loading parameter for a function). It is NOT the direct loading address. Instead, it allocates some information at this address.
 	The real loading address is calculated via x = align(32) loadingAddress + 0x14 + n * 0xC; where n is hardcoded as 4. x is aligned at a 32-byte boundary, so padding may be added.
 	Account this formula when calculating the loading address.
 	b) Size: Simply Heap::rootHeapEnd - loadingAddress. Don't increase Heap::rootHeapEnd; remember that the DTCM starts there. Stack corruption is the last thing you want.
