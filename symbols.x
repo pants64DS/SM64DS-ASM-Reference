@@ -718,6 +718,7 @@ GLOBAL_CLIPPER					= 0x0209F43C;
 _ZN4cstd3divEii					= 0x02052F4C;
 _ZN4cstd3modEii					= 0x02052EF4;
 _ZN4cstd4fdivE3FixIiLj12EE3FixIiLj12EE  = 0x02053258;
+_ZN4cstd4fdivEii                        = 0x02053258;   /* Duplicated to allow fdiv in Fix */
 _ZN4cstd4ldivE3FixIiLj12EE3FixIiLj12EE  = 0x0205321C;
 _ZN4cstd4sqrtEy					= 0x0203D744;
 _ZN4cstd10fdiv_asyncE3FixIiLj12EE3FixIiLj12EE	= 0x02052FA4;
