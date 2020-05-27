@@ -1,0 +1,7 @@
+build
+bak
+*.bin
+*.elf
+*.sym
+*.o
+*.d

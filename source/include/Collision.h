@@ -173,8 +173,8 @@ struct MovingMeshCollider : public MeshCollider
 	virtual ~MovingMeshCollider();
 	
 	static char* LoadFile(SharedFilePtr& filePtr);
-	void SetFile(char* clsnFile, Matrix4x3& mat, Fix12i scale, short angleY, CLPS_Block& clps);
-	void Transform(Matrix4x3& mat, short rotY);
+	void SetFile(char* clsnFile, const Matrix4x3& mat, Fix12i scale, short angleY, CLPS_Block& clps);
+	void Transform(const Matrix4x3& mat, short rotY);
 };
 
 struct CylinderClsn
