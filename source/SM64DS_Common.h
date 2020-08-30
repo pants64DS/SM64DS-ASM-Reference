@@ -208,9 +208,6 @@ extern "C"
 	
 	int String_Compare(const char* str1, const char* str2); //returns 0 if equal, a positive number if str1 comes after str2, and a negative number otherwise
 	
-	void Vec3_InterpCubic(Vector3* vF, const Vector3* v0, const Vector3* v1, const Vector3* v2, const Vector3* v3, Fix12i t);
-	void Vec3_Interp(Vector3* vF, const Vector3* v1, const Vector3* v2, Fix12i t);
-	
 	uint16_t Color_Interp(uint16_t* dummyArg, uint16_t startColor, uint16_t endColor, Fix12i time) __attribute__((const));
 }
 
