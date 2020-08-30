@@ -64,12 +64,13 @@ struct ActorBase		//internal name: fBase
 	virtual int  Render();
 	virtual bool BeforeRender();
 	virtual void AfterRender(unsigned vfSuccess);
-	virtual void Virtual30();
+	virtual void Virtual30(); // This should be called OnMarkedForDestruction, but renaming would be tedious
 	virtual bool Virtual34(unsigned arg0, unsigned arg1);
 	virtual bool Virtual38(unsigned arg0, unsigned arg1);
 	virtual bool Virtual3c();
 	virtual ~ActorBase();
 
+	// This should be called MarkForDestruction, as it only marks the actor, but renaming would be tedious
 	void Destroy();
 
 	//vTable;

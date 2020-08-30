@@ -12,6 +12,7 @@
 #include "Particle.h"
 #include "Precision.h"
 #include "Save.h"
+#include "Scene.h"
 #include "SM64DS_Common.h"
 #include "Sound.h"
 
@@ -389,16 +390,6 @@ struct Camera : public View				//internal name: dCamera
 	//All funcs between Camera() and ~Camera() should belong to this object, but I couldn't prove it since they're never really called.
 };
 
-struct Area
-{
-	TextureTransformer* texSRT;
-	bool showing;
-	uint8_t unk5;
-	uint16_t unk6;
-	unsigned unk8;
-};
-
-
 //vtable at 0x0210C2C8, ctor at 0x020FE154
 struct HUD : public ActorDerived		//internal name: dMeter, ActorID = 0x14e
 {
@@ -428,51 +419,6 @@ struct HUD : public ActorDerived		//internal name: dMeter, ActorID = 0x14e
 	HUD();
 	virtual ~HUD();
 
-};
-
-
-
-//vtable at 0x2092680
-struct Scene : public ActorDerived		//internal name: dScene
-{
-
-};
-
-//vtable at 0x02091528
-struct SceneBoot : public Scene			//internal name: dScBoot
-{
-	unsigned unk50;
-	unsigned unk54;
-};
-
-//vtable at 0x020943C4, ctor at 0x020352B4
-struct SceneMB : public Scene			//internal name: dScMB
-{
-	//size 0x68
-	//ColorFader?
-};
-
-
-//vtable at 020921c0, constructor at 0202e088
-struct Stage : public Scene				//internal name: dScStage, ActorID = 0x003
-{
-	
-	Particle::SysTracker particleSysTracker;
-	Model model;
-	Area areas[0x08];
-	MeshCollider clsn;
-	uint8_t fogTable[0x20];
-	bool enableFog;
-	uint8_t fogInfo;
-	uint16_t fogOffset;
-	uint16_t fogColor;
-	uint16_t unk992;
-	uint8_t unk994[0x20];
-	unsigned unk9b4;
-	unsigned unk9b8;
-	Model* skyBox;
-	unsigned unk9c0;
-	unsigned unk9c4;
 };
 
 //vtable at 0210c1c0, constructor at 020fb8bc, dtor at 0x020F975C
