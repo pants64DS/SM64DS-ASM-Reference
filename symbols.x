@@ -296,6 +296,36 @@ _ZN5ModelD2Ev = 0x02016CA8;
 _ZN5ModelC1Ev = 0x02016d58;
 _ZN5ModelC2Ev = 0x02016DA8;
 _ZN5Model7SetFileEPcii = 0x02016fd4;
+
+_ZN9FaderWipe11AdvanceFadeEv = 0x020172d8;
+_ZN9FaderWipeD0Ev = 0x02017418;
+_ZN9FaderWipeD1Ev = 0x02017450;
+_ZN9FaderWipeD2Ev = 0x02017450;
+_ZN9FaderWipeC1Ev = 0x02017480;
+_ZN9FaderWipeC2Ev = 0x02017480;
+
+_ZN10FaderColor11AdvanceFadeEv = 0x020174e0;
+_ZN10FaderColorD0Ev = 0x02017598;
+_ZN10FaderColorD1Ev = 0x020175c4;
+_ZN10FaderColorD2Ev = 0x020175c4;
+
+_ZN15FaderBrightness10SetToStartEv = 0x02017610;
+_ZN15FaderBrightness8SetToEndEv = 0x0201761c;
+_ZN15FaderBrightness20IsBetweenStartAndEndEv = 0x02017628;
+_ZN15FaderBrightness7IsAtEndEv = 0x02017670;
+_ZN15FaderBrightness9IsAtStartEv = 0x02017684;
+_ZN15FaderBrightness14SetForwardTimeEj = 0x02017698;
+_ZN15FaderBrightness15SetBackwardTimeEj = 0x020176d8;
+_ZN15FaderBrightness11AdvanceFadeEv = 0x02017720;
+_ZN15FaderBrightnessD0Ev = 0x020177e8;
+_ZN15FaderBrightnessD1Ev = 0x02017814;
+_ZN15FaderBrightnessD2Ev = 0x02017814;
+
+_ZN5Fader13AdvanceInterpEv = 0x020175e8;
+_ZN5FaderD0Ev = 0x02017848;
+_ZN5FaderD1Ev = 0x0201786c;
+_ZN5FaderD2Ev = 0x0201786c;
+
 _ZN15TextureSequence8LoadFileER13SharedFilePtr = 0x020178e4;
 _ZN9Animation8LoadFileER13SharedFilePtr = 0x0201794c;
 _ZN13SharedFilePtr9ConstructEj = 0x0201799c;
@@ -331,6 +361,10 @@ _ZN8Particle6System9NewSimpleEj3FixIiLj12EES2_S2_ = 0x02022e98;
 _ZN8Particle7Texture12AllocPalVramEjb = 0x020230ec;
 _ZN8Particle7Texture12AllocTexVramEjb = 0x02023134;
  
+_ZN5SceneD1Ev = 0x02023598;
+_ZN5SceneD2Ev = 0x02023598;
+_ZN5SceneD0Ev = 0x020235d4;
+
 DeathTable_GetBit = 0x02029e58;
 _ZN5Event8ClearBitEj = 0x02029ea4;
 _ZN5Event6SetBitEj = 0x02029ec4;
@@ -338,6 +372,22 @@ _ZN5Event6GetBitEj = 0x02029ee0;
  
 StarCollectedInCurrLevel = 0x0202a6c8;
 _ZN9LevelFile4View3GetEj = 0x0202b0ac;
+
+_ZN5Scene20SetAndStopColorFaderEv = 0x0202e1b4;
+_ZN5Scene9SetFadersEP15FaderBrightness = 0x0202e1e0;
+_ZN5Scene16SpawnIfNecessaryEv = 0x0202e26c;
+_ZN5Scene18PrepareToSpawnBootEv = 0x0202e300;
+_ZN5Scene15StartSceneFadeEjjt = 0x0202e348;
+_ZN5Scene15SetSceneToSpawnEjj = 0x0202e36c;
+
+_ZN5Scene11AfterRenderEj = 0x0202e398;
+_ZN5Scene12BeforeRenderEv = 0x0202e3a4;
+_ZN5Scene13AfterBehaviorEj = 0x0202e3c8;
+_ZN5Scene14BeforeBehaviorEv = 0x0202e3d4;
+_ZN5Scene21AfterCleanupResourcesEj = 0x0202e5d0;
+_ZN5Scene22BeforeCleanupResourcesEv = 0x0202e5f0;
+_ZN5Scene18AfterInitResourcesEj = 0x0202e62c;
+_ZN5Scene19BeforeInitResourcesEv = 0x0202e638;
  
 _ZN4BgCh9SetFlag_8Ev = 0x02035448;
 _ZN4BgCh9SetFlag_2Ev = 0x0203549c;
@@ -456,7 +506,7 @@ _ZN9ActorBase18AfterInitResourcesEj = 0x02043bf8;
 _ZN9ActorBase19BeforeInitResourcesEv = 0x02043c78;
 _ZN9ActorBase13InitResourcesEv = 0x02043c80;
 _ZN9ActorBaseD0Ev = 0x02043d78;
-_ZN9ActorBaseD1Ev = 0x02043D48;
+_ZN9ActorBaseD1Ev = 0x02043d48;
 _ZN9ActorBaseD2Ev = 0x02043dbc;
  
 _ZN15ModelComponents21UpdateVertsUsingBonesEv = 0x0204504c;
