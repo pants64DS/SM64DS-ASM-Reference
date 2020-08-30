@@ -361,9 +361,13 @@ _ZN8Particle6System9NewSimpleEj3FixIiLj12EES2_S2_ = 0x02022e98;
 _ZN8Particle7Texture12AllocPalVramEjb = 0x020230ec;
 _ZN8Particle7Texture12AllocTexVramEjb = 0x02023134;
  
-_ZN5SceneD1Ev = 0x02023598;
 _ZN5SceneD2Ev = 0x02023598;
+_ZN5SceneD1Ev = 0x02023598;
 _ZN5SceneD0Ev = 0x020235d4;
+
+_ZN5StageD2Ev = 0x02023688;
+_ZN5StageD1Ev = 0x02023688;
+_ZN5StageD0Ev = 0x020236f0;
 
 DeathTable_GetBit = 0x02029e58;
 _ZN5Event8ClearBitEj = 0x02029ea4;
@@ -373,6 +377,15 @@ _ZN5Event6GetBitEj = 0x02029ee0;
 StarCollectedInCurrLevel = 0x0202a6c8;
 _ZN9LevelFile4View3GetEj = 0x0202b0ac;
 
+_ZN5Stage9Virtual30Ev = 0x0202b8a0;
+_ZN5Stage6RenderEv = 0x0202b8a4;
+_ZN5Stage8BehaviorEv = 0x0202bbbc;
+_ZN5Stage16CleanupResourcesEv = 0x0202c9a8;
+_ZN5Stage19BeforeInitResourcesEv = 0x0202ddc8;
+_ZN5Stage13InitResourcesEv = 0x0202cc0c;
+_ZN5StageC1Ev = 0x0202e088;
+_ZN5StageC2Ev = 0x0202e088;
+ 
 _ZN5Scene20SetAndStopColorFaderEv = 0x0202e1b4;
 _ZN5Scene9SetFadersEP15FaderBrightness = 0x0202e1e0;
 _ZN5Scene16SpawnIfNecessaryEv = 0x0202e26c;
