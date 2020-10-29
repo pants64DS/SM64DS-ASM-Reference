@@ -12,6 +12,7 @@
 #include "Particle.h"
 #include "Precision.h"
 #include "Save.h"
+#include "Scene.h"
 #include "SM64DS_Common.h"
 #include "Sound.h"
 
@@ -208,18 +209,6 @@ struct PathPtr
 	unsigned NumPts();
 };
 
-struct BezierPathIter
-{
-	PathPtr pathPtr;
-	uint16_t currSplineX3;
-	Fix12s tinyStep;
-	Fix12i step;
-	Fix12i currTime;
-	Vector3 pos;
-	
-	bool Advance();
-};
-
 struct CameraDef
 {
 	static const unsigned SIZE = 0x28;
@@ -239,7 +228,7 @@ struct CameraDef
 
 
 //vtable at 0x02092720
-struct View : public ActorDerived		//internal name: dView; done
+struct View : public Object		//internal name: dView; done
 {
 	Matrix4x3 camMat;					//View Matrix to use when rendering
 
@@ -392,7 +381,7 @@ struct Camera : public View				//internal name: dCamera
 	virtual int  CleanupResources() override;
 	virtual int  Behavior() override;
 	virtual int  Render() override;
-	virtual void Virtual30() override;
+	virtual void OnPendingDestroy() override;
 
 	void SaveCameraStateBeforeTalk();				//Saves the current camera state
 
@@ -401,18 +390,8 @@ struct Camera : public View				//internal name: dCamera
 	//All funcs between Camera() and ~Camera() should belong to this object, but I couldn't prove it since they're never really called.
 };
 
-struct Area
-{
-	TextureTransformer* texSRT;
-	bool showing;
-	uint8_t unk5;
-	uint16_t unk6;
-	unsigned unk8;
-};
-
-
 //vtable at 0x0210C2C8, ctor at 0x020FE154
-struct HUD : public ActorDerived		//internal name: dMeter, ActorID = 0x14e
+struct HUD : public Object		//internal name: dMeter, ActorID = 0x14e
 {
 	unsigned unk50;
 	unsigned unk54;
@@ -435,56 +414,11 @@ struct HUD : public ActorDerived		//internal name: dMeter, ActorID = 0x14e
 	virtual int CleanupResources() override;
 	virtual int Behavior() override;
 	virtual int Render() override;
-	virtual void Virtual30() override;
+	virtual void OnPendingDestroy() override;
 
 	HUD();
 	virtual ~HUD();
 
-};
-
-
-
-//vtable at 0x2092680
-struct Scene : public ActorDerived		//internal name: dScene
-{
-
-};
-
-//vtable at 0x02091528
-struct SceneBoot : public Scene			//internal name: dScBoot
-{
-	unsigned unk50;
-	unsigned unk54;
-};
-
-//vtable at 0x020943C4, ctor at 0x020352B4
-struct SceneMB : public Scene			//internal name: dScMB
-{
-	//size 0x68
-	//ColorFader?
-};
-
-
-//vtable at 020921c0, constructor at 0202e088
-struct Stage : public Scene				//internal name: dScStage, ActorID = 0x003
-{
-	
-	Particle::SysTracker particleSysTracker;
-	Model model;
-	Area areas[0x08];
-	MeshCollider clsn;
-	uint8_t fogTable[0x20];
-	bool enableFog;
-	uint8_t fogInfo;
-	uint16_t fogOffset;
-	uint16_t fogColor;
-	uint16_t unk992;
-	uint8_t unk994[0x20];
-	unsigned unk9b4;
-	unsigned unk9b8;
-	Model* skyBox;
-	unsigned unk9c0;
-	unsigned unk9c4;
 };
 
 //vtable at 0210c1c0, constructor at 020fb8bc, dtor at 0x020F975C
@@ -497,7 +431,7 @@ In Big Boo's Haunt OR
 In Big Boo Battle (the map, not the fight) OR
 In a test stage
 */
-struct Minimap : public ActorDerived //ActorID = 0x14f
+struct Minimap : public Object //ActorID = 0x14f
 {
 	enum ArrowType
 	{
@@ -637,8 +571,6 @@ struct Minimap : public ActorDerived //ActorID = 0x14f
 	unsigned unk254;
 };
 
-struct LaunchStar;
-
 //allocating constructor: 020e6c0c, vtable: 0210a83c
 struct Player : public Actor
 {
@@ -739,7 +671,6 @@ struct Player : public Actor
 		
 		
 		
-		ST_LAUNCH_STAR        = 0x0211079c
     };
 	
 	enum TalkStates
@@ -944,28 +875,8 @@ struct Player : public Actor
 	uint16_t unk73e;
 	Fix12i toonIntensity;
 	unsigned unk744;
-	Vector3 lsPos; //0x748
-	Vector3 lsInitPos; //0x754
-	uint16_t unk760; 
-	uint8_t lsState0Timer; //0x762
-	uint8_t launchState; //0x763
-	LaunchStar* lsPtr; //0x764
-	union
-	{
-		BezierPathIter lsPathIt;
-		struct
-		{
-			Vector3_16 lsDiffAng; //0x768
-			Vector3_16 lsInitAng; //0x76e
-		};
-	};
 	
 	static SharedFilePtr* ANIM_PTRS[0x308];
-	
-	//implemented in LaunchStar.cpp
-	bool LS_Init();
-	bool LS_Behavior();
-	bool LS_Cleanup();
 	
 	void IncMegaKillCount();
 	void SetNewHatCharacter(unsigned character, unsigned arg1, bool makeSfx);
@@ -1154,9 +1065,7 @@ extern "C"
 
 //Super mushroom tag vtable: 02108cf4
 
-/*void Vec3_InterpCubic(Vector3* vF, Vector3* v0, Vector3* v1, Vector3* v2, Vector3* v3, int t) NAKED; //0208f670, 70f60822
-bool BezPathIter_Advance(BezierPathIter* it) NAKED; //0208f840, 40f80822
-
+/*
 void Vec3_Interp(Vector3* vF, Vector3* v1, Vector3* v2, int t) NAKED; //02090dd0, d00d0922
 short Vec3_VertAngle(Vector3* v1, Vector3* v2) NAKED; //0203b770, 70b70322
 short Vec3_HorzAngle(Vector3* v1, Vector3* v2) NAKED; //0203b7ac, acb70322

@@ -448,8 +448,6 @@ namespace Particle
 		uint16_t unk2e;
 		
 		System* AddSystem(int particleID, Vector3& posAsr3);
-		static bool LoadTex(unsigned fileID, unsigned newTexID);
-		static void UnloadNewTexs();
 	};
 	
 	struct SysTracker

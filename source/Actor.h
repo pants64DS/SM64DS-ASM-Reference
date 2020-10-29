@@ -12,11 +12,6 @@ struct ShadowModel;
 
 struct ActorBase		//internal name: fBase
 {
-	enum AliveState
-	{
-		ALIVE = 1,
-		DEAD = 2
-	};
 
 	struct SceneNode
 	{
@@ -48,6 +43,18 @@ struct ActorBase		//internal name: fBase
 		VS_SUCCESS = 2,
 		VS_RETURN_MINUS_1 = 3
 	};
+	
+	enum class ObjectState : uint8_t {
+		NotCreated = 0,
+		Active,
+		Dead
+	};
+	
+	enum class ObjectType : uint8_t {
+		Other = 0,//Effects???
+		Scene,
+		Actor
+	};
 
 	void* operator new(size_t count); //actor bases have their own heap
 	inline void operator delete(void* ptr) { Memory::Deallocate(ptr, Memory::gameHeapPtr); }
@@ -64,34 +71,35 @@ struct ActorBase		//internal name: fBase
 	virtual int  Render();
 	virtual bool BeforeRender();
 	virtual void AfterRender(unsigned vfSuccess);
-	virtual void Virtual30();
+	virtual void OnPendingDestroy();
 	virtual bool Virtual34(unsigned arg0, unsigned arg1);
 	virtual bool Virtual38(unsigned arg0, unsigned arg1);
 	virtual bool Virtual3c();
 	virtual ~ActorBase();
 
+	// This should be called MarkForDestruction, as it only marks the actor, but renaming would be tedious
 	void Destroy();
 
 	//vTable;
 	unsigned uniqueID;
 	int      param1;
 	uint16_t actorID;
-	uint8_t aliveState;
-	bool shouldBeKilled;
-	uint8_t unk10;
-	uint8_t unk11;
-	uint8_t unk12;
-	uint8_t unk13;
+	ObjectState objState;
+	bool destroyFlag;
+	bool pendingUpdateRegistry;
+	bool pendingCreateRegistry;
+	ObjectType objType;
+	uint8_t flags; //0x1: Skip child update, 0x2: Skip self update, 0x4: Skip child render, 0x8: Skip self render
 	SceneNode sceneNode;
 	ProcessingListNode behavNode;
 	ProcessingListNode renderNode;
 	unsigned unk48;
-	unsigned unk4c;
+	SolidHeap* unk4c;
 };
 
 
 
-struct ActorDerived : public ActorBase		//internal name: dBase
+struct Object : public ActorBase		//internal name: dBase
 {
 
 	virtual void AfterInitResources(unsigned vfSuccess) override;		//Destroys Actor (ActorBase::Destroy) on vfunc failure, then calls ActorBase::AfterInitResources(unsigned)
@@ -103,7 +111,7 @@ struct ActorDerived : public ActorBase		//internal name: dBase
 
 
 
-struct Actor : public ActorBase				//internal name: dActor			
+struct Actor : public Object				//internal name: dActor			
 {
 
 	enum Flags : int

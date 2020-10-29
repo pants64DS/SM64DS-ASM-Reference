@@ -22,7 +22,7 @@ using bigger_t = decltype(bigger_internal<T>::val);
 
 extern "C"
 {
-	int DivQ24(int n, int d);						//Divisiono function for Q24
+	int DivQ24(int n, int d);						//Division function for Q24
 	uint16_t DecIfAbove0_Short(uint16_t& counter); //returns the counter's new value
 	uint8_t DecIfAbove0_Byte(uint8_t& counter); //returns the counter's new value
 	bool Lerp16(short& counterPtr, short dest, short step); //linear interpolation
@@ -208,9 +208,6 @@ extern "C"
 	
 	int String_Compare(const char* str1, const char* str2); //returns 0 if equal, a positive number if str1 comes after str2, and a negative number otherwise
 	
-	void Vec3_InterpCubic(Vector3* vF, const Vector3* v0, const Vector3* v1, const Vector3* v2, const Vector3* v3, Fix12i t);
-	void Vec3_Interp(Vector3* vF, const Vector3* v1, const Vector3* v2, Fix12i t);
-	
 	uint16_t Color_Interp(uint16_t* dummyArg, uint16_t startColor, uint16_t endColor, Fix12i time) __attribute__((const));
 }
 
@@ -308,10 +305,6 @@ struct Vector3
 	inline void TransformThis(const Matrix4x3& m) {Math_MulVec3Mat4x3(this, &m, this);}
 	inline Vector3 Transform(const Matrix4x3& m) const {Vector3 res; Math_MulVec3Mat4x3(this, &m, &res); return res;}
 	inline Vector3 RotateYAndTranslate(const Vector3& trans, short angY) const {Vector3 res; Vec3_RotateYAndTranslate(&res, &trans, angY, this); return res;}
-	
-	inline static Vector3 InterpCubic(const Vector3& v0, const Vector3& v1, const Vector3& v2, const Vector3& v3, Fix12i t)
-		{Vector3 res; Vec3_InterpCubic(&res, &v0, &v1, &v2, &v3, t); return res;}
-	inline static Vector3 Interp(const Vector3& v0, const Vector3& v1, Fix12i t) {Vector3 res; Vec3_Interp(&res, &v0, &v1, t); return res;}
 };
 struct Vector3_16
 {
