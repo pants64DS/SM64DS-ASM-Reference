@@ -396,28 +396,54 @@ struct BlendModelAnim : public ModelAnim	//internal: BlendAnmModel
 //vtable at 0x0208EAFC
 struct Fader		//internal name: dFader
 {
+	virtual ~Fader();
 
+	void AdvanceInterp();
+
+	Fix12i currInterp;
+	Fix12i speed;
 };
 
 
 //vtable at 0x0208EACC
 struct FaderBrightness : public Fader		//internal name: dFdBrightness
 {
-
+	virtual ~FaderBrightness();
+	
+	virtual void AdvanceFade();
+	//Sets the speed so that the fader goes from end to start in `frames` frames
+	virtual bool SetBackwardTime(unsigned frames);
+	//Sets the speed so that the fader goes from start to end in `frames` frames
+	virtual bool SetForwardTime(unsigned frames);
+	virtual bool IsAtStart();
+	virtual bool IsAtEnd();
+	virtual bool IsBetweenStartAndEnd();
+	virtual void SetToEnd();
+	virtual void SetToStart();
 };
 
 
 //vtable at 0x0208EA40
 struct FaderColor : public FaderBrightness	//internal name: dFdColor
 {
+	virtual ~FaderColor();
 
+	virtual void AdvanceFade() override;
+
+	// Only black and white work, hence the scare quotes.
+	uint16_t /* '' */color/* '' */;
 };
 
 
 //vtable at 0x0208EA9C
 struct FaderWipe : public FaderColor		//internal name: dFdWipe
 {
+	FaderWipe();
+	virtual ~FaderWipe();
+	virtual void AdvanceFade() override;
 
+	uint16_t unk0e;
+	Model model;
 };
 
 #endif
