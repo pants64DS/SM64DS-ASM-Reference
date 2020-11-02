@@ -997,3 +997,31 @@ _Znwj = 0x0203CBE4;
 _Znaj = 0x0203CBE4;
 _ZdlPv = 0x0203CBC0;
 _ZdaPv = 0x0203CBC0;
+
+
+/* OAM */
+
+_ZN3OAM12enableSubOAMEv = 0x020219f0;
+_ZN3OAM6renderEP9GXOamAttriiii = 0x0202199c;
+_ZN3OAM6renderEP9GXOamAttrii = 0x0202194c;
+_ZN3OAM4loadEv = 0x02021898;
+_ZN3OAM5flushEv = 0x02021864;
+_ZN3OAM5resetEv = 0x02021788;
+
+_ZN3OAM16loadAffineParamsEP9GXOamAttrPiP7MtxFx22 = 0x02020884;
+_ZN3OAM11getObjWidthEii = 0x02020980;
+_ZN3OAM12getObjHeightEii = 0x0202096c;
+_ZN3OAM6renderEiP9GXOamAttriiiiP7MtxFx22 = 0x020214a4;
+_ZN3OAM6renderEiP9GXOamAttriiiili = 0x02021024;
+_ZN3OAM6renderEiP9GXOamAttriiiillii = 0x02020994;
+
+_ZN3OAM9objHeightE = 0x020755ac;
+_ZN3OAM8objWidthE = 0x020755a0;
+
+_ZN3OAM14subOAMDisabledE = 0x0209e660;
+_ZN3OAM12objCountMainE = 0x0209e664;
+_ZN3OAM11objCountSubE = 0x0209e670;
+_ZN3OAM10bufferMainE = 0x0209e674;
+_ZN3OAM9bufferSubE = 0x0209e678;
+_ZN3OAM16curAffineSetMainE = 0x0209e668;
+_ZN3OAM15curAffineSetSubE = 0x0209e66c;
