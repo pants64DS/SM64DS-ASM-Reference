@@ -307,10 +307,8 @@ struct Camera : public View				//internal name: dCamera
 
 	struct SettingBehaviour							//Executes view specific camera behaviour
 	{
-		bool (Camera::* OnUpdate)();				//Nested call by Camera::Behaviour()
-		unsigned unk04;								//Offset for 0x8? Most of the time 0, but code reveals this might not always be the case
-		bool (Camera::* OnPlayerChangeState)();		//Nested call by Player::ChangeState()
-		unsigned unk0c;
+		bool (Camera::* OnUpdate)();			//PTMF called by Camera::Behaviour()
+		bool (Camera::* OnPlayerChangeState)();		//PTMF called by Player::ChangeState()
 	};
 
 	
