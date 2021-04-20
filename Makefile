@@ -49,7 +49,7 @@ export LD	:=	$(PREFIX)ld
 TARGET		:=	newcode
 BUILD		:=	build
 SOURCES		:=	source libfat_source
-INCLUDES	:=	include
+INCLUDES	:=	include source
 DATA		:=	data  
 GRAPHICS	:=	gfx  
 
