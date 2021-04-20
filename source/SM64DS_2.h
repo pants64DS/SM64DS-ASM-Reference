@@ -228,7 +228,7 @@ struct CameraDef
 
 
 //vtable at 0x02092720
-struct View : public Object		//internal name: dView; done
+struct View : public ActorDerived		//internal name: dView; done
 {
 	Matrix4x3 camMat;					//View Matrix to use when rendering
 
@@ -389,7 +389,7 @@ struct Camera : public View				//internal name: dCamera
 };
 
 //vtable at 0x0210C2C8, ctor at 0x020FE154
-struct HUD : public Object		//internal name: dMeter, ActorID = 0x14e
+struct HUD : public ActorDerived		//internal name: dMeter, ActorID = 0x14e
 {
 	unsigned unk50;
 	unsigned unk54;
@@ -429,7 +429,7 @@ In Big Boo's Haunt OR
 In Big Boo Battle (the map, not the fight) OR
 In a test stage
 */
-struct Minimap : public Object //ActorID = 0x14f
+struct Minimap : public ActorDerived //ActorID = 0x14f
 {
 	enum ArrowType
 	{
