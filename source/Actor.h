@@ -74,7 +74,7 @@ struct ActorBase		//internal name: fBase
 	virtual void OnPendingDestroy();
 	virtual bool Virtual34(unsigned arg0, unsigned arg1);
 	virtual bool Virtual38(unsigned arg0, unsigned arg1);
-	virtual bool Virtual3c();
+	virtual bool OnHeapCreated();
 	virtual ~ActorBase();
 
 	// This should be called MarkForDestruction, as it only marks the actor, but renaming would be tedious
@@ -94,12 +94,12 @@ struct ActorBase		//internal name: fBase
 	ProcessingListNode behavNode;
 	ProcessingListNode renderNode;
 	unsigned unk48;
-	SolidHeap* unk4c;
+	SolidHeap* userHeap;
 };
 
 
 
-struct Object : public ActorBase		//internal name: dBase
+struct ActorDerived : public ActorBase		//internal name: dBase
 {
 
 	virtual void AfterInitResources(unsigned vfSuccess) override;		//Destroys Actor (ActorBase::Destroy) on vfunc failure, then calls ActorBase::AfterInitResources(unsigned)
@@ -111,7 +111,7 @@ struct Object : public ActorBase		//internal name: dBase
 
 
 
-struct Actor : public Object				//internal name: dActor			
+struct Actor : public ActorDerived				//internal name: dActor			
 {
 
 	enum Flags : int
