@@ -388,7 +388,7 @@ struct Camera : public View				//internal name: dCamera
 	virtual int  CleanupResources() override;
 	virtual int  Behavior() override;
 	virtual int  Render() override;
-	virtual void Virtual30() override;
+	virtual void OnPendingDestroy() override;
 
 	void SaveCameraStateBeforeTalk();				//Saves the current camera state
 
@@ -431,7 +431,7 @@ struct HUD : public ActorDerived		//internal name: dMeter, ActorID = 0x14e
 	virtual int CleanupResources() override;
 	virtual int Behavior() override;
 	virtual int Render() override;
-	virtual void Virtual30() override;
+	virtual void OnPendingDestroy() override;
 
 	HUD();
 	virtual ~HUD();
