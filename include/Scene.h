@@ -69,7 +69,7 @@ struct Stage : public Scene				//internal name: dScStage, ActorID = 0x003
 	virtual int  CleanupResources();
 	virtual int  Behavior();
 	virtual int  Render();
-	virtual void Virtual30();
+	virtual void OnPendingDestroy();
 	virtual ~Stage();
 
 	Particle::SysTracker particleSysTracker;

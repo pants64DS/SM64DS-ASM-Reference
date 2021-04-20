@@ -440,11 +440,11 @@ Vec3_Sub                                                                        
 Vec3_Add                                                                          = 0x0203d340;
                                                         
 _ZN9ActorBasenwEj                                                                 = 0x02043444;
-_ZN9ActorBase9Virtual3cEv                                                         = 0x02043494;
+_ZN9ActorBase13OnHeapCreatedEv                                                    = 0x02043494;
 _ZN9ActorBase9Virtual38Ejj                                                        = 0x0204349c;
 _ZN9ActorBase9Virtual34Ejj                                                        = 0x0204357c;
 _ZN9ActorBase7DestroyEv                                                           = 0x02043824;
-_ZN9ActorBase9Virtual30Ev                                                         = 0x02043ac0;
+_ZN9ActorBase16OnPendingDestroyEv                                                 = 0x02043ac0;
 _ZN9ActorBase11AfterRenderEj                                                      = 0x02043ac4;
 _ZN9ActorBase12BeforeRenderEv                                                     = 0x02043ac8;
 _ZN9ActorBase6RenderEv                                                            = 0x02043af0;
@@ -458,7 +458,7 @@ _ZN9ActorBase18AfterInitResourcesEj                                             
 _ZN9ActorBase19BeforeInitResourcesEv                                              = 0x02043c78;
 _ZN9ActorBase13InitResourcesEv                                                    = 0x02043c80;
 _ZN9ActorBaseD0Ev                                                                 = 0x02043d78;
-_ZN9ActorBaseD1Ev                                                                 = 0x02043D48;
+_ZN9ActorBaseD1Ev                                                                 = 0x02043d48;
 _ZN9ActorBaseD2Ev                                                                 = 0x02043dbc;
                                                         
 _ZN15ModelComponents21UpdateVertsUsingBonesEv                                     = 0x0204504c;
@@ -481,7 +481,7 @@ Matrix3x3_LoadIdentity                                                          
 MulVec3Mat3x3                                                                     = 0x020525a0;
 MulMat3x3Mat3x3                                                                   = 0x02052624;
 Matrix4x3_LoadIdentity                                                            = 0x020527c0;       
-Matrix4x3_FromScale                                                               = 0x020527e9; /* gcc fails
+Matrix4x3_FromScale                                                               = 0x020527e9;
 MulVec3Mat4x3                                                                     = 0x02052858;
 MulMat4x3Mat4x3                                                                   = 0x02052914;
 InvMat4x3                                                                         = 0x02052b34;
@@ -683,7 +683,7 @@ _ZN3HUD13InitResourcesEv                                                        
 _ZN3HUD16CleanupResourcesEv                                                       = 0x020FD5D4;
 _ZN3HUD8BehaviorEv                                                                = 0x020FD7A4;
 _ZN3HUD6RenderEv                                                                  = 0x020FD5E0;
-_ZN3HUD9Virtual30Ev                                                               = 0x020FD5DC;
+_ZN3HUD16OnPendingDestroyEv                                                       = 0x020FD5DC;
 _ZN3HUDD0Ev                                                                       = 0x020FB928;
 _ZN3HUDD1Ev                                                                       = 0x020FB8F8;
 _ZN3HUDC1Ev                                                                       = 0x020FE154;
@@ -700,7 +700,7 @@ _ZN6Camera13InitResourcesEv                                                     
 _ZN6Camera16CleanupResourcesEv                                                    = 0x0200D9D0;
 _ZN6Camera8BehaviorEv                                                             = 0x0200DEBC;
 _ZN6Camera6RenderEv                                                               = 0x0200DA04;
-_ZN6Camera9Virtual30Ev                                                            = 0x0200DA00;
+_ZN6Camera16OnPendingDestroyEv                                                    = 0x0200DA00;
 _ZN6CameraD0Ev                                                                    = 0x02007098;
 _ZN6CameraD1Ev                                                                    = 0x0200705C;
 _ZN6CameraC1Ev                                                                    = 0x0200E444;
@@ -981,3 +981,70 @@ _ZN3OAM10bufferMainE                                                            
 _ZN3OAM9bufferSubE                                                                = 0x0209e678;
 _ZN3OAM16curAffineSetMainE                                                        = 0x0209e668;
 _ZN3OAM15curAffineSetSubE                                                         = 0x0209e66c;
+
+/* Scene */
+
+_ZN5SceneD2Ev                                                                     = 0x02023598;
+_ZN5SceneD1Ev                                                                     = 0x02023598;
+_ZN5SceneD0Ev                                                                     = 0x020235d4;
+                                                                
+_ZN5StageD2Ev                                                                     = 0x02023688;
+_ZN5StageD1Ev                                                                     = 0x02023688;
+_ZN5StageD0Ev                                                                     = 0x020236f0;
+
+
+_ZN5Stage16OnPendingDestroyEv                                                     = 0x0202b8a0;
+_ZN5Stage6RenderEv                                                                = 0x0202b8a4;
+_ZN5Stage8BehaviorEv                                                              = 0x0202bbbc;
+_ZN5Stage16CleanupResourcesEv                                                     = 0x0202c9a8;
+_ZN5Stage19BeforeInitResourcesEv                                                  = 0x0202ddc8;
+_ZN5Stage13InitResourcesEv                                                        = 0x0202cc0c;
+_ZN5StageC1Ev                                                                     = 0x0202e088;
+_ZN5StageC2Ev                                                                     = 0x0202e088;
+
+_ZN5Scene20SetAndStopColorFaderEv                                                 = 0x0202e1b4;
+_ZN5Scene9SetFadersEP15FaderBrightness                                            = 0x0202e1e0;
+_ZN5Scene16SpawnIfNecessaryEv                                                     = 0x0202e26c;
+_ZN5Scene18PrepareToSpawnBootEv                                                   = 0x0202e300;
+_ZN5Scene15StartSceneFadeEjjt                                                     = 0x0202e348;
+_ZN5Scene15SetSceneToSpawnEjj                                                     = 0x0202e36c;
+
+_ZN5Scene11AfterRenderEj                                                          = 0x0202e398;
+_ZN5Scene12BeforeRenderEv                                                         = 0x0202e3a4;
+_ZN5Scene13AfterBehaviorEj                                                        = 0x0202e3c8;
+_ZN5Scene14BeforeBehaviorEv                                                       = 0x0202e3d4;
+_ZN5Scene21AfterCleanupResourcesEj                                                = 0x0202e5d0;
+_ZN5Scene22BeforeCleanupResourcesEv                                               = 0x0202e5f0;
+_ZN5Scene18AfterInitResourcesEj                                                   = 0x0202e62c;
+_ZN5Scene19BeforeInitResourcesEv                                                  = 0x0202e638;
+
+/* Fader */
+
+_ZN9FaderWipe11AdvanceFadeEv                                                      = 0x020172d8;
+_ZN9FaderWipeD0Ev                                                                 = 0x02017418;
+_ZN9FaderWipeD1Ev                                                                 = 0x02017450;
+_ZN9FaderWipeD2Ev                                                                 = 0x02017450;
+_ZN9FaderWipeC1Ev                                                                 = 0x02017480;
+_ZN9FaderWipeC2Ev                                                                 = 0x02017480;
+
+_ZN10FaderColor11AdvanceFadeEv                                                    = 0x020174e0;
+_ZN10FaderColorD0Ev                                                               = 0x02017598;
+_ZN10FaderColorD1Ev                                                               = 0x020175c4;
+_ZN10FaderColorD2Ev                                                               = 0x020175c4;
+
+_ZN15FaderBrightness10SetToStartEv                                                = 0x02017610;
+_ZN15FaderBrightness8SetToEndEv                                                   = 0x0201761c;
+_ZN15FaderBrightness20IsBetweenStartAndEndEv                                      = 0x02017628;
+_ZN15FaderBrightness7IsAtEndEv                                                    = 0x02017670;
+_ZN15FaderBrightness9IsAtStartEv                                                  = 0x02017684;
+_ZN15FaderBrightness14SetForwardTimeEj                                            = 0x02017698;
+_ZN15FaderBrightness15SetBackwardTimeEj                                           = 0x020176d8;
+_ZN15FaderBrightness11AdvanceFadeEv                                               = 0x02017720;
+_ZN15FaderBrightnessD0Ev                                                          = 0x020177e8;
+_ZN15FaderBrightnessD1Ev                                                          = 0x02017814;
+_ZN15FaderBrightnessD2Ev                                                          = 0x02017814;
+
+_ZN5Fader13AdvanceInterpEv                                                        = 0x020175e8;
+_ZN5FaderD0Ev                                                                     = 0x02017848;
+_ZN5FaderD1Ev                                                                     = 0x0201786c;
+_ZN5FaderD2Ev                                                                     = 0x0201786c;
