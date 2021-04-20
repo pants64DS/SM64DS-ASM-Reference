@@ -1,5 +1,7 @@
-#include "SM64DS_Common.h"
+#ifndef SM64DS_PARTICLE_INCLUDED
+#define SM64DS_PARTICLE_INCLUDED
 
+#include "SM64DS_Common.h"
 
 namespace Particle
 {
@@ -506,3 +508,5 @@ extern "C"
 	extern Particle::SysTracker* PARTICLE_SYS_TRACKER;
 	extern unsigned PARTICLE_RNG_STATE; //x => x * 0x5eedf715 + 0x1b0cb173
 }
+
+#endif

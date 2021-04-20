@@ -58,7 +58,7 @@ GRAPHICS	:=	gfx
 #---------------------------------------------------------------------------------
 ARCH	:=	
 
-CFLAGS	:=	-g -Wall -O3\
+CFLAGS	:=	-g -Wall -Os --std=c++17\
  		-march=armv5te -mtune=arm946e-s -fomit-frame-pointer\
 		-ffast-math \
 		$(ARCH)
