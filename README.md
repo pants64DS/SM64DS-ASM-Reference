@@ -13,12 +13,6 @@ This repository is public, therefore feel free to add your symbols and definitio
 + **unchecked/**: Unchecked proposals. 
   Contains files with symbols/functions/documentation that are still in development, need to be checked/corrected, or random stuff that was too interesting to discard.
   As soon as the proposal features full definitions, it will be merged with symbols.x or the corresponding .c/.cpp file.
-+ **asm-sym-export.exe**: Program that converts symbols.x to symbols.sym
-  Call it with `asm-sym-export.exe infile` to create a .sym file of the same name. Concerning the input file, everything after the semicolon is ignored during conversion. Please make sure to follow the standard .x file syntax as described above.
-  Demangles any C++ symbols for readability and replaces spaces with underscores (no$gba refuses to load spaces).
-+ **asm-sym-export.bat**: Batch file that automatically calls `asm-sym-export.exe` and renames the resulting .sym to SM64DS.sym. 
-  Adjust the output file name to match your game's file name, otherwise no$gba won't load it.
-  **Warning**: The previous .sym file will be deleted, so make sure you back it up in case you want to keep the previous .sym.
 + **Makefile**: Self-explanatory. Used to build your patch.
 + **symbols.x**: Contains all necessary linker symbols for functions you use in C/C++/ASM code. It's important to outline the syntax of this file:
   ```C
@@ -33,7 +27,3 @@ This repository is public, therefore feel free to add your symbols and definitio
   This file does **NOT** contain constants. This is important since this may inflict linker errors. 
   Additionally, debuggers which offer symbol name display (like no$gba) could treat constants as real symbols, creating confusion for the user.
   As a rule of thumb, this file should only contain address locations.
-  
-## TODO
-+ How to deal with overlays?
-+ Mangling program would be **very** useful for new C++ bound symbols
