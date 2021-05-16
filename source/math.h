@@ -2,7 +2,7 @@
 #define GRAVITY_MATH_INCLUDED
 #define GRAVITY_MATH
 
-#include "include/NDSCore.h"
+#include "NDSCore.h"
 #include "ostream.h"
 
 struct Vector3_Q24;
