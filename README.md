@@ -2,13 +2,14 @@
 Public repository of an ASM patching reference for SM64DS (EU)
 
 ## General
-This repo should serve as an continuously updated ASM symbol reference. It includes most file from the original ASMPatchingTemplate v2 with new symbols and updates. In addition to that, it includes the program `asm-sym-export` that automatically creates a .sym file. This turned out to be very useful since you don't need to manually create the file just to match no$gba's requirements. 
+This repo should serve as an continuously updated ASM symbol reference. It includes most file from the original ASMPatchingTemplate v2 with new symbols and updates.
 
-This repository is public, therefore feel free to add your symbols and definitions you've found yourself! Just create a pull request and it gets added to the master branch. Even if you don't have full function description and just stumbled across something interesting during debugging, you can still add it to the `unchecked` folder. Any slightest hint on what a function does is welcomed so that others could check if something similar has been discovered in order to aid their development. If you have any questions, feel free to ask me here or via e-mail (overblade.git@gmail.com).
+This repository is public, therefore feel free to add your symbols and definitions you've found yourself! Just create a pull request and it gets added to the master branch. Even if you don't have full function description and just stumbled across something interesting during debugging, you can still add it to the `unchecked` folder. Any slightest hint on what a function does is welcomed so that others could check if something similar has been discovered in order to aid their development.
 
 **Remember: This repo contains only EU symbols. BUT if you found something interesting in other versions, you can still add it into `unchecked/non_eu.txt`.**
 
 ## Files and Folders
++ **include/**: Include files. Contains all headers.
 + **source/**: Source folder. Contains all files to be compiled. Folder name must match with Makefile settings.
 + **unchecked/**: Unchecked proposals. 
   Contains files with symbols/functions/documentation that are still in development, need to be checked/corrected, or random stuff that was too interesting to discard.
@@ -24,6 +25,5 @@ This repository is public, therefore feel free to add your symbols and definitio
   ```
   Name mangling scheme follows the Itanium ABI, used by e.g. GCC but not MSVC.
   All C symbols must be referenced with `extern "C"` when compiled with a C++ compiler.
-  This file does **NOT** contain constants. This is important since this may inflict linker errors. 
-  Additionally, debuggers which offer symbol name display (like no$gba) could treat constants as real symbols, creating confusion for the user.
+  This file does **NOT** contain constants. This is important since this may inflict linker errors.
   As a rule of thumb, this file should only contain address locations.
