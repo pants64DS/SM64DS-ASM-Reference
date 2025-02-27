@@ -1,3 +1,9 @@
+> [!WARNING]
+> ## This repository is outdated
+> The original purpose of this repository is now fulfilled by the [SM64DS Programming Interface](https://github.com/pants64DS/SM64DS-PI),
+> which contains the newest and most comprehensive header files and symbols documenting the game's code.
+> Hence, this repository is presented for archival purposes only.
+
 # SM64DS-ASMReference
 Public repository of an ASM patching reference for SM64DS (EU)
 
